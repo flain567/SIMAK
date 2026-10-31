@@ -1,0 +1,320 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// ENUMS
+// ============================================================
+
+enum UserRole {
+  ADMIN
+  PANITIA
+  SATGAS
+}
+
+enum ParticipantStatus {
+  MENUNGGU_VERIFIKASI
+  TERVERIFIKASI
+  HADIR
+  TIDAK_HADIR
+}
+
+enum RegistrationType {
+  Kader_KOPASUS
+  Open_House_SIMAK
+}
+
+enum WbsCategory {
+  Pungutan_Liar
+  Gratifikasi_Suap_Akademik
+  Penyelewengan_Dana_Kegiatan
+  Konflik_Kepentingan
+  Pelanggaran_Etik_Kader
+}
+
+enum WbsStatus {
+  Diterima
+  Verifikasi_Bukti
+  Investigasi_Satgas
+  Selesai_Ditindaklanjuti
+}
+
+enum LibraryCategory {
+  Modul_Diklat
+  Kajian_Strategis
+  Regulasi_UU
+  White_Paper
+  Jurnal_Integritas
+}
+
+enum AdvocacyCategory {
+  Opini_Antikorupsi
+  Policy_Brief
+  Laporan_Kajian
+  Esai_Integritas
+}
+
+enum AdvocacyStatus {
+  Diterbitkan
+  Dalam_Kurasi
+}
+
+enum LedgerType {
+  PEMASUKAN
+  PENGELUARAN
+}
+
+enum AuditorStatus {
+  Diverifikasi
+  Menunggu_Audit
+}
+
+enum CadreStatus {
+  Aktif
+  Alumni
+  Non_Aktif
+}
+
+// ============================================================
+// USER (Admin Panel)
+// ============================================================
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  role         UserRole   @default(PANITIA)
+  passwordHash String     @map("password_hash")
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+
+  auditLogs    AuditLog[]
+
+  @@map("users")
+}
+
+// ============================================================
+// PARTICIPANTS (Pendaftar HARLAH)
+// ============================================================
+
+model Participant {
+  id               String            @id @default(cuid())
+  ticketCode       String            @unique @map("ticket_code")
+  examNumber       String            @unique @map("exam_number")
+  seatNumber       String            @map("seat_number")
+  gate             String            @default("Pintu Utama")
+  examRoom         String            @default("Aula Utama") @map("exam_room")
+  examSession      String            @default("Sesi 1") @map("exam_session")
+  examDate         String            @default("29 Januari 2027") @map("exam_date")
+  fullName         String            @map("full_name")
+  nim              String
+  whatsapp         String
+  email            String
+  programStudi     String            @map("program_studi")
+  campus           String            @default("Kampus Utama STIAMI")
+  semester         String            @default("Tamu Undangan")
+  division         String            @default("-")
+  registrationType RegistrationType  @default(Open_House_SIMAK) @map("registration_type")
+  guestCategory    String            @map("guest_category")
+  session          String            @default("Pagi")
+  status           ParticipantStatus @default(MENUNGGU_VERIFIKASI)
+  motivation       String            @default("") @db.Text
+  avatarUrl        String            @default("") @map("avatar_url")
+  registeredAt     DateTime          @default(now()) @map("registered_at")
+  verifiedAt       DateTime?         @map("verified_at")
+  checkedInAt      DateTime?         @map("checked_in_at")
+
+  auditLogs AuditLog[] @relation("ParticipantAuditLogs")
+
+  @@index([nim])
+  @@index([whatsapp])
+  @@index([ticketCode])
+  @@index([status])
+  @@map("participants")
+}
+
+// ============================================================
+// WAITLIST (Antrean KOPASUS)
+// ============================================================
+
+model Waitlist {
+  id               String   @id @default(cuid())
+  queueCode        String   @unique @map("queue_code")
+  position         Int
+  fullName         String   @map("full_name")
+  nim              String   @unique
+  programStudi     String   @map("program_studi")
+  semester         String
+  whatsapp         String
+  email            String
+  preferredDivision String  @map("preferred_division")
+  reason           String   @db.Text
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  @@index([nim])
+  @@map("waitlist")
+}
+
+// ============================================================
+// WBS REPORTS (Whistleblower System)
+// ============================================================
+
+model WbsReport {
+  id                   String     @id @default(cuid())
+  trackingCode         String     @unique @map("tracking_code")
+  category             WbsCategory
+  unitReported         String     @map("unit_reported")
+  incidentDate         String     @map("incident_date")
+  summaryEnc           String     @map("summary_enc") @db.Text
+  summaryIv            String     @map("summary_iv")
+  evidenceUrlEnc       String?    @map("evidence_url_enc")
+  evidenceUrlIv        String?    @map("evidence_url_iv")
+  isAnonymous          Boolean    @default(true) @map("is_anonymous")
+  reporterIdentityEnc  String?    @map("reporter_identity_enc")
+  reporterIdentityIv   String?    @map("reporter_identity_iv")
+  status               WbsStatus  @default(Verifikasi_Bukti)
+  progressStep         Int        @default(2) @map("progress_step")
+  resolutionNote       String     @default("") @map("resolution_note") @db.Text
+  submittedAt          DateTime   @default(now()) @map("submitted_at")
+  updatedAt            DateTime   @updatedAt @map("updated_at")
+
+  @@index([trackingCode])
+  @@map("wbs_reports")
+}
+
+// ============================================================
+// LIBRARY DOCUMENTS (E-Library)
+// ============================================================
+
+model LibraryDocument {
+  id           String          @id @default(cuid())
+  code         String          @unique
+  title        String
+  subtitle     String
+  author       String          @default("Tim SIMAK STIAMI")
+  category     LibraryCategory
+  year         String
+  pages        Int
+  fileSize     String          @map("file_size")
+  fileUrl      String          @default("") @map("file_url")
+  downloads    Int             @default(0)
+  abstract     String          @db.Text
+  keyTakeaways Json            @map("key_takeaways")
+  coverImage   String          @default("") @map("cover_image")
+  featured     Boolean         @default(false)
+  createdAt    DateTime        @default(now()) @map("created_at")
+
+  @@index([category])
+  @@map("library_documents")
+}
+
+// ============================================================
+// ADVOCACY SUBMISSIONS (Naskah Advokasi)
+// ============================================================
+
+model AdvocacySubmission {
+  id          String          @id @default(cuid())
+  title       String
+  authorName  String          @map("author_name")
+  nim         String
+  category    AdvocacyCategory
+  linkUrl     String          @map("link_url")
+  abstract    String          @db.Text
+  readTime    String          @map("read_time")
+  status      AdvocacyStatus  @default(Dalam_Kurasi)
+  reviewedBy  String?         @map("reviewed_by")
+  submittedAt DateTime        @default(now()) @map("submitted_at")
+  reviewedAt  DateTime?       @map("reviewed_at")
+
+  @@index([status])
+  @@map("advocacy_submissions")
+}
+
+// ============================================================
+// LEDGER (Transparansi Keuangan)
+// ============================================================
+
+model LedgerEntry {
+  id           String        @id @default(cuid())
+  voucherCode  String        @unique @map("voucher_code")
+  date         DateTime
+  program      String
+  category     String
+  type         LedgerType
+  amount       BigInt
+  auditorStatus AuditorStatus @default(Menunggu_Audit) @map("auditor_status")
+  createdBy    String        @map("created_by")
+  createdAt    DateTime      @default(now()) @map("created_at")
+
+  @@index([type])
+  @@index([program])
+  @@map("ledger_entries")
+}
+
+// ============================================================
+// CADRE MEMBERS (Direktori Kader)
+// ============================================================
+
+model CadreMember {
+  id          String      @id @default(cuid())
+  cohort      String
+  name        String
+  nim         String      @unique
+  division    String
+  subDivision String      @map("sub_division")
+  status      CadreStatus @default(Aktif)
+  photoUrl    String      @default("") @map("photo_url")
+  avatarUrl   String      @default("") @map("avatar_url")
+  joinedAt    DateTime    @default(now()) @map("joined_at")
+
+  @@index([cohort])
+  @@index([division])
+  @@map("cadre_members")
+}
+
+// ============================================================
+// GALLERY ITEMS (Arsip Kegiatan)
+// ============================================================
+
+model GalleryItem {
+  id                String   @id @default(cuid())
+  title             String
+  category          String
+  date              DateTime
+  participantsCount Int      @map("participants_count")
+  imageUrl          String   @default("") @map("image_url")
+  description       String   @db.Text
+  featured          Boolean  @default(false)
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  @@index([category])
+  @@map("gallery_items")
+}
+
+// ============================================================
+// AUDIT LOG
+// ============================================================
+
+model AuditLog {
+  id            String   @id @default(cuid())
+  actorId       String   @map("actor_id")
+  action        String
+  entity        String
+  entityId      String   @map("entity_id")
+  metadata      Json?
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  actor         User     @relation(fields: [actorId], references: [id])
+  participant   Participant? @relation("ParticipantAuditLogs", fields: [entityId], references: [id], map: "audit_log_participant_fkey")
+
+  @@index([actorId])
+  @@index([entity, entityId])
+  @@map("audit_log")
+}

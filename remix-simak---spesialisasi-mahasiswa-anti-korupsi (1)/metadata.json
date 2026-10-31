@@ -1,0 +1,8 @@
+{
+  "name": "Remix SIMAK - Spesialisasi Mahasiswa Anti Korupsi",
+  "description": "Portal Resmi Rekrutmen Kader KOPASUS, Open House, E-Tiket Diklat, Kartu Ujian, dan E-Library Integritas SIMAK Institut STIAMI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

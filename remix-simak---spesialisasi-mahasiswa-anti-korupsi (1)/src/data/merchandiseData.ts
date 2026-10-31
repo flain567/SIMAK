@@ -1,0 +1,86 @@
+import { MerchandiseProduct } from '../types';
+
+export const INITIAL_MERCHANDISE: MerchandiseProduct[] = [
+  {
+    id: 'merch-1',
+    name: 'Kaos Resmi HARLAH 16 Tahun SIMAK (Official T-Shirt)',
+    price: 85000,
+    category: 'Apparel',
+    imageUrl: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80',
+    badge: 'Terlaris ⭐',
+    description: 'Kaos edisi kolektor terbatas 16 Tahun SIMAK Institut STIAMI. Bahan Cotton Combed 30s premium adem dan menyerap keringat dengan sablon plastisol tahan cuci bertema "Kawal Integritas, Berani Jujur".',
+    options: ['S', 'M', 'L', 'XL', 'XXL'],
+    stock: 75,
+  },
+  {
+    id: 'merch-2',
+    name: 'Lanyard & Card Holder KOPASUS SIMAK',
+    price: 25000,
+    category: 'Aksesoris',
+    imageUrl: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80',
+    badge: 'Wajib Kader',
+    description: 'Lanyard printing 2 sisi desain eksklusif Megamendung & Logo SIMAK, dilengkapi stopper pengaman dan gantungan kait metal kokoh. Termasuk mika card holder tebal.',
+    stock: 120,
+  },
+  {
+    id: 'merch-3',
+    name: 'Paket Bundle Hemat "Kader Berintegritas"',
+    price: 175000,
+    category: 'Paket Bundle',
+    imageUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80',
+    badge: 'Hemat Rp 35.000 🔥',
+    description: 'Paket bundling paling favorit! Dapatkan Kaos Resmi HARLAH 16 + Lanyard KOPASUS + Tumbler Stainless + Sticker Pack 9 Nilai Antikorupsi + Piagam Khusus Pendukung Gerakan Mahasiswa.',
+    options: ['Ukuran Kaos S', 'Ukuran Kaos M', 'Ukuran Kaos L', 'Ukuran Kaos XL', 'Ukuran Kaos XXL'],
+    stock: 40,
+  },
+  {
+    id: 'merch-4',
+    name: 'Tumbler Stainless Steel "Integritas 16 Tahun" (500ml)',
+    price: 65000,
+    category: 'Aksesoris',
+    imageUrl: 'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=800&q=80',
+    badge: 'Edisi Khusus',
+    description: 'Tumbler vacuum insulated stainless steel SUS304 tahan dingin/panas hingga 12 jam. Grafir laser kutipan integritas dan logo resmi SIMAK. Eco-friendly bebas plastik.',
+    stock: 50,
+  },
+  {
+    id: 'merch-5',
+    name: 'Tote Bag Kanvas Tebal "Berani Jujur Hebat"',
+    price: 35000,
+    category: 'Aksesoris',
+    imageUrl: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80',
+    description: 'Tote bag bahan kanvas premium tebal dengan resleting penutup utama dan kompartemen saku dalam. Muat laptop 14 inci, binder perkuliahan, dan perlengkapan seminar.',
+    stock: 60,
+  },
+  {
+    id: 'merch-6',
+    name: 'Enamel Pin Logam & Vinyl Sticker Pack (Set isi 6)',
+    price: 20000,
+    category: 'Stationery',
+    imageUrl: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=800&q=80',
+    badge: 'Favorit Mahasiswa',
+    description: 'Pin logam enamel berkualitas tinggi lambang SIMAK STIAMI ditambah 6 buah stiker vinyl laminasi doff tahan air bertema 9 Nilai Integritas Antikorupsi (Jujur, Peduli, Mandiri, Disiplin, Tanggung Jawab, Kerja Keras, Sederhana, Berani, Adil).',
+    stock: 150,
+  },
+  {
+    id: 'merch-7',
+    name: 'Buku Saku & Jurnal Advokasi Antikorupsi Mahasiswa',
+    price: 40000,
+    category: 'Stationery',
+    imageUrl: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=800&q=80',
+    description: 'Buku catatan bersampul hard-cover elegan dengan panduan dasar hukum advokasi transparansi kampus, formulir investigasi independen, dan lembar komitmen integritas.',
+    stock: 80,
+  },
+];
+
+export const DANUS_CONTACT = {
+  adminName: 'Koordinator Danus HARLAH 16 SIMAK',
+  whatsappNumber: '6281288943210',
+  qrisImageUrl: 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=00020101021126600016ID.CO.QRIS.WWW011893600000000000000002150000000000000000303UMI51440014ID.GO.BKN.WWW02150000000000000005204581253033605802ID5911SIMAKSTIAMI6007JAKARTA61051052062070703A016304E1C3',
+  bankAccount: {
+    bank: 'Bank Central Asia (BCA)',
+    accountNumber: '542-019-2811',
+    accountHolder: 'SIMAK INSTITUT STIAMI',
+  },
+};
+
