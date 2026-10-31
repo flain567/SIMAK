@@ -585,28 +585,42 @@ export const ProgramCanvasScreen: React.FC<ProgramCanvasScreenProps> = ({
 
             {/* Info Angkatan Terpilih */}
             {currentBatchArchive && (
-              <div className="p-5 rounded-2xl bg-surface-container-low border border-outline-variant/40 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <span className="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase">
+              <div className="p-6 rounded-3xl bg-linear-to-r from-surface-container-low via-surface-container to-surface-container-low border border-outline-variant/40 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-5">
+                <div className="space-y-2">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20 text-xs font-black uppercase tracking-wider">
                       {currentBatchArchive.periodLabel}
                     </span>
-                    <span className="text-xs text-secondary">• {currentBatchArchive.location}</span>
+                    <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-xs font-bold flex items-center gap-1.5">
+                      <span className="material-symbols-outlined text-[15px]">photo_library</span>
+                      306 Foto Asli &amp; 124 Video Lapangan
+                    </span>
                   </div>
-                  <h3 className="text-base font-black text-on-surface">{currentBatchArchive.batchName}</h3>
+                  <h3 className="text-lg font-black text-on-surface">{currentBatchArchive.batchName}</h3>
                   <p className="text-xs text-secondary italic">"{currentBatchArchive.theme}"</p>
+                  <div className="flex items-center gap-4 text-xs text-outline pt-1">
+                    <span className="flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[15px] text-primary">pin_drop</span>
+                      {currentBatchArchive.location}
+                    </span>
+                    <span>•</span>
+                    <span className="flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[15px] text-primary">groups</span>
+                      {currentBatchArchive.participantCount} Kader Terlantik
+                    </span>
+                  </div>
                 </div>
 
-                <div className="flex items-center gap-2 shrink-0">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 shrink-0">
                   {currentBatchArchive.driveFullArchiveUrl && (
                     <a
                       href={currentBatchArchive.driveFullArchiveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface border border-outline-variant/40 text-xs font-bold flex items-center gap-1.5 transition-colors"
+                      className="px-5 py-3 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-900 dark:text-amber-200 border border-amber-500/30 text-xs font-extrabold flex items-center justify-center gap-2 transition-all shadow-xs"
                     >
-                      <span className="material-symbols-outlined text-[16px] text-amber-500">folder</span>
-                      <span>Arsip Lengkap Google Drive</span>
+                      <span className="material-symbols-outlined text-[18px] text-amber-600 dark:text-amber-400">folder_zip</span>
+                      <span>Buka Google Drive Lengkap (448 File)</span>
                     </a>
                   )}
                 </div>
@@ -618,27 +632,30 @@ export const ProgramCanvasScreen: React.FC<ProgramCanvasScreenProps> = ({
               <button
                 type="button"
                 onClick={() => setSelectedDayFilter('all')}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold cursor-pointer transition-colors ${
+                className={`px-4 py-2 rounded-xl text-xs font-black cursor-pointer transition-all flex items-center gap-1.5 ${
                   selectedDayFilter === 'all'
-                    ? 'bg-primary text-on-primary'
+                    ? 'bg-primary text-on-primary shadow-sm scale-102'
                     : 'bg-surface-container text-secondary hover:text-on-surface'
                 }`}
               >
-                Semua Momen
+                <span className="material-symbols-outlined text-[16px]">collections</span>
+                <span>Semua Momen ({displayedPhotos.length} Foto)</span>
               </button>
               {currentBatchArchive?.days.map((day) => (
                 <button
                   key={day.dayNumber}
                   type="button"
                   onClick={() => setSelectedDayFilter(day.dayNumber)}
-                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold cursor-pointer transition-colors flex items-center gap-1.5 ${
+                  className={`px-4 py-2 rounded-xl text-xs font-black cursor-pointer transition-all flex items-center gap-1.5 ${
                     selectedDayFilter === day.dayNumber
-                      ? 'bg-primary text-on-primary'
+                      ? 'bg-primary text-on-primary shadow-sm scale-102'
                       : 'bg-surface-container text-secondary hover:text-on-surface'
                   }`}
                 >
                   <span>{day.dayLabel}</span>
-                  <span className="text-[10px] opacity-75 hidden sm:inline">({day.title.slice(0, 20)}...)</span>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-black/20 dark:bg-white/20">
+                    {day.photos.length}
+                  </span>
                 </button>
               ))}
             </div>
@@ -704,32 +721,88 @@ export const ProgramCanvasScreen: React.FC<ProgramCanvasScreenProps> = ({
       {/* ─── LIGHTBOX MODAL PERBESAR FOTO ─── */}
       {lightboxPhoto && (
         <div
-          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
           onClick={() => setLightboxPhoto(null)}
         >
           <div
-            className="relative max-w-4xl w-full bg-surface-container-lowest rounded-3xl overflow-hidden shadow-2xl border border-outline-variant/40"
+            className="relative max-w-5xl w-full bg-surface-container-lowest rounded-3xl overflow-hidden shadow-2xl border border-outline-variant/40 flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            <button
-              type="button"
-              onClick={() => setLightboxPhoto(null)}
-              className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/90 transition-colors cursor-pointer"
-            >
-              <span className="material-symbols-outlined text-[20px]">close</span>
-            </button>
+            {/* Top Bar Lightbox */}
+            <div className="px-6 py-4 bg-black/40 flex items-center justify-between text-xs text-white">
+              <div className="flex items-center gap-2">
+                <span className="px-2.5 py-0.5 rounded-full bg-primary text-on-primary font-black uppercase text-[10px]">
+                  Foto {displayedPhotos.findIndex((p) => p.id === lightboxPhoto.id) + 1} / {displayedPhotos.length}
+                </span>
+                <span className="font-bold truncate max-w-[200px] sm:max-w-md">{lightboxPhoto.title}</span>
+              </div>
 
-            <div className="max-h-[70vh] bg-black flex items-center justify-center overflow-hidden">
+              <div className="flex items-center gap-2">
+                <a
+                  href={lightboxPhoto.url}
+                  download
+                  className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-xs flex items-center gap-1 transition-colors"
+                  title="Unduh Foto Resolusi Asli"
+                >
+                  <span className="material-symbols-outlined text-[16px]">download</span>
+                  <span className="hidden sm:inline">Unduh</span>
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setLightboxPhoto(null)}
+                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-colors cursor-pointer"
+                  title="Tutup (Esc)"
+                >
+                  <span className="material-symbols-outlined text-[20px]">close</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Image Viewer with Left/Right Nav */}
+            <div className="relative max-h-[68vh] min-h-[300px] bg-black flex items-center justify-center overflow-hidden">
               <img
                 src={lightboxPhoto.url}
                 alt={lightboxPhoto.title}
-                className="max-h-[70vh] w-auto object-contain"
+                className="max-h-[68vh] w-auto max-w-full object-contain"
               />
+
+              {/* Prev Button */}
+              {displayedPhotos.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const idx = displayedPhotos.findIndex((p) => p.id === lightboxPhoto.id);
+                    const prevIdx = (idx - 1 + displayedPhotos.length) % displayedPhotos.length;
+                    setLightboxPhoto(displayedPhotos[prevIdx]);
+                  }}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center transition-all cursor-pointer shadow-lg"
+                  title="Foto Sebelumnya"
+                >
+                  <span className="material-symbols-outlined text-[26px]">chevron_left</span>
+                </button>
+              )}
+
+              {/* Next Button */}
+              {displayedPhotos.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const idx = displayedPhotos.findIndex((p) => p.id === lightboxPhoto.id);
+                    const nextIdx = (idx + 1) % displayedPhotos.length;
+                    setLightboxPhoto(displayedPhotos[nextIdx]);
+                  }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center transition-all cursor-pointer shadow-lg"
+                  title="Foto Selanjutnya"
+                >
+                  <span className="material-symbols-outlined text-[26px]">chevron_right</span>
+                </button>
+              )}
             </div>
 
-            <div className="p-6 space-y-2 bg-surface-container-lowest">
+            {/* Photo Caption & Info */}
+            <div className="p-5 sm:p-6 bg-surface-container-lowest space-y-1.5 border-t border-outline-variant/30">
               <h3 className="text-base sm:text-lg font-black text-on-surface">{lightboxPhoto.title}</h3>
-              <p className="text-xs sm:text-sm text-secondary">{lightboxPhoto.caption}</p>
+              <p className="text-xs sm:text-sm text-secondary leading-relaxed">{lightboxPhoto.caption}</p>
             </div>
           </div>
         </div>
@@ -737,3 +810,4 @@ export const ProgramCanvasScreen: React.FC<ProgramCanvasScreenProps> = ({
     </div>
   );
 };
+

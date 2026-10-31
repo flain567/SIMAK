@@ -1,7 +1,7 @@
 /**
  * programArchiveData.ts
  * Struktur data arsip dokumentasi kegiatan SIMAK lintas tahun dan lintas generasi kepengurusan.
- * Siap dikembangkan untuk kepengurusan tahun 2026, 2027, 2028, dan seterusnya.
+ * Mengintegrasikan foto asli Day 1, Day 2, dan Day 3 KOPASUS Batch XVI.
  */
 
 export interface ArchivePhoto {
@@ -31,6 +31,7 @@ export interface ProgramGenerationArchive {
   theme: string;
   location: string;
   participantCount: number;
+  totalRawFilesCount?: number;
   driveFullArchiveUrl?: string;
   days: DayArchive[];
 }
@@ -45,64 +46,331 @@ export const KOPASUS_GENERATIONS: ProgramGenerationArchive[] = [
     theme: 'Mencetak Kader Mahasiswa Berintegritas Tanpa Kompromi & Bebas KKN',
     location: 'Auditorium STIAMI & Pusat Diklat Cisarua, Bogor',
     participantCount: 42,
+    totalRawFilesCount: 448,
     driveFullArchiveUrl: 'https://drive.google.com',
     days: [
       {
-        dayNumber: 1,
-        dayLabel: 'Day 01',
-        title: 'Pembekalan Moral, Wawasan Integritas & Screening Nilai',
-        date: 'Hari Pertama',
-        description: 'Pembukaan resmi oleh Dewan Pembina, sesi etika kepemimpinan mahasiswa antikorupsi, dan uji komitmen integritas calon kader.',
-        photos: [
-          {
-            id: 'kop-16-d1-1',
-            title: 'Upacara Pembukaan Diklat KOPASUS',
-            url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD4fiUAm-dSgJbLAqfJ9GuwDdlhGOMSqiwMt0P7r24ZBqgSm7GVhezpX9l00auOfDahnZMbsrD2miwQzU2YOxBKAxIwKU2-v7NUT78wrTH42n2ouYDj8adMQXYp79uL0tMu9430hn-27d2AIaJgER7Y1xhkMt1sWrmnaFqClq7yHhpDJkehR4EtivAzveaN54iTFeB21SzmSGwTOFqH75IRi8KbrATDBwSX1AoJyLhnzs28wzcQW2m-pvnzFCFypWGe5wM',
-            caption: 'Barisan peserta apel pembukaan Diklat KOPASUS bersama jajaran BPH dan Dewan Pembina.',
-            isHighlight: true,
-          },
-          {
-            id: 'kop-16-d1-2',
-            title: 'Materi 9 Nilai Integritas KPK',
-            url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDSdd1AR0-zoGoi9ksikfgcRah_guw9NuDGUdgxbbEL1ZbLaoPQT5VjtbfLe3avMM5eSZUvRvRPxXBD0eGVsvY3elNVN_Xzfd0KgtnAxULHSBlWR_6RtHxDVg2Z_NxV2HbFilIdQ6lmSZt9vnJeAHVrmplyPi6Fz2ErVblIGEpBtANAXP45PugSaBZQr20cci697zKabbKowSp9kp9Y-mFNs7gh4FBNbtcE7sC3XB9a',
-            caption: 'Pemaparan materi bedah kasus gratifikasi dan suap di sektor publik bersama narasumber ahli.',
-            isHighlight: false,
-          },
-        ],
+            "dayNumber": 1,
+            "dayLabel": "Day 01",
+            "title": "Pembekalan Wawasan, Screening Integritas & Apel Pembukaan",
+            "date": "Oktober 2026",
+            "description": "Hari pertama Diklat KOPASUS: apel pembukaan, penyampaian 9 Nilai Integritas KPK, dan tes komitmen moral calon kader.",
+            "photos": [
+                  {
+                        "id": "kop16-day-1-1",
+                        "title": "Day 01 \u2022 Dokumentasi #1",
+                        "url": "/archives/kopasus/2026-batch-16/day-1/IMG-20261002-WA0028.jpg",
+                        "caption": "Apel barisan pembukaan Diklat KOPASUS Batch XVI.",
+                        "isHighlight": true
+                  },
+                  {
+                        "id": "kop16-day-1-2",
+                        "title": "Day 01 \u2022 Dokumentasi #2",
+                        "url": "/archives/kopasus/2026-batch-16/day-1/IMG-20261004-WA0175.jpg",
+                        "caption": "Pemberian pengarahan disiplin oleh panitia dan Dewan Pembina.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-1-3",
+                        "title": "Day 01 \u2022 Dokumentasi #3",
+                        "url": "/archives/kopasus/2026-batch-16/day-1/IMG-20261004-WA0182.jpg",
+                        "caption": "Sesi pemaparan materi 9 Nilai Integritas Antikorupsi KPK.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-1-4",
+                        "title": "Day 01 \u2022 Dokumentasi #4",
+                        "url": "/archives/kopasus/2026-batch-16/day-1/IMG-20261004-WA0187.jpg",
+                        "caption": "Calon kader menyimak pemaparan sejarah perjuangan SIMAK.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-1-5",
+                        "title": "Day 01 \u2022 Dokumentasi #5",
+                        "url": "/archives/kopasus/2026-batch-16/day-1/IMG-20261004-WA0193.jpg",
+                        "caption": "Uji komitmen moral dan screening integritas calon kader.",
+                        "isHighlight": true
+                  },
+                  {
+                        "id": "kop16-day-1-6",
+                        "title": "Day 01 \u2022 Dokumentasi #6",
+                        "url": "/archives/kopasus/2026-batch-16/day-1/IMG-20261004-WA0198.jpg",
+                        "caption": "Diskusi kelompok perumusan pakta integritas mahasiswa.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-1-7",
+                        "title": "Day 01 \u2022 Dokumentasi #7",
+                        "url": "/archives/kopasus/2026-batch-16/day-1/IMG-20261004-WA0204.jpg",
+                        "caption": "Ice breaking dan pembentukan solidaritas regu komando.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-1-8",
+                        "title": "Day 01 \u2022 Dokumentasi #8",
+                        "url": "/archives/kopasus/2026-batch-16/day-1/IMG-20261004-WA0274.jpg",
+                        "caption": "Pemberian tanda peserta dan buku panduan diklat dasar.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-1-9",
+                        "title": "Day 01 \u2022 Dokumentasi #9",
+                        "url": "/archives/kopasus/2026-batch-16/day-1/IMG-20261005-WA0123.jpg",
+                        "caption": "Sesi tanya jawab interaktif seputar delik korupsi kampus.",
+                        "isHighlight": true
+                  },
+                  {
+                        "id": "kop16-day-1-10",
+                        "title": "Day 01 \u2022 Dokumentasi #10",
+                        "url": "/archives/kopasus/2026-batch-16/day-1/IMG-20261005-WA0139.jpg",
+                        "caption": "Apel penutupan rangkaian agenda pembekalan Day 01.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-1-11",
+                        "title": "Day 01 \u2022 Dokumentasi #11",
+                        "url": "/archives/kopasus/2026-batch-16/day-1/IMG-20261005-WA0149.jpg",
+                        "caption": "Foto dokumentasi regu calon kader Day 01.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-1-12",
+                        "title": "Day 01 \u2022 Dokumentasi #12",
+                        "url": "/archives/kopasus/2026-batch-16/day-1/IMG-20261005-WA0163.jpg",
+                        "caption": "Sesi konsolidasi internal pengurus panitia pelaksana.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-1-13",
+                        "title": "Day 01 \u2022 Dokumentasi #13",
+                        "url": "/archives/kopasus/2026-batch-16/day-1/IMG-20261005-WA0292.jpg",
+                        "caption": "Apel barisan pembukaan Diklat KOPASUS Batch XVI.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-1-14",
+                        "title": "Day 01 \u2022 Dokumentasi #14",
+                        "url": "/archives/kopasus/2026-batch-16/day-1/IMG-20261006-WA0156.jpg",
+                        "caption": "Pemberian pengarahan disiplin oleh panitia dan Dewan Pembina.",
+                        "isHighlight": false
+                  }
+            ]
       },
       {
-        dayNumber: 2,
-        dayLabel: 'Day 02',
-        title: 'Diklat Lapangan, Simulasi Investigasi & Malam Keakraban',
-        date: 'Hari Kedua',
-        description: 'Pelatihan ketahanan mental, kerja tim pemecahan investigasi kasus korupsi fiktif, serta refleksi api unggun integritas.',
-        photos: [
-          {
-            id: 'kop-16-d2-1',
-            title: 'Simulasi Investigasi Anggaran & Olah TKP',
-            url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCRHiBrBGM7unygMJ09G4znGwjboEge7LxoDHZjMe2SkXuGFv1-KWc5DSJe8fCuJzs2IN0IOe1M3JsGNrCPFGkYnAg_qW5bwVNl6bKC6hVmFQhpLMsT5ZS3Wgu8uJmnVwkGMdfZItJQP7teumCNL_luvPgwhrIKGi0QkrLRYMDJ1EYqYQxuKEZIbK2IzhM2heCcmeBOOJCn3yU4ZgI_ixNc43TXabdPUEEwSSamJeyt',
-            caption: 'Kader memecahkan teka-teki dokumen audit fiktif dalam pos pengujian investigasi lapangan.',
-            isHighlight: true,
-          },
-        ],
+            "dayNumber": 2,
+            "dayLabel": "Day 02",
+            "title": "Diklat Lapangan, Simulasi Investigasi & Olah TKP",
+            "date": "Oktober 2026",
+            "description": "Hari kedua: penjelajahan alam terbuka, simulasi penelusuran audit anggaran fiktif, ketahanan fisik, dan refleksi api unggun.",
+            "photos": [
+                  {
+                        "id": "kop16-day-2-1",
+                        "title": "Day 02 \u2022 Dokumentasi #1",
+                        "url": "/archives/kopasus/2026-batch-16/day-2/IMG-20261005-WA0200.jpg",
+                        "caption": "Apel pagi persiapan penjelajahan medan alam terbuka.",
+                        "isHighlight": true
+                  },
+                  {
+                        "id": "kop16-day-2-2",
+                        "title": "Day 02 \u2022 Dokumentasi #2",
+                        "url": "/archives/kopasus/2026-batch-16/day-2/IMG-20261005-WA0228.jpg",
+                        "caption": "Simulasi penelusuran pos investigasi audit anggaran.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-2-3",
+                        "title": "Day 02 \u2022 Dokumentasi #3",
+                        "url": "/archives/kopasus/2026-batch-16/day-2/IMG-20261005-WA0295.jpg",
+                        "caption": "Kerja sama regu memecahkan teka-teki dokumen tipikor fiktif.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-2-4",
+                        "title": "Day 02 \u2022 Dokumentasi #4",
+                        "url": "/archives/kopasus/2026-batch-16/day-2/IMG-20261006-WA0029.jpg",
+                        "caption": "Latihan ketahanan fisik dan kedisiplinan mental lapangan.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-2-5",
+                        "title": "Day 02 \u2022 Dokumentasi #5",
+                        "url": "/archives/kopasus/2026-batch-16/day-2/IMG-20261006-WA0039.jpg",
+                        "caption": "Pemeriksaan barang bukti dalam pos olah TKP kasus integritas.",
+                        "isHighlight": true
+                  },
+                  {
+                        "id": "kop16-day-2-6",
+                        "title": "Day 02 \u2022 Dokumentasi #6",
+                        "url": "/archives/kopasus/2026-batch-16/day-2/IMG-20261006-WA0053.jpg",
+                        "caption": "Rembuk strategi regu menghadapi rintangan medan terbuka.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-2-7",
+                        "title": "Day 02 \u2022 Dokumentasi #7",
+                        "url": "/archives/kopasus/2026-batch-16/day-2/IMG-20261006-WA0069.jpg",
+                        "caption": "Momen kebersamaan santap siang beralaskan daun pisang.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-2-8",
+                        "title": "Day 02 \u2022 Dokumentasi #8",
+                        "url": "/archives/kopasus/2026-batch-16/day-2/IMG-20261006-WA0153.jpg",
+                        "caption": "Evaluasi taktis bersama instruktur lapangan senior.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-2-9",
+                        "title": "Day 02 \u2022 Dokumentasi #9",
+                        "url": "/archives/kopasus/2026-batch-16/day-2/IMG-20261006-WA0496.jpg",
+                        "caption": "Upacara penyalaan api unggun integritas di tengah malam.",
+                        "isHighlight": true
+                  },
+                  {
+                        "id": "kop16-day-2-10",
+                        "title": "Day 02 \u2022 Dokumentasi #10",
+                        "url": "/archives/kopasus/2026-batch-16/day-2/IMG-20261006-WA0523.jpg",
+                        "caption": "Refleksi moral dan perenungan komitmen perjuangan mahasiswa.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-2-11",
+                        "title": "Day 02 \u2022 Dokumentasi #11",
+                        "url": "/archives/kopasus/2026-batch-16/day-2/IMG-20261006-WA0555.jpg",
+                        "caption": "Renungan suci penguatan tekad gerakan antikorupsi.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-2-12",
+                        "title": "Day 02 \u2022 Dokumentasi #12",
+                        "url": "/archives/kopasus/2026-batch-16/day-2/IMG-20261006-WA0616.jpg",
+                        "caption": "Foto regu di posko lapangan diklat alam terbuka.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-2-13",
+                        "title": "Day 02 \u2022 Dokumentasi #13",
+                        "url": "/archives/kopasus/2026-batch-16/day-2/IMG-20261006-WA0657.jpg",
+                        "caption": "Apel pagi persiapan penjelajahan medan alam terbuka.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-2-14",
+                        "title": "Day 02 \u2022 Dokumentasi #14",
+                        "url": "/archives/kopasus/2026-batch-16/day-2/IMG-20261006-WA0675.jpg",
+                        "caption": "Simulasi penelusuran pos investigasi audit anggaran.",
+                        "isHighlight": false
+                  }
+            ]
       },
       {
-        dayNumber: 3,
-        dayLabel: 'Day 03',
-        title: 'Pengukuhan, Sumpah Kader & Pembagian Pakaian Dinas Harian (PDH)',
-        date: 'Hari Ketiga',
-        description: 'Puncak upacara sumpah integritas kader SIMAK, penyematan pin kehormatan, dan penerbitan Nomor Induk Anggota (NIA).',
-        photos: [
-          {
-            id: 'kop-16-d3-1',
-            title: 'Ikrar Sumpah Integritas Kader SIMAK',
-            url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAaLFp2EuNFVidMt_8M1VPVEGI6W8pBxGRNFAvsNnetAvxueljTz_LcWJ2ggdWAMoi4v6JMpDD9FV6MTdTqa8AqUjbtu7rIbmaiWIdOxxgJgLJ_fQ545tQvjWWksHtPcAprYVF9iuD0n6gKOVWPqkaMOWaBO8qS0bJqqrXq87AKRw-EwvwiV29Mf4Wgqda7rmrSk2KvxniknKuTlI6jpEjdvtJgYo6P5sbX4oshr8W0',
-            caption: 'Pengukuhan resmi kader baru dengan penyematan atribut kebesaran organisasi SIMAK.',
-            isHighlight: true,
-          },
-        ],
-      },
-    ],
+            "dayNumber": 3,
+            "dayLabel": "Day 03",
+            "title": "Sumpah Integritas, Pengukuhan Kader & Pembagian PDH",
+            "date": "Oktober 2026",
+            "description": "Puncak hari ketiga: upacara pembacaan sumpah kader SIMAK, penyematan panji kehormatan, pembagian PDH dan penerbitan NIA.",
+            "photos": [
+                  {
+                        "id": "kop16-day-3-1",
+                        "title": "Day 03 \u2022 Dokumentasi #1",
+                        "url": "/archives/kopasus/2026-batch-16/day-3/IMG-20261004-WA0055.jpg",
+                        "caption": "Upacara khidmat pembacaan ikrar sumpah kader SIMAK.",
+                        "isHighlight": true
+                  },
+                  {
+                        "id": "kop16-day-3-2",
+                        "title": "Day 03 \u2022 Dokumentasi #2",
+                        "url": "/archives/kopasus/2026-batch-16/day-3/IMG-20261006-WA0332.jpg",
+                        "caption": "Penyematan lencana dan baret kehormatan KOPASUS.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-3-3",
+                        "title": "Day 03 \u2022 Dokumentasi #3",
+                        "url": "/archives/kopasus/2026-batch-16/day-3/IMG-20261006-WA0347.jpg",
+                        "caption": "Penyerahan Pakaian Dinas Harian (PDH) resmi kepada kader baru.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-3-4",
+                        "title": "Day 03 \u2022 Dokumentasi #4",
+                        "url": "/archives/kopasus/2026-batch-16/day-3/IMG-20261006-WA0354.jpg",
+                        "caption": "Pemberian Surat Keputusan (SK) kelulusan dan Nomor Induk Anggota.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-3-5",
+                        "title": "Day 03 \u2022 Dokumentasi #5",
+                        "url": "/archives/kopasus/2026-batch-16/day-3/IMG-20261006-WA0363.jpg",
+                        "caption": "Ucapan selamat dan jabat tangan kehormatan bersama Dewan Pembina.",
+                        "isHighlight": true
+                  },
+                  {
+                        "id": "kop16-day-3-6",
+                        "title": "Day 03 \u2022 Dokumentasi #6",
+                        "url": "/archives/kopasus/2026-batch-16/day-3/IMG-20261006-WA0377.jpg",
+                        "caption": "Foto bersama seluruh kader baru KOPASUS Batch XVI dan BPH.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-3-7",
+                        "title": "Day 03 \u2022 Dokumentasi #7",
+                        "url": "/archives/kopasus/2026-batch-16/day-3/IMG-20261006-WA0891.jpg",
+                        "caption": "Yel-yel semangat integritas membahana di akhir upacara.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-3-8",
+                        "title": "Day 03 \u2022 Dokumentasi #8",
+                        "url": "/archives/kopasus/2026-batch-16/day-3/IMG-20261006-WA0912.jpg",
+                        "caption": "Tangis haru dan rasa bangga usai tuntas menyelesaikan diklat.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-3-9",
+                        "title": "Day 03 \u2022 Dokumentasi #9",
+                        "url": "/archives/kopasus/2026-batch-16/day-3/IMG-20261006-WA0928.jpg",
+                        "caption": "Penyerahan panji kepengurusan kepada perwakilan angkatan.",
+                        "isHighlight": true
+                  },
+                  {
+                        "id": "kop16-day-3-10",
+                        "title": "Day 03 \u2022 Dokumentasi #10",
+                        "url": "/archives/kopasus/2026-batch-16/day-3/IMG-20261006-WA0958.jpg",
+                        "caption": "Momen ramah tamah persaudaraan keluarga besar SIMAK.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-3-11",
+                        "title": "Day 03 \u2022 Dokumentasi #11",
+                        "url": "/archives/kopasus/2026-batch-16/day-3/IMG-20261006-WA0976.jpg",
+                        "caption": "Foto formasi angkatan kader resmi SIMAK Batch XVI.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-3-12",
+                        "title": "Day 03 \u2022 Dokumentasi #12",
+                        "url": "/archives/kopasus/2026-batch-16/day-3/IMG-20261006-WA0998.jpg",
+                        "caption": "Penutupan resmi seluruh rangkaian Diklat KOPASUS.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-3-13",
+                        "title": "Day 03 \u2022 Dokumentasi #13",
+                        "url": "/archives/kopasus/2026-batch-16/day-3/IMG-20261006-WA1021.jpg",
+                        "caption": "Upacara khidmat pembacaan ikrar sumpah kader SIMAK.",
+                        "isHighlight": false
+                  },
+                  {
+                        "id": "kop16-day-3-14",
+                        "title": "Day 03 \u2022 Dokumentasi #14",
+                        "url": "/archives/kopasus/2026-batch-16/day-3/IMG-20261006-WA1040.jpg",
+                        "caption": "Penyematan lencana dan baret kehormatan KOPASUS.",
+                        "isHighlight": false
+                  }
+            ]
+      }
+]
   },
   {
     id: 'kopasus-15-2025',
@@ -121,7 +389,7 @@ export const KOPASUS_GENERATIONS: ProgramGenerationArchive[] = [
         title: 'Sesi Integritas & Pembagian Regu',
         date: 'Oktober 2025',
         description: 'Pembentukan regu komando dan pembacaan tata tertib kaderisasi.',
-        photos: [],
+        photos: []
       },
       {
         dayNumber: 2,
@@ -129,7 +397,7 @@ export const KOPASUS_GENERATIONS: ProgramGenerationArchive[] = [
         title: 'Jurit Malam & Pembuktian Fakta',
         date: 'Oktober 2025',
         description: 'Latihan uji mental dan kejujuran di medan alam terbuka.',
-        photos: [],
+        photos: []
       },
       {
         dayNumber: 3,
@@ -137,9 +405,9 @@ export const KOPASUS_GENERATIONS: ProgramGenerationArchive[] = [
         title: 'Pelantikan & Deklarasi Pakta Integritas',
         date: 'Oktober 2025',
         description: 'Pelantikan kader batch XV oleh BPH SIMAK Periode 2025.',
-        photos: [],
-      },
-    ],
+        photos: []
+      }
+    ]
   },
   {
     id: 'kopasus-14-2024',
@@ -151,6 +419,6 @@ export const KOPASUS_GENERATIONS: ProgramGenerationArchive[] = [
     location: 'Cibodas, Bogor',
     participantCount: 35,
     driveFullArchiveUrl: 'https://drive.google.com',
-    days: [],
-  },
+    days: []
+  }
 ];

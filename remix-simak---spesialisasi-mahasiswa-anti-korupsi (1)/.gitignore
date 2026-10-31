@@ -6,3 +6,12 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Video & Raw Media Files (Gunakan Google Drive arsip agar repo tetap ringan & cepat)
+*.mp4
+*.MP4
+*.MOV
+*.mov
+*.HEIC
+*.heic
+*.avi
