@@ -10,6 +10,10 @@
 import { ParticipantRecord } from '../types';
 import { apiFetch, IS_BACKEND_ENABLED } from './client';
 import { INITIAL_PARTICIPANTS } from '../data/mockData';
+import {
+  supabaseFetchParticipants,
+  supabaseInsertParticipant,
+} from './supabase';
 
 // ─── Helpers localStorage (fallback) ────────────────────────
 
@@ -130,6 +134,14 @@ export async function registerParticipant(
 
   const updated = [newRecord, ...existing];
   saveLocalParticipants(updated);
+
+  // Simpan ke Supabase Cloud Database agar tersinkronisasi antar-perangkat (HP <-> Komputer)
+  try {
+    await supabaseInsertParticipant(newRecord);
+  } catch (err) {
+    console.warn('Simpan ke Supabase cloud tertunda/gagal:', err);
+  }
+
   return { participant: newRecord, qrPayload: newRecord.qrPayload };
 }
 
@@ -191,6 +203,16 @@ export function getAllParticipantsLocal(): ParticipantRecord[] {
  * Fallback → localStorage
  */
 export async function fetchParticipants(): Promise<ParticipantRecord[]> {
+  try {
+    const supabaseList = await supabaseFetchParticipants();
+    if (supabaseList && supabaseList.length > 0) {
+      saveLocalParticipants(supabaseList);
+      return supabaseList;
+    }
+  } catch (err) {
+    // Supabase offline atau belum ada koneksi
+  }
+
   if (IS_BACKEND_ENABLED) {
     const token = localStorage.getItem('simak_admin_token');
     if (token) {

@@ -142,14 +142,12 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // ─── Sinkronisasi data dari backend saat startup ──────────
+  // ─── Sinkronisasi data dari Supabase Cloud & Backend saat startup ──────────
   useEffect(() => {
-    if (!IS_BACKEND_ENABLED) return;
     fetchParticipants()
       .then((remoteList) => {
-        if (remoteList.length > 0) {
+        if (remoteList && remoteList.length > 0) {
           setParticipants(remoteList);
-          setActiveParticipant(remoteList[0]);
         }
       })
       .catch(() => { /* fallback ke localStorage */ });

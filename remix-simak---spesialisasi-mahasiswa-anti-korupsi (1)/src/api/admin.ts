@@ -6,6 +6,7 @@ import { apiFetch } from './client';
 import { getStoredToken } from './auth';
 import { ParticipantRecord } from '../types';
 import { INITIAL_PARTICIPANTS } from '../data/mockData';
+import { supabaseFetchParticipants, supabaseUpdateAttendance } from './supabase';
 
 // ─── LocalStorage Helpers untuk Fallback Mandiri ───────────────
 
@@ -126,13 +127,27 @@ export async function fetchAdminParticipants(params?: {
 
   let remoteParticipants: ParticipantRecord[] = [];
 
+  // 1. Coba ambil dari Supabase Cloud (Sinkronisasi HP & Laptop)
   try {
-    const res = await apiFetch<AdminParticipantsResponse>(`/api/admin/participants${query}`, {
-      token,
-    });
-    remoteParticipants = res.participants || [];
+    const cloudList = await supabaseFetchParticipants();
+    if (cloudList && cloudList.length > 0) {
+      saveLocalParticipantsList(cloudList);
+      remoteParticipants = cloudList;
+    }
   } catch (err) {
-    // Backend offline / Vercel static mode
+    // Supabase offline / tabel belum dibuat
+  }
+
+  // 2. Coba juga dari backend Express jika aktif
+  if (remoteParticipants.length === 0) {
+    try {
+      const res = await apiFetch<AdminParticipantsResponse>(`/api/admin/participants${query}`, {
+        token,
+      });
+      remoteParticipants = res.participants || [];
+    } catch (err) {
+      // Backend offline / Vercel static mode
+    }
   }
 
   // Ambil list lokal (termasuk yang baru mendaftar di browser)
@@ -559,6 +574,16 @@ export async function verifyAttendance(params: {
   found.status = 'HADIR';
   found.checkedInAt = checkInTime;
   saveLocalParticipantsList(list);
+
+  // Sinkronkan kehadiran ke Supabase Cloud Database agar seluruh perangkat terupdate
+  try {
+    await supabaseUpdateAttendance(found.ticketCode, {
+      status: 'HADIR',
+      checked_in_at: checkInTime,
+    });
+  } catch (err) {
+    console.warn('Sinkronisasi Supabase presensi tertunda/gagal:', err);
+  }
 
   return {
     success: true,
