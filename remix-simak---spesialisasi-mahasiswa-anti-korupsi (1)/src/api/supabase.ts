@@ -17,27 +17,34 @@ export const SUPABASE_HEADERS = {
 
 // Map baris tabel Supabase (snake_case) ke objek ParticipantRecord (camelCase)
 export function mapRowToParticipant(row: any): ParticipantRecord {
+  const name = row.full_name || row.name || 'Tamu Undangan';
+  const phone = row.whatsapp || row.phone || '';
+  const agency = row.campus || row.agency || row.program_studi || 'Umum';
+  const ticketCode = row.ticket_code || `GUEST-${row.id}`;
+  const nim = row.nim || ticketCode;
+  const status = (row.status || 'TERDAFTAR').toUpperCase();
+
   return {
-    id: row.id,
-    ticketCode: row.ticket_code,
-    examNumber: row.exam_number || '',
+    id: String(row.id),
+    ticketCode,
+    examNumber: row.exam_number || `EXAM-${ticketCode}`,
     seatNumber: row.seat_number || 'A-01',
-    fullName: row.full_name,
-    nim: row.nim,
-    whatsapp: row.whatsapp || '',
+    fullName: name,
+    nim: nim,
+    whatsapp: phone,
     email: row.email || '',
-    programStudi: row.program_studi || '',
-    campus: row.campus || '',
+    programStudi: row.program_studi || agency,
+    campus: agency,
     semester: row.semester || 'Tamu Undangan',
     division: row.division || '-',
     registrationType: row.registration_type || 'Open House SIMAK',
-    status: row.status || 'MENUNGGU VERIFIKASI',
+    status: status,
     motivation: row.motivation || '',
     avatarUrl: row.avatar_url || '',
     registeredAt: row.registered_at || new Date().toISOString(),
     checkedInAt: row.checked_in_at || null,
     verifiedAt: row.verified_at || null,
-    qrPayload: row.qr_payload || `${row.ticket_code}:${row.nim}`,
+    qrPayload: row.qr_payload || `${ticketCode}:${nim}`,
     gate: row.gate || 'Pintu Utama Auditorium',
     examRoom: row.exam_room || 'Auditorium Utama Institut STIAMI',
     examSession: row.exam_session || 'Puncak HARLAH SIMAK 16 (08.30 - 15.00 WIB)',
@@ -48,29 +55,12 @@ export function mapRowToParticipant(row: any): ParticipantRecord {
 // Map objek ParticipantRecord ke format baris tabel Supabase (snake_case)
 export function mapParticipantToRow(p: ParticipantRecord) {
   return {
-    id: p.id,
+    name: p.fullName || 'Tamu Undangan',
+    email: p.email || '-',
+    phone: p.whatsapp || '-',
+    agency: p.campus || p.programStudi || 'Umum',
     ticket_code: p.ticketCode,
-    exam_number: p.examNumber,
-    seat_number: p.seatNumber,
-    full_name: p.fullName,
-    nim: p.nim,
-    whatsapp: p.whatsapp,
-    email: p.email,
-    program_studi: p.programStudi,
-    campus: p.campus,
-    semester: p.semester,
-    division: p.division,
-    registration_type: p.registrationType,
-    status: p.status,
-    motivation: p.motivation,
-    avatar_url: p.avatarUrl,
-    gate: p.gate,
-    exam_room: p.examRoom,
-    exam_session: p.examSession,
-    exam_date: p.examDate,
-    qr_payload: p.qrPayload || `${p.ticketCode}:${p.nim}`,
-    checked_in_at: p.checkedInAt,
-    verified_at: p.verifiedAt,
+    status: p.status || 'TERDAFTAR',
     registered_at: p.registeredAt || new Date().toISOString(),
   };
 }
@@ -118,15 +108,19 @@ export async function supabaseUpdateAttendance(
   ticketCode: string,
   updates: { status: string; checked_in_at?: string; verified_at?: string }
 ): Promise<void> {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/participants?ticket_code=eq.${encodeURIComponent(ticketCode)}`, {
-    method: 'PATCH',
-    headers: SUPABASE_HEADERS,
-    body: JSON.stringify(updates),
-  });
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/participants?ticket_code=eq.${encodeURIComponent(ticketCode)}`, {
+      method: 'PATCH',
+      headers: SUPABASE_HEADERS,
+      body: JSON.stringify({ status: updates.status }),
+    });
 
-  if (!res.ok) {
-    const errBody = await res.text();
-    throw new Error(`Supabase update error: ${errBody}`);
+    if (!res.ok) {
+      const errBody = await res.text();
+      console.warn(`Supabase update error: ${errBody}`);
+    }
+  } catch (err) {
+    console.warn('Supabase update attendance network exception:', err);
   }
 }
 

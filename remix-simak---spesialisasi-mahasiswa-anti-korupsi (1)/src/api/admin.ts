@@ -528,28 +528,44 @@ export async function verifyAttendance(params: {
     // Lanjutkan verifikasi lokal jika backend offline atau data disimpan di browser
   }
 
-  const list = getLocalParticipantsList();
+  // Ambil list peserta: utamakan sinkronisasi Supabase Cloud agar instan antar-perangkat
+  let list = getLocalParticipantsList();
+  try {
+    const cloudList = await supabaseFetchParticipants();
+    if (cloudList && cloudList.length > 0) {
+      const map = new Map<string, ParticipantRecord>();
+      list.forEach((p) => map.set(p.ticketCode.toUpperCase(), p));
+      cloudList.forEach((p) => map.set(p.ticketCode.toUpperCase(), p));
+      list = Array.from(map.values());
+      saveLocalParticipantsList(list);
+    }
+  } catch {
+    // Offline fallback
+  }
+
   const rawInput = (params.qrPayload || params.ticketCode || params.nim || '').trim();
   const query = rawInput.toUpperCase();
 
-  // Ekstrak kode dan NIM jika formatnya 'GUEST-HRL-XXXX:NIM'
+  // Ekstrak kode tiket dan bagian kedua jika formatnya 'GUEST-HRL-XXXX:DATA'
   const colonIndex = query.indexOf(':');
   const codePart = colonIndex !== -1 ? query.slice(0, colonIndex).trim() : query;
   const secondPart = colonIndex !== -1 ? query.slice(colonIndex + 1).trim() : '';
 
   let found = list.find((p) => {
-    const pTicket = p.ticketCode.toUpperCase();
-    const pNim = p.nim.toUpperCase();
-    const pName = p.fullName.toUpperCase();
+    const pTicket = (p.ticketCode || '').toUpperCase();
+    const pNim = (p.nim || '').toUpperCase();
+    const pName = (p.fullName || '').toUpperCase();
+    const pPayload = (p.qrPayload || '').toUpperCase();
 
     return (
       pTicket === query ||
       pTicket === codePart ||
-      pNim === query ||
-      pNim === secondPart ||
-      pName.includes(query) ||
       (codePart && pTicket.includes(codePart)) ||
-      (rawInput && (p.qrPayload?.includes(rawInput) || rawInput.includes(p.ticketCode)))
+      (codePart && codePart.includes(pTicket)) ||
+      (secondPart && pNim && pNim === secondPart) ||
+      (pNim && (pNim === query || query.includes(pNim))) ||
+      (pName && (query.includes(pName) || pName.includes(query))) ||
+      (pPayload && (pPayload.includes(query) || query.includes(pPayload)))
     );
   });
 
@@ -557,7 +573,8 @@ export async function verifyAttendance(params: {
     try {
       const parsed = JSON.parse(params.qrPayload);
       if (parsed.ticketCode) {
-        found = list.find((p) => p.ticketCode.toUpperCase() === parsed.ticketCode.toUpperCase());
+        const parsedCode = String(parsed.ticketCode).toUpperCase();
+        found = list.find((p) => (p.ticketCode || '').toUpperCase() === parsedCode);
       }
     } catch {}
   }
@@ -614,7 +631,13 @@ export async function fetchAttendanceSummary(): Promise<AttendanceSummary> {
       token,
     });
   } catch {
-    const list = getLocalParticipantsList();
+    let list = getLocalParticipantsList();
+    try {
+      const cloudList = await supabaseFetchParticipants();
+      if (cloudList && cloudList.length > 0) {
+        list = cloudList;
+      }
+    } catch {}
     const total = list.length;
     const hadir = list.filter((p) => p.status?.toUpperCase() === 'HADIR').length;
     const terverifikasi = list.filter((p) => p.status?.toUpperCase() === 'TERVERIFIKASI').length;
