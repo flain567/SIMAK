@@ -129,3 +129,4 @@ export async function supabaseUpdateAttendance(
     throw new Error(`Supabase update error: ${errBody}`);
   }
 }
+
