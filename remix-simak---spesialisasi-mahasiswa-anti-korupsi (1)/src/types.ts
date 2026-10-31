@@ -9,7 +9,8 @@ export type ScreenId =
   | 'whistleblower'
   | 'transparansi'
   | 'admin'
-  | 'merchandise';
+  | 'merchandise'
+  | 'program-detail';
 
 export interface ParticipantRecord {
   id: string;

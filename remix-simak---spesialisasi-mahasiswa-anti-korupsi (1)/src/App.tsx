@@ -30,6 +30,7 @@ import { WhistleblowerScreen } from './components/WhistleblowerScreen';
 import { TransparencyScreen } from './components/TransparencyScreen';
 import { AdminPanelScreen } from './components/AdminPanelScreen';
 import { MerchandiseScreen } from './components/MerchandiseScreen';
+import { ProgramCanvasScreen } from './components/ProgramCanvasScreen';
 
 const INITIAL_WBS_REPORTS: WhistleblowerReport[] = [
   {
@@ -84,6 +85,7 @@ const INITIAL_WBS_REPORTS: WhistleblowerReport[] = [
 
 export default function App() {
   const [activeScreen, setActiveScreen] = useState<ScreenId>('beranda');
+  const [selectedProgramId, setSelectedProgramId] = useState<string>('kopasus');
 
   const [participants, setParticipants] = useState<ParticipantRecord[]>(() => {
     try {
@@ -358,6 +360,14 @@ export default function App() {
 
         {activeScreen === 'merchandise' && (
           <MerchandiseScreen onNavigate={setActiveScreen} />
+        )}
+
+        {activeScreen === 'program-detail' && (
+          <ProgramCanvasScreen
+            initialProgramId={selectedProgramId}
+            onNavigate={setActiveScreen}
+            onSelectProgram={setSelectedProgramId}
+          />
         )}
 
         {activeScreen === 'admin' && (

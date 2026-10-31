@@ -2292,19 +2292,35 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
             {/* Modal Footer Actions */}
             <div className="px-6 py-4 bg-surface-container border-t border-outline-variant/40 flex flex-wrap items-center justify-between gap-3">
-              <button
-                type="button"
-                onClick={() => {
-                  setSelectedProker(null);
-                  go('galeri');
-                }}
-                className="px-4 py-2.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high text-on-surface text-xs font-bold border border-outline-variant/50 transition-colors flex items-center gap-1.5 cursor-pointer"
-              >
-                <span className="material-symbols-outlined text-[16px] text-primary">
-                  photo_library
-                </span>
-                <span>Lihat Dokumentasi di Galeri</span>
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedProker(null);
+                    go('program-detail');
+                  }}
+                  className="px-4 py-2.5 rounded-lg bg-primary text-on-primary text-xs font-black shadow-sm transition-transform hover:scale-102 flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-[16px]">
+                    view_timeline
+                  </span>
+                  <span>Buka Kanvas &amp; Arsip Day 1–3</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedProker(null);
+                    go('galeri');
+                  }}
+                  className="px-3.5 py-2.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high text-on-surface text-xs font-bold border border-outline-variant/50 transition-colors flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-[16px] text-primary">
+                    photo_library
+                  </span>
+                  <span className="hidden sm:inline">Galeri Lengkap</span>
+                </button>
+              </div>
 
               <div className="flex items-center gap-2.5">
                 {selectedProker.isUpcomingHarlah ? (

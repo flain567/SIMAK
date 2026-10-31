@@ -10,6 +10,7 @@ interface NavbarProps {
 
 const HOME_SECTIONS: { label: string; href: string; id: string; screen?: ScreenId }[] = [
   { label: 'Beranda', href: '#top', id: 'top' },
+  { label: 'Program Kerja', href: '#program-detail', id: 'program-detail', screen: 'program-detail' },
   { label: 'Tentang Kami', href: '#tentang-kami', id: 'tentang-kami' },
   { label: 'Direktori Kader', href: '#direktori', id: 'direktori', screen: 'direktori' },
   { label: 'Galeri', href: '#galeri', id: 'galeri', screen: 'galeri' },
@@ -19,6 +20,12 @@ const HOME_SECTIONS: { label: string; href: string; id: string; screen?: ScreenI
 ];
 
 const PORTAL_ITEMS: { id: ScreenId; label: string; desc: string; icon: string }[] = [
+  {
+    id: 'program-detail',
+    label: 'Kanvas 6 Program Unggulan',
+    desc: 'Roadmap KOPASUS Day 1-3, HARLAH, TOT KPK & 9 Nilai Integritas',
+    icon: 'view_timeline',
+  },
   {
     id: 'merchandise',
     label: 'SIMAK Store & Danus HARLAH',
