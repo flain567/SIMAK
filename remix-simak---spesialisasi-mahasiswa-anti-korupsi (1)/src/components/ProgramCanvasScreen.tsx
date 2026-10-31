@@ -259,6 +259,7 @@ export const ProgramCanvasScreen: React.FC<ProgramCanvasScreenProps> = ({
   // State khusus KOPASUS Multi-Year & Multi-Day
   const [selectedBatchYear, setSelectedBatchYear] = useState<number>(2026);
   const [selectedDayFilter, setSelectedDayFilter] = useState<number | 'all'>('all');
+  const [visiblePhotoCount, setVisiblePhotoCount] = useState<number>(24);
   const [lightboxPhoto, setLightboxPhoto] = useState<ArchivePhoto | null>(null);
 
   const currentProgram = PROGRAMS_CONFIG[activeProgramId] || PROGRAMS_CONFIG.kopasus;
@@ -631,7 +632,10 @@ export const ProgramCanvasScreen: React.FC<ProgramCanvasScreenProps> = ({
             <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
               <button
                 type="button"
-                onClick={() => setSelectedDayFilter('all')}
+                onClick={() => {
+                  setSelectedDayFilter('all');
+                  setVisiblePhotoCount(24);
+                }}
                 className={`px-4 py-2 rounded-xl text-xs font-black cursor-pointer transition-all flex items-center gap-1.5 ${
                   selectedDayFilter === 'all'
                     ? 'bg-primary text-on-primary shadow-sm scale-102'
@@ -645,7 +649,10 @@ export const ProgramCanvasScreen: React.FC<ProgramCanvasScreenProps> = ({
                 <button
                   key={day.dayNumber}
                   type="button"
-                  onClick={() => setSelectedDayFilter(day.dayNumber)}
+                  onClick={() => {
+                    setSelectedDayFilter(day.dayNumber);
+                    setVisiblePhotoCount(24);
+                  }}
                   className={`px-4 py-2 rounded-xl text-xs font-black cursor-pointer transition-all flex items-center gap-1.5 ${
                     selectedDayFilter === day.dayNumber
                       ? 'bg-primary text-on-primary shadow-sm scale-102'
@@ -662,42 +669,67 @@ export const ProgramCanvasScreen: React.FC<ProgramCanvasScreenProps> = ({
 
             {/* Grid Foto Dokumentasi */}
             {displayedPhotos.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {displayedPhotos.map((photo) => (
-                  <div
-                    key={photo.id}
-                    onClick={() => setLightboxPhoto(photo)}
-                    className="group relative rounded-2xl overflow-hidden bg-surface-container border border-outline-variant/40 shadow-xs hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer"
-                  >
-                    <div className="aspect-4/3 overflow-hidden bg-surface-container-high">
-                      <img
-                        src={photo.url}
-                        alt={photo.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        loading="lazy"
-                      />
-                    </div>
-
-                    <div className="p-4 space-y-1">
-                      <div className="flex items-center justify-between">
-                        <h4 className="text-sm font-black text-on-surface line-clamp-1">{photo.title}</h4>
-                        {photo.isHighlight && (
-                          <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 text-[10px] font-bold">
-                            Highlight
-                          </span>
-                        )}
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {displayedPhotos.slice(0, visiblePhotoCount).map((photo) => (
+                    <div
+                      key={photo.id}
+                      onClick={() => setLightboxPhoto(photo)}
+                      className="group relative rounded-2xl overflow-hidden bg-surface-container border border-outline-variant/40 shadow-xs hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer"
+                    >
+                      <div className="aspect-4/3 overflow-hidden bg-surface-container-high">
+                        <img
+                          src={photo.url}
+                          alt={photo.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          loading="lazy"
+                        />
                       </div>
-                      <p className="text-xs text-secondary line-clamp-2">{photo.caption}</p>
-                    </div>
 
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                      <span className="px-3 py-1.5 rounded-xl bg-white/90 text-black text-xs font-bold flex items-center gap-1 shadow-lg">
-                        <span className="material-symbols-outlined text-[16px]">zoom_in</span>
-                        Perbesar Foto
-                      </span>
+                      <div className="p-4 space-y-1">
+                        <div className="flex items-center justify-between">
+                          <h4 className="text-sm font-black text-on-surface line-clamp-1">{photo.title}</h4>
+                          {photo.isHighlight && (
+                            <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 text-[10px] font-bold">
+                              Highlight
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-secondary line-clamp-2">{photo.caption}</p>
+                      </div>
+
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                        <span className="px-3 py-1.5 rounded-xl bg-white/90 text-black text-xs font-bold flex items-center gap-1 shadow-lg">
+                          <span className="material-symbols-outlined text-[16px]">zoom_in</span>
+                          Perbesar Foto
+                        </span>
+                      </div>
                     </div>
+                  ))}
+                </div>
+
+                {/* Pagination Controls */}
+                {visiblePhotoCount < displayedPhotos.length && (
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
+                    <button
+                      type="button"
+                      onClick={() => setVisiblePhotoCount((prev) => Math.min(prev + 24, displayedPhotos.length))}
+                      className="px-6 py-3 rounded-2xl bg-primary hover:bg-primary-dim text-on-primary font-black text-xs shadow-md transition-all cursor-pointer flex items-center gap-2"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">expand_more</span>
+                      <span>Muat 24 Foto Berikutnya (Sisa {displayedPhotos.length - visiblePhotoCount} Foto)</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setVisiblePhotoCount(displayedPhotos.length)}
+                      className="px-5 py-3 rounded-2xl bg-surface-container hover:bg-surface-container-high text-on-surface font-bold text-xs border border-outline-variant/40 transition-colors cursor-pointer flex items-center gap-1.5"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">photo_library</span>
+                      <span>Tampilkan Seluruh {displayedPhotos.length} Foto Sekaligus</span>
+                    </button>
                   </div>
-                ))}
+                )}
               </div>
             ) : (
               <div className="p-10 rounded-2xl bg-surface-container-low border border-dashed border-outline-variant/50 text-center space-y-3">
