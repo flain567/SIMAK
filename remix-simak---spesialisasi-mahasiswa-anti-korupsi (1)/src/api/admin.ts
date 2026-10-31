@@ -124,43 +124,59 @@ export async function fetchAdminParticipants(params?: {
 
   const query = searchParams.toString() ? `?${searchParams.toString()}` : '';
 
+  let remoteParticipants: ParticipantRecord[] = [];
+
   try {
-    return await apiFetch<AdminParticipantsResponse>(`/api/admin/participants${query}`, {
+    const res = await apiFetch<AdminParticipantsResponse>(`/api/admin/participants${query}`, {
       token,
     });
+    remoteParticipants = res.participants || [];
   } catch (err) {
-    // Fallback lokal jika backend database offline
-    let list = getLocalParticipantsList();
-
-    if (params?.status && params.status !== 'Semua') {
-      const s = params.status.toUpperCase();
-      list = list.filter((p) => p.status?.toUpperCase().includes(s));
-    }
-
-    if (params?.q) {
-      const qLower = params.q.toLowerCase();
-      list = list.filter(
-        (p) =>
-          p.fullName.toLowerCase().includes(qLower) ||
-          p.nim.toLowerCase().includes(qLower) ||
-          p.ticketCode.toLowerCase().includes(qLower) ||
-          (p.whatsapp && p.whatsapp.includes(qLower))
-      );
-    }
-
-    const page = params?.page || 1;
-    const limit = params?.limit || 50;
-    const total = list.length;
-    const totalPages = Math.max(1, Math.ceil(total / limit));
-    const paginated = list.slice((page - 1) * limit, page * limit);
-
-    return {
-      participants: paginated,
-      total,
-      page,
-      totalPages,
-    };
+    // Backend offline / Vercel static mode
   }
+
+  // Ambil list lokal (termasuk yang baru mendaftar di browser)
+  const localList = getLocalParticipantsList();
+
+  // Gabungkan peserta lokal dan remote (prioritaskan yang lokal/terbaru)
+  const map = new Map<string, ParticipantRecord>();
+  localList.forEach((p) => map.set(p.ticketCode.toUpperCase(), p));
+  remoteParticipants.forEach((p) => {
+    if (!map.has(p.ticketCode.toUpperCase())) {
+      map.set(p.ticketCode.toUpperCase(), p);
+    }
+  });
+
+  let combinedList = Array.from(map.values());
+
+  if (params?.status && params.status !== 'Semua') {
+    const s = params.status.toUpperCase();
+    combinedList = combinedList.filter((p) => p.status?.toUpperCase().includes(s));
+  }
+
+  if (params?.q) {
+    const qLower = params.q.toLowerCase();
+    combinedList = combinedList.filter(
+      (p) =>
+        p.fullName.toLowerCase().includes(qLower) ||
+        p.nim.toLowerCase().includes(qLower) ||
+        p.ticketCode.toLowerCase().includes(qLower) ||
+        (p.whatsapp && p.whatsapp.includes(qLower))
+    );
+  }
+
+  const page = params?.page || 1;
+  const limit = params?.limit || 50;
+  const total = combinedList.length;
+  const totalPages = Math.max(1, Math.ceil(total / limit));
+  const paginated = combinedList.slice((page - 1) * limit, page * limit);
+
+  return {
+    participants: paginated,
+    total,
+    page,
+    totalPages,
+  };
 }
 
 /**
@@ -475,57 +491,90 @@ export async function verifyAttendance(params: {
   const token = getStoredToken();
   if (!token) throw new Error('Autentikasi admin/panitia diperlukan.');
 
+  let backendResult: AttendanceScanResult | null = null;
   try {
-    return await apiFetch<AttendanceScanResult>('/api/admin/attendance/verify-qr', {
+    backendResult = await apiFetch<AttendanceScanResult>('/api/admin/attendance/verify-qr', {
       method: 'POST',
       body: JSON.stringify(params),
       token,
     });
+    if (backendResult?.success) {
+      // Sinkronkan ke local cache
+      const list = getLocalParticipantsList();
+      const target = list.find((p) => p.ticketCode === backendResult!.participant?.ticketCode);
+      if (target) {
+        target.status = 'HADIR';
+        target.checkedInAt = backendResult.participant?.checkedInAt || new Date().toISOString();
+        saveLocalParticipantsList(list);
+      }
+      return backendResult;
+    }
   } catch {
-    const list = getLocalParticipantsList();
-    const query = (params.ticketCode || params.nim || '').trim().toUpperCase();
+    // Lanjutkan verifikasi lokal jika backend offline atau data disimpan di browser
+  }
 
-    let found = list.find(
-      (p) =>
-        (query && (p.ticketCode.toUpperCase() === query || p.nim.toUpperCase() === query)) ||
-        (params.qrPayload && (params.qrPayload.includes(p.ticketCode) || params.qrPayload.includes(p.nim)))
+  const list = getLocalParticipantsList();
+  const rawInput = (params.qrPayload || params.ticketCode || params.nim || '').trim();
+  const query = rawInput.toUpperCase();
+
+  // Ekstrak kode dan NIM jika formatnya 'GUEST-HRL-XXXX:NIM'
+  const colonIndex = query.indexOf(':');
+  const codePart = colonIndex !== -1 ? query.slice(0, colonIndex).trim() : query;
+  const secondPart = colonIndex !== -1 ? query.slice(colonIndex + 1).trim() : '';
+
+  let found = list.find((p) => {
+    const pTicket = p.ticketCode.toUpperCase();
+    const pNim = p.nim.toUpperCase();
+    const pName = p.fullName.toUpperCase();
+
+    return (
+      pTicket === query ||
+      pTicket === codePart ||
+      pNim === query ||
+      pNim === secondPart ||
+      pName.includes(query) ||
+      (codePart && pTicket.includes(codePart)) ||
+      (rawInput && (p.qrPayload?.includes(rawInput) || rawInput.includes(p.ticketCode)))
     );
+  });
 
-    if (!found && params.qrPayload) {
-      try {
-        const parsed = JSON.parse(params.qrPayload);
-        if (parsed.ticketCode) {
-          found = list.find((p) => p.ticketCode.toUpperCase() === parsed.ticketCode.toUpperCase());
-        }
-      } catch {}
-    }
+  if (!found && params.qrPayload) {
+    try {
+      const parsed = JSON.parse(params.qrPayload);
+      if (parsed.ticketCode) {
+        found = list.find((p) => p.ticketCode.toUpperCase() === parsed.ticketCode.toUpperCase());
+      }
+    } catch {}
+  }
 
-    if (!found) {
-      return { success: false, error: 'Peserta atau kode tiket tidak ditemukan dalam database.' };
-    }
-
-    const wasAlreadyHadir = found.status?.toUpperCase() === 'HADIR';
-    const checkInTime = new Date().toISOString();
-    found.status = 'HADIR';
-    found.checkedInAt = checkInTime;
-    saveLocalParticipantsList(list);
-
+  if (!found) {
     return {
-      success: true,
-      alreadyCheckedIn: wasAlreadyHadir,
-      isHmacVerified: true,
-      participant: {
-        id: found.id,
-        ticketCode: found.ticketCode,
-        fullName: found.fullName,
-        nim: found.nim,
-        seatNumber: found.seatNumber || 'A-01',
-        session: found.session || found.examSession || 'Puncak HARLAH SIMAK 16',
-        status: 'HADIR',
-        checkedInAt: checkInTime,
-      },
+      success: false,
+      error: `Peserta "${rawInput}" tidak ditemukan dalam database peserta HARLAH.`,
     };
   }
+
+  const wasAlreadyHadir = found.status?.toUpperCase() === 'HADIR';
+  const checkInTime = new Date().toISOString();
+  found.status = 'HADIR';
+  found.checkedInAt = checkInTime;
+  saveLocalParticipantsList(list);
+
+  return {
+    success: true,
+    alreadyCheckedIn: wasAlreadyHadir,
+    isHmacVerified: true,
+    participant: {
+      id: found.id,
+      ticketCode: found.ticketCode,
+      fullName: found.fullName,
+      nim: found.nim,
+      seatNumber: found.seatNumber || 'A-01',
+      session: found.session || found.examSession || 'Puncak HARLAH SIMAK 16',
+      status: 'HADIR',
+      checkedInAt: checkInTime,
+    },
+  };
 }
 
 /**

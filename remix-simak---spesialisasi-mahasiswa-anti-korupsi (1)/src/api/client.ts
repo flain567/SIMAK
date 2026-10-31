@@ -48,5 +48,10 @@ export async function apiFetch<T>(
     throw new ApiError(res.status, message, body);
   }
 
+  const contentType = res.headers.get('content-type') || '';
+  if (!contentType.includes('application/json')) {
+    throw new ApiError(res.status, 'Endpoint API tidak mengembalikan respon JSON valid');
+  }
+
   return res.json() as Promise<T>;
 }

@@ -9,16 +9,21 @@
 
 import { ParticipantRecord } from '../types';
 import { apiFetch, IS_BACKEND_ENABLED } from './client';
+import { INITIAL_PARTICIPANTS } from '../data/mockData';
 
 // ─── Helpers localStorage (fallback) ────────────────────────
 
 function loadLocalParticipants(): ParticipantRecord[] {
   try {
     const raw = localStorage.getItem('simak_participants_v1');
-    return raw ? JSON.parse(raw) : [];
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
   } catch {
-    return [];
+    // ignore parse error
   }
+  return [...INITIAL_PARTICIPANTS];
 }
 
 function saveLocalParticipants(list: ParticipantRecord[]): void {
@@ -58,30 +63,38 @@ export interface LookupResult {
 
 /**
  * Daftarkan peserta HARLAH baru.
- * Backend → POST /api/participants
- * Fallback → localStorage (identik dengan logika lama App.tsx)
+ * Backend → POST /api/participants (dengan fallback otomatis ke localStorage)
  */
 export async function registerParticipant(
   payload: RegisterPayload
 ): Promise<RegisterResult> {
+  const existing = loadLocalParticipants();
+
   if (IS_BACKEND_ENABLED) {
-    const data = await apiFetch<ParticipantRecord & { qrPayload?: string }>(
-      '/api/participants',
-      { method: 'POST', body: JSON.stringify(payload) }
-    );
-    const { qrPayload, ...participant } = data;
-    return { participant, qrPayload };
+    try {
+      const data = await apiFetch<ParticipantRecord & { qrPayload?: string }>(
+        '/api/participants',
+        { method: 'POST', body: JSON.stringify(payload) }
+      );
+      const { qrPayload, ...participant } = data;
+      // Sinkronkan juga ke cache localStorage
+      const updated = [participant, ...existing.filter(p => p.nim !== participant.nim)];
+      saveLocalParticipants(updated);
+      return { participant, qrPayload };
+    } catch (err) {
+      console.warn('Backend gagal dihubungi, mendaftar via penyimpanan lokal:', err);
+    }
   }
 
   // ── Fallback: localStorage ──
-  const existing = loadLocalParticipants();
+  const cleanNim = payload.nim.trim().toUpperCase();
 
   // Cek duplikasi NIM
-  if (existing.some(p => p.nim === payload.nim.trim())) {
-    throw new Error('NIM sudah terdaftar. Setiap mahasiswa hanya boleh mendaftar satu kali.');
+  if (existing.some(p => p.nim.toUpperCase() === cleanNim)) {
+    throw new Error('NIM sudah terdaftar. Setiap mahasiswa/tamu hanya boleh mendaftar satu kali.');
   }
 
-  // Generate kode client-side (hanya untuk mode offline)
+  // Generate kode unik
   const suffix = Math.random().toString(36).slice(2, 6).toUpperCase();
   const ticketCode = `GUEST-HRL-${suffix}`;
   const examNumber = `KPS-${new Date().getFullYear()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
@@ -92,15 +105,15 @@ export async function registerParticipant(
     ticketCode,
     examNumber,
     seatNumber,
-    gate: 'Pintu Utama',
-    examRoom: 'Aula Utama',
-    examSession: 'Sesi 1',
+    gate: 'Pintu Utama Auditorium',
+    examRoom: 'Auditorium Utama Institut STIAMI',
+    examSession: payload.session || 'Puncak HARLAH SIMAK 16 (08.30 - 15.00 WIB)',
     examDate: '29 Januari 2027',
     fullName: payload.fullName.trim(),
-    nim: payload.nim.trim(),
-    whatsapp: payload.whatsapp,
+    nim: cleanNim,
+    whatsapp: payload.whatsapp.trim(),
     email: payload.email.trim(),
-    programStudi: payload.programStudi || 'Tidak Disebutkan',
+    programStudi: payload.programStudi || 'Tamu Undangan',
     campus: payload.campus || 'Kampus Utama STIAMI',
     semester: payload.semester || 'Tamu Undangan',
     division: payload.division || '-',
@@ -112,11 +125,12 @@ export async function registerParticipant(
     avatarUrl: '',
     registeredAt: new Date().toISOString(),
     status: 'MENUNGGU VERIFIKASI',
+    qrPayload: `${ticketCode}:${cleanNim}`,
   };
 
   const updated = [newRecord, ...existing];
   saveLocalParticipants(updated);
-  return { participant: newRecord };
+  return { participant: newRecord, qrPayload: newRecord.qrPayload };
 }
 
 /**

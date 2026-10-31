@@ -366,6 +366,8 @@ export default function App() {
           <AdminPanelScreen
             onNavigate={setActiveScreen}
             onSelectParticipantForTicket={handleSelectParticipantForTicket}
+            liveParticipants={participants}
+            onUpdateParticipants={setParticipants}
           />
         )}
       </main>

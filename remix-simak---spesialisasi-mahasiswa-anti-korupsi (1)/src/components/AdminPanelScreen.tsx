@@ -26,11 +26,15 @@ import {
 interface AdminPanelScreenProps {
   onNavigate: (screen: ScreenId) => void;
   onSelectParticipantForTicket?: (p: ParticipantRecord) => void;
+  liveParticipants?: ParticipantRecord[];
+  onUpdateParticipants?: (list: ParticipantRecord[]) => void;
 }
 
 export const AdminPanelScreen: React.FC<AdminPanelScreenProps> = ({
   onNavigate,
   onSelectParticipantForTicket,
+  liveParticipants,
+  onUpdateParticipants,
 }) => {
   // --- Auth State ---
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -139,8 +143,21 @@ export const AdminPanelScreen: React.FC<AdminPanelScreenProps> = ({
         status: statusFilter === 'Semua' ? undefined : statusFilter,
         q: searchQuery || undefined,
       });
-      setParticipants(res.participants);
-      setParticipantsTotal(res.total);
+
+      let currentList = [...res.participants];
+      if (liveParticipants && liveParticipants.length > 0) {
+        const existingCodes = new Set(currentList.map((p) => p.ticketCode.toUpperCase()));
+        liveParticipants.forEach((p) => {
+          if (!existingCodes.has(p.ticketCode.toUpperCase())) {
+            if (statusFilter === 'Semua' || p.status?.toUpperCase().includes(statusFilter.toUpperCase())) {
+              currentList.unshift(p);
+            }
+          }
+        });
+      }
+
+      setParticipants(currentList);
+      setParticipantsTotal(Math.max(res.total, currentList.length));
     } catch (err: any) {
       console.error(err);
     } finally {
@@ -210,6 +227,12 @@ export const AdminPanelScreen: React.FC<AdminPanelScreenProps> = ({
         setQrInput('');
         loadAttendanceData();
         loadParticipants();
+        if (onUpdateParticipants) {
+          const raw = localStorage.getItem('simak_participants_v1');
+          if (raw) {
+            try { onUpdateParticipants(JSON.parse(raw)); } catch {}
+          }
+        }
       }
     } catch (err: any) {
       setScanResult({
