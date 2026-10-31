@@ -7,7 +7,7 @@ interface CameraScannerModalProps {
 }
 
 // Suara Beep Sukses Presensi menggunakan Web Audio API (Tanpa file eksternal)
-function playBeepChime() {
+export function playBeepChime() {
   try {
     const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
     if (!AudioCtx) return;
@@ -28,6 +28,32 @@ function playBeepChime() {
 
     osc.start();
     osc.stop(ctx.currentTime + 0.3);
+  } catch {}
+}
+
+// Suara Buzzer Peringatan (Sudah Check-In / Tiket Ganda)
+export function playWarningBuzzer() {
+  try {
+    const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'sawtooth';
+    // Nada peringatan turun
+    osc.frequency.setValueAtTime(320, ctx.currentTime);
+    osc.frequency.setValueAtTime(220, ctx.currentTime + 0.12);
+    osc.frequency.setValueAtTime(160, ctx.currentTime + 0.24);
+
+    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.45);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start();
+    osc.stop(ctx.currentTime + 0.45);
   } catch {}
 }
 
@@ -151,23 +177,16 @@ export const CameraScannerModal: React.FC<CameraScannerModalProps> = ({
           if (rawValue && rawValue !== lastScannedText) {
             setLastScannedText(rawValue);
 
-            if (soundEnabled) {
-              playBeepChime();
-            }
-            if (navigator.vibrate) {
-              navigator.vibrate([80, 40, 80]);
-            }
-
             onScanSuccess(rawValue);
 
             if (!continuousMode) {
               stopCamera();
               onClose();
             } else {
-              // Delay sebentar sebelum bisa scan tiket yang sama lagi
+              // Cooldown 4 detik agar tidak memindai barcode yang sama berulang kali
               setTimeout(() => {
                 setLastScannedText(null);
-              }, 3000);
+              }, 4000);
             }
           }
         }

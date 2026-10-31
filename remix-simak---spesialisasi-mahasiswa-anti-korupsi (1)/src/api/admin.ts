@@ -586,7 +586,27 @@ export async function verifyAttendance(params: {
     };
   }
 
-  const wasAlreadyHadir = found.status?.toUpperCase() === 'HADIR';
+  const wasAlreadyHadir = (found.status || '').toUpperCase() === 'HADIR';
+  if (wasAlreadyHadir) {
+    const originalTime = found.checkedInAt || found.registeredAt || new Date().toISOString();
+    return {
+      success: false,
+      alreadyCheckedIn: true,
+      isHmacVerified: true,
+      error: `Sudah check-in, jangan dilakukan berulang kali! Peserta atas nama "${found.fullName}" (${found.seatNumber || 'Kursi Tamu'}) sudah tercatat hadir sebelumnya.`,
+      participant: {
+        id: found.id,
+        ticketCode: found.ticketCode,
+        fullName: found.fullName,
+        nim: found.nim,
+        seatNumber: found.seatNumber || 'A-01',
+        session: found.session || found.examSession || 'Puncak HARLAH SIMAK 16',
+        status: 'HADIR',
+        checkedInAt: originalTime,
+      },
+    };
+  }
+
   const checkInTime = new Date().toISOString();
   found.status = 'HADIR';
   found.checkedInAt = checkInTime;
@@ -604,7 +624,7 @@ export async function verifyAttendance(params: {
 
   return {
     success: true,
-    alreadyCheckedIn: wasAlreadyHadir,
+    alreadyCheckedIn: false,
     isHmacVerified: true,
     participant: {
       id: found.id,

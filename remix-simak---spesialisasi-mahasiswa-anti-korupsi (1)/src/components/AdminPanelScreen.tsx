@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ScreenId, ParticipantRecord } from '../types';
-import { CameraScannerModal } from './CameraScannerModal';
+import { CameraScannerModal, playBeepChime, playWarningBuzzer } from './CameraScannerModal';
 import {
   adminLogin,
   verifyToken,
@@ -211,7 +211,18 @@ export const AdminPanelScreen: React.FC<AdminPanelScreenProps> = ({
       const res = await verifyAttendance({ qrPayload: input, ticketCode: input });
       setScanResult(res);
 
-      if (res.success && res.participant) {
+      if (res.alreadyCheckedIn) {
+        // Peringatan check-in ganda
+        playWarningBuzzer();
+        if (navigator.vibrate) {
+          navigator.vibrate([150, 80, 150]);
+        }
+        setActionSuccess(null);
+      } else if (res.success && res.participant) {
+        playBeepChime();
+        if (navigator.vibrate) {
+          navigator.vibrate([80, 40, 80]);
+        }
         setActionSuccess(`Check-in Berhasil: ${res.participant.fullName} (${res.participant.seatNumber})`);
         setTimeout(() => setActionSuccess(null), 4500);
         setRecentCheckIns((prev) => [
@@ -873,19 +884,38 @@ export const AdminPanelScreen: React.FC<AdminPanelScreenProps> = ({
                         </div>
                       </div>
                     ) : scanResult.alreadyCheckedIn ? (
-                      <div className="p-5 rounded-2xl bg-amber-50 border-2 border-amber-400 text-amber-950 space-y-2">
-                        <div className="flex items-center gap-2">
-                          <span className="material-symbols-outlined text-amber-600 text-[26px]">warning</span>
-                          <span className="font-extrabold text-sm uppercase tracking-wider text-amber-900">
-                            Peringatan: Sudah Pernah Check-In
+                      <div className="p-5 rounded-2xl bg-amber-500/10 border-2 border-amber-500 text-amber-950 dark:text-amber-100 space-y-3">
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                          <div className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-amber-600 dark:text-amber-400 text-[28px]">
+                              warning
+                            </span>
+                            <span className="font-black text-sm uppercase tracking-wider text-amber-900 dark:text-amber-200">
+                              Sudah Check-In, Jangan Dilakukan Berulang Kali!
+                            </span>
+                          </div>
+                          <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300 text-[10px] font-extrabold uppercase tracking-wider">
+                            Tiket Sudah Terpakai
                           </span>
                         </div>
-                        <p className="text-xs text-amber-800">
-                          Peserta <strong>{scanResult.participant?.fullName}</strong> ({scanResult.participant?.seatNumber}) telah tercatat hadir pada{' '}
-                          <span className="font-bold underline">
-                            {new Date(scanResult.participant?.checkedInAt || '').toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })} WIB
-                          </span>.
-                        </p>
+
+                        <div className="p-3.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-xs space-y-2">
+                          <p className="font-bold text-sm text-amber-950 dark:text-amber-100">
+                            Peserta <span className="underline">{scanResult.participant?.fullName}</span> ({scanResult.participant?.seatNumber || 'Kursi Tamu'}) sudah tercatat hadir.
+                          </p>
+                          <div className="flex items-center gap-4 text-[11px] text-amber-800 dark:text-amber-300 font-mono">
+                            <span>Kode: <strong>{scanResult.participant?.ticketCode}</strong></span>
+                            <span>•</span>
+                            <span>
+                              Waktu Masuk: <strong>{scanResult.participant?.checkedInAt ? new Date(scanResult.participant.checkedInAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' WIB' : 'Sebelumnya'}</strong>
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 text-[11px] text-amber-800/90 dark:text-amber-300/80 pt-1 border-t border-amber-500/20">
+                          <span className="material-symbols-outlined text-[15px]">security</span>
+                          <span>Demi keamanan dan pencegahan tiket ganda, satu tiket hanya valid untuk 1 kali akses masuk.</span>
+                        </div>
                       </div>
                     ) : (
                       <div className="p-5 rounded-2xl bg-red-50 border-2 border-red-400 text-red-950 space-y-2">
