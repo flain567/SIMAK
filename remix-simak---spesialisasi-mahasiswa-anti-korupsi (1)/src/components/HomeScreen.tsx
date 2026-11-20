@@ -1385,15 +1385,16 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
                 {/* Architectural Branch Connector: Tier 1 to Tier 2 (3 Wakil Ketua Umum) */}
                 <div className="w-0.5 h-6 bg-primary/40"></div>
-                <div className="hidden lg:block w-3/4 h-0.5 bg-primary/30 relative">
-                  <div className="absolute left-0 top-0 w-0.5 h-4 bg-primary/30"></div>
-                  <div className="absolute left-1/2 top-0 w-0.5 h-4 bg-primary/30"></div>
-                  <div className="absolute right-0 top-0 w-0.5 h-4 bg-primary/30"></div>
+                <div className="hidden md:block w-full relative h-4">
+                  <div className="absolute left-[16.66%] right-[16.66%] top-0 h-0.5 bg-primary/30"></div>
+                  <div className="absolute left-[16.66%] top-0 w-0.5 h-4 bg-primary/30"></div>
+                  <div className="absolute left-1/2 -translate-x-1/2 top-0 w-0.5 h-4 bg-primary/30"></div>
+                  <div className="absolute right-[16.66%] top-0 w-0.5 h-4 bg-primary/30"></div>
                 </div>
-                <div className="hidden lg:block h-4"></div>
 
                 {/* Tier 2: 3 Wakil Ketua Umum + 8 Divisi di Bawahnya */}
-                <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-space-md items-stretch">
+                <div className="w-full relative grid grid-cols-1 md:grid-cols-3 gap-space-md items-stretch">
+                  <div className="md:hidden absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-primary/30"></div>
                   {[
                     BPH_LEADERS.fathan,
                     BPH_LEADERS.dwi,
@@ -1402,7 +1403,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                     <div
                       key={leader.id}
                       onClick={() => setSelectedLeader(leader)}
-                      className="group p-space-md rounded-xl bg-surface-container-lowest border border-outline-variant/50 hover:border-primary/50 shadow-sm hover:shadow-lg flex flex-col items-center text-center justify-between gap-space-xs transition-all cursor-pointer h-full"
+                      className="group relative p-space-md rounded-xl bg-surface-container-lowest border border-outline-variant/50 hover:border-primary/50 shadow-sm hover:shadow-lg flex flex-col items-center text-center justify-between gap-space-xs transition-all cursor-pointer h-full"
                     >
                       <div className="flex flex-col items-center w-full">
                         <div className="w-16 h-16 rounded-full overflow-hidden bg-surface-container shrink-0 ring-2 ring-primary/15 group-hover:ring-primary transition-all">
@@ -1466,12 +1467,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 </div>
 
                 {/* Tier 3: Kesekretariatan (Sekretaris 1 & 2) & Kebendaharaan (Bendahara Umum) */}
-                <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-space-md">
+                <div className="w-full max-w-5xl relative grid grid-cols-1 md:grid-cols-3 gap-space-md">
+                  <div className="md:hidden absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-primary/30"></div>
                   {[BPH_LEADERS.elvira, BPH_LEADERS.nabila, BPH_LEADERS.rusni].map((leader) => (
                     <div
                       key={leader.id}
                       onClick={() => setSelectedLeader(leader)}
-                      className="group p-space-md rounded-xl bg-surface-container-lowest border border-outline-variant/50 hover:border-primary/50 shadow-sm hover:shadow-lg flex items-center gap-space-sm transition-all cursor-pointer"
+                      className="group relative p-space-md rounded-xl bg-surface-container-lowest border border-outline-variant/50 hover:border-primary/50 shadow-sm hover:shadow-lg flex items-center gap-space-sm transition-all cursor-pointer"
                     >
                       <div className="w-14 h-14 rounded-full overflow-hidden bg-surface-container shrink-0 ring-2 ring-primary/15 group-hover:ring-primary transition-all">
                         <img
