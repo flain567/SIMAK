@@ -1392,7 +1392,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   <div className="absolute right-[16.66%] top-0 w-0.5 h-4 bg-primary/30"></div>
                 </div>
 
-                {/* Tier 2: 3 Wakil Ketua Umum + 8 Divisi di Bawahnya */}
+                {/* Tier 2: 3 Wakil Ketua Umum (kartu ringkas segaya kartu BPH lain) */}
                 <div className="w-full relative grid grid-cols-1 md:grid-cols-3 gap-space-md items-stretch">
                   <div className="md:hidden absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-primary/30"></div>
                   {[
@@ -1403,54 +1403,36 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                     <div
                       key={leader.id}
                       onClick={() => setSelectedLeader(leader)}
-                      className="group relative p-space-md rounded-xl bg-surface-container-lowest border border-outline-variant/50 hover:border-primary/50 shadow-sm hover:shadow-lg flex flex-col items-center text-center justify-between gap-space-xs transition-all cursor-pointer h-full"
+                      className="group relative p-space-md rounded-xl bg-surface-container-lowest border border-outline-variant/50 hover:border-primary/50 shadow-sm hover:shadow-lg flex items-center gap-space-sm transition-all cursor-pointer"
                     >
-                      <div className="flex flex-col items-center w-full">
-                        <div className="w-16 h-16 rounded-full overflow-hidden bg-surface-container shrink-0 ring-2 ring-primary/15 group-hover:ring-primary transition-all">
-                          <img
-                            className="w-full h-full object-cover"
-                            alt={`${leader.fullName} - ${leader.roleBadge}`}
-                            referrerPolicy="no-referrer"
-                            src={leader.photo}
-                          />
+                      <div className="w-16 h-16 rounded-full overflow-hidden bg-surface-container shrink-0 ring-2 ring-primary/15 group-hover:ring-primary transition-all">
+                        <img
+                          className="w-full h-full object-cover"
+                          alt={`${leader.fullName} - ${leader.roleBadge}`}
+                          referrerPolicy="no-referrer"
+                          src={leader.photo}
+                        />
+                      </div>
+                      <div className="flex flex-col flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <span className="inline-block px-2.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm font-bold uppercase tracking-wider">
+                            {leader.roleBadge}
+                          </span>
+                          <span className="font-mono text-[11px] font-bold text-secondary">
+                            {leader.nia}
+                          </span>
                         </div>
-                        <span className="px-2.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm font-bold uppercase mt-2">
-                          {leader.roleBadge}
-                        </span>
                         <h4 className="font-headline-sm text-headline-sm font-bold text-on-surface group-hover:text-primary transition-colors mt-1">
                           {leader.fullName}
                         </h4>
-                        <p className="font-label-sm text-label-sm text-on-surface-variant leading-snug min-h-[34px] flex items-center justify-center">
+                        <span className="font-label-sm text-label-sm text-on-surface-variant leading-snug">
                           {leader.divisionTitle}
-                        </p>
-                      </div>
-
-                      {/* Sub-Divisi Box under each Wakil Ketua */}
-                      {leader.subDivisions && leader.subDivisions.length > 0 && (
-                        <div className="w-full mt-2 pt-2.5 border-t border-outline-variant/30 flex flex-col gap-1.5 text-left">
-                          <span className="text-[10px] font-extrabold uppercase tracking-wider text-secondary text-center">
-                            Membawahi {leader.subDivisions.length} Divisi:
-                          </span>
-                          {leader.subDivisions.map((sub, idx) => (
-                            <div
-                              key={idx}
-                              className="px-2.5 py-2 rounded-lg bg-surface-container-low group-hover:bg-primary-fixed/40 border border-outline-variant/30 flex items-center gap-2 transition-colors"
-                            >
-                              <span className="material-symbols-outlined text-primary text-[16px] shrink-0">
-                                {sub.icon}
-                              </span>
-                              <span className="text-xs font-bold text-on-surface leading-tight truncate">
-                                {sub.name}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      <div className="pt-2.5 mt-2 w-full border-t border-surface-container flex items-center justify-between text-[11px] text-secondary">
-                        <span className="font-mono">{leader.nia}</span>
-                        <span className="font-bold text-primary inline-flex items-center gap-0.5">
-                          Detail <span className="material-symbols-outlined text-[14px]">open_in_new</span>
+                        </span>
+                        <span className="font-label-sm text-label-sm text-secondary leading-snug truncate">
+                          Membawahi: {leader.subDivisions?.map((sub) => sub.name.replace('Divisi ', '')).join(', ')}
+                        </span>
+                        <span className="mt-1.5 text-xs font-bold text-primary inline-flex items-center gap-1">
+                          Detail <span className="material-symbols-outlined text-[15px]">open_in_new</span>
                         </span>
                       </div>
                     </div>
