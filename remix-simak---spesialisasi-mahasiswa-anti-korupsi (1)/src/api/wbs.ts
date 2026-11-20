@@ -1,9 +1,16 @@
 /**
  * wbs.ts — API adapter untuk Whistleblower System
+ * Mode offline: isi laporan dienkripsi AES-256-GCM (lihat utils/wbsCrypto.ts)
+ * sebelum disimpan; hanya pemegang kode lacak yang dapat membuka isinya.
  */
 
 import { WhistleblowerReport } from '../types';
 import { apiFetch, IS_BACKEND_ENABLED } from './client';
+import {
+  generateTrackingCode,
+  encryptWbsPayload,
+  decryptWbsPayload,
+} from '../utils/wbsCrypto';
 
 // ─── Helpers localStorage ────────────────────────────────────
 
@@ -47,28 +54,57 @@ export interface TrackResult {
   submittedAt: string;
 }
 
+function formatSubmittedAt(): string {
+  return new Date().toLocaleDateString('id-ID', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+}
+
 // ─── API Functions ────────────────────────────────────────────
 
 /**
  * Submit laporan WBS baru.
- * Backend → POST /api/wbs/reports
- * Fallback → localStorage
+ * Backend → POST /api/wbs/reports (enkripsi di server)
+ * Offline → enkripsi AES-256-GCM di klien, simpan ciphertext saja.
+ * Mengembalikan record tersimpan (terenkripsi) + kode lacak untuk pelapor.
  */
 export async function submitWbsReport(
   payload: SubmitReportPayload
-): Promise<{ trackingCode: string }> {
+): Promise<{ trackingCode: string; report: WhistleblowerReport }> {
   if (IS_BACKEND_ENABLED) {
-    return apiFetch<{ trackingCode: string }>('/api/wbs/reports', {
+    const { trackingCode } = await apiFetch<{ trackingCode: string }>('/api/wbs/reports', {
       method: 'POST',
       body: JSON.stringify(payload),
     });
+    const report: WhistleblowerReport = {
+      id: trackingCode,
+      trackingCode,
+      category: payload.category,
+      unitReported: payload.unitReported,
+      incidentDate: payload.incidentDate,
+      summary: '(enkripsi server)',
+      isAnonymous: payload.isAnonymous,
+      reporterIdentity: payload.isAnonymous
+        ? 'Anonim Penuh (Terenkripsi)'
+        : 'Pelapor Terverifikasi (Dirahasiakan Dewan Etik)',
+      submittedAt: formatSubmittedAt(),
+      status: 'Verifikasi Bukti',
+      progressStep: 2,
+      resolutionNote:
+        'Laporan diterima. Menunggu verifikasi oleh Dewan Etik SIMAK.',
+    };
+    return { trackingCode, report };
   }
 
-  // Fallback localStorage
-  const existing = loadLocalReports();
-  const year = new Date().getFullYear();
-  const num = Math.floor(1000 + Math.random() * 9000);
-  const trackingCode = `WBS-${year}-${num}`;
+  // Offline: kode lacak 48-bit dari CSPRNG, isi laporan dienkripsi sebelum disimpan
+  const trackingCode = generateTrackingCode();
+  const { encryptedPayload, cryptoSalt } = await encryptWbsPayload(trackingCode, {
+    summary: payload.summary,
+    evidenceUrl: payload.evidenceUrl,
+    reporterIdentity: payload.isAnonymous ? undefined : payload.reporterIdentity,
+  });
 
   const newReport: WhistleblowerReport = {
     id: `local-wbs-${Date.now()}`,
@@ -76,27 +112,28 @@ export async function submitWbsReport(
     category: payload.category,
     unitReported: payload.unitReported,
     incidentDate: payload.incidentDate,
-    summary: payload.summary,
-    evidenceUrl: payload.evidenceUrl,
+    summary: '',
     isAnonymous: payload.isAnonymous,
     reporterIdentity: payload.isAnonymous
-      ? 'Anonim Terenkripsi (SHA-256)'
-      : payload.reporterIdentity || 'Pelapor Terverifikasi (Dirahasiakan Dewan Etik)',
-    submittedAt: new Date().toLocaleString('id-ID'),
+      ? 'Anonim Terenkripsi (AES-256-GCM)'
+      : 'Pelapor Terverifikasi (Dirahasiakan Dewan Etik)',
+    encryptedPayload,
+    cryptoSalt,
+    submittedAt: formatSubmittedAt(),
     status: 'Verifikasi Bukti',
     progressStep: 2,
     resolutionNote:
       'Laporan diterima. Menunggu verifikasi oleh Dewan Etik SIMAK.',
   };
 
-  saveLocalReports([newReport, ...existing]);
-  return { trackingCode };
+  saveLocalReports([newReport, ...loadLocalReports()]);
+  return { trackingCode, report: newReport };
 }
 
 /**
  * Lacak status laporan berdasarkan kode PERSIS.
- * Backend → GET /api/wbs/reports/:code
- * Fallback → localStorage (kode persis)
+ * Laporan terenkripsi hanya terbuka bila kode lacak benar (kunci dekripsi
+ * diturunkan dari kode); kode salah → tidak ditemukan.
  */
 export async function trackWbsReport(
   code: string
@@ -104,7 +141,6 @@ export async function trackWbsReport(
   if (IS_BACKEND_ENABLED) {
     try {
       const data = await apiFetch<TrackResult>(`/api/wbs/reports/${encodeURIComponent(code)}`);
-      // Map ke tipe WhistleblowerReport untuk kompatibilitas
       return {
         id: data.trackingCode,
         trackingCode: data.trackingCode,
@@ -124,14 +160,41 @@ export async function trackWbsReport(
     }
   }
 
-  // Fallback localStorage — PERSIS, bukan fuzzy
-  const all = loadLocalReports();
-  return all.find(r => r.trackingCode === code) || null;
+  const found = loadLocalReports().find((r) => r.trackingCode === code);
+  if (!found) return null;
+
+  if (found.encryptedPayload && found.cryptoSalt) {
+    const secret = await decryptWbsPayload(code, found.encryptedPayload, found.cryptoSalt);
+    if (!secret) return null;
+    return {
+      ...found,
+      summary: secret.summary,
+      evidenceUrl: secret.evidenceUrl,
+      reporterIdentity: secret.reporterIdentity || found.reporterIdentity,
+    };
+  }
+  return found;
 }
 
 /**
- * Load semua laporan (untuk WhistleblowerScreen initial state)
+ * Load semua laporan tersimpan (record terenkripsi tetap terenkripsi).
  */
 export function getAllReportsLocal(): WhistleblowerReport[] {
   return loadLocalReports();
+}
+
+/**
+ * Update status tindak lanjut oleh Satgas/admin (mode offline).
+ * Isi terenkripsi tidak disentuh; hanya metadata status yang berubah.
+ */
+export function updateLocalWbsReport(
+  id: string,
+  patch: Partial<Pick<WhistleblowerReport, 'status' | 'progressStep' | 'resolutionNote'>>
+): WhistleblowerReport | null {
+  const all = loadLocalReports();
+  const idx = all.findIndex((r) => r.id === id);
+  if (idx === -1) return null;
+  all[idx] = { ...all[idx], ...patch };
+  saveLocalReports(all);
+  return all[idx];
 }

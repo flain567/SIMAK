@@ -38,6 +38,8 @@ export interface ParticipantRecord {
   guestCategory?: string;
   session?: string;
   qrPayload?: string;
+  checkedInAt?: string | null;
+  verifiedAt?: string | null;
 }
 
 export interface LibraryDocument {
@@ -88,6 +90,9 @@ export interface WhistleblowerReport {
   status: 'Diterima' | 'Verifikasi Bukti' | 'Investigasi Satgas' | 'Selesai Ditindaklanjuti';
   progressStep: 1 | 2 | 3 | 4;
   resolutionNote: string;
+  /** Ciphertext AES-256-GCM (base64 iv+payload); isi asli hanya terbuka dengan kode lacak. */
+  encryptedPayload?: string;
+  cryptoSalt?: string;
 }
 
 // ============================================================

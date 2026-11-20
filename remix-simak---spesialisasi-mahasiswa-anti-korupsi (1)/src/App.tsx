@@ -42,7 +42,7 @@ const INITIAL_WBS_REPORTS: WhistleblowerReport[] = [
     summary:
       'Laporan dugaan pungutan biaya tidak resmi di luar ketentuan SK Rektorat pada pengurusan berkas administrasi.',
     isAnonymous: true,
-    reporterIdentity: 'Anonim Terenkripsi (SHA-256)',
+    reporterIdentity: 'Anonim Terenkripsi (AES-256-GCM)',
     submittedAt: '14 September 2026',
     status: 'Selesai Ditindaklanjuti',
     progressStep: 4,
@@ -58,7 +58,7 @@ const INITIAL_WBS_REPORTS: WhistleblowerReport[] = [
     summary:
       'Laporan ketidaksesuaian nota pengadaan konsumsi dan perlengkapan panggung pada LPJ kegiatan mahasiswa.',
     isAnonymous: true,
-    reporterIdentity: 'Anonim Terenkripsi (SHA-256)',
+    reporterIdentity: 'Anonim Terenkripsi (AES-256-GCM)',
     submittedAt: '05 Oktober 2026',
     status: 'Investigasi Satgas',
     progressStep: 3,

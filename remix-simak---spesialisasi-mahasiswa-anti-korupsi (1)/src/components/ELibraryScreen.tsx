@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { LibraryDocument, AdvocacySubmission } from '../types';
 import { useGsapPageAnimations, animateFilterGrid } from '../hooks/useGsapAnimations';
 import { submitAdvocacy } from '../api/library';
+import { downloadPreviewPdf } from '../utils/pdfDocuments';
 
 interface ELibraryScreenProps {
   documents: LibraryDocument[];
@@ -45,6 +46,108 @@ interface PreviewModalData {
   chapters: { title: string; summary: string }[];
   citation: string;
 }
+
+const FEATURED_MOD_01: PreviewModalData = {
+  docCode: 'MOD-KPS/SIMAK-XVI/2024/001',
+  authorDivision: 'Bidang I (Divisi Acara & Korlap) & Komisi Kaderisasi',
+  title:
+    'Buku Pedoman Kaderisasi KOPASUS Batch XVI: Prinsip Dasar Gerakan Moral & Etika Investigasi Mahasiswa',
+  badge: 'Modul 01 • Diklat Wajib',
+  meta: 'PDF • 148 Halaman • 8.4 MB',
+  desc: 'Panduan fundamental penempaan integritas calon kader anti-korupsi. Memuat kerangka pemikiran hukum tindak pidana korupsi, metodologi pelaporan aduan kampus, kode etik whistleblower internal, serta strategi aksi moral mahasiswa.',
+  keyTakeaways: [
+    'Kurikulum wajib 9 Nilai Integritas KPK dan sejarah gerakan mahasiswa antikorupsi sejak 29 Januari 2011.',
+    'Pemetaan tugas 4 Bidang Wakil Ketua Umum dan 8 Divisi Teknis SIMAK (Acara, Korlap, Dokumentasi, Desain, Ekraf, Humas, Perlengkapan, Konsumsi).',
+    'Simulasi investigasi lapangan, manajemen aksi simpatik, dan perlindungan pelapor (Whistleblower).',
+  ],
+  chapters: [
+    {
+      title: 'Bab I: Sejarah Kelahiran SIMAK (29 Januari 2011) & Filosofi KOPASUS',
+      summary:
+        'Mengulas tonggak pendirian SIMAK di Institut STIAMI serta peran KOPASUS sebagai kawah candradimuka kader antikorupsi yang berani, jujur, dan independen.',
+    },
+    {
+      title: 'Bab II: Anatomi Tindak Pidana Korupsi & Trisula Pemberantasan',
+      summary:
+        'Membedah 7 kelompok delik Tipikor (kerugian negara, suap, penggelapan jabatan, pemerasan, perbuatan curang, benturan kepentingan, gratifikasi) serta strategi Pendidikan, Pencegahan, dan Penindakan.',
+    },
+    {
+      title: 'Bab III: Sinergi 8 Divisi Teknis dalam Program Kerja Integritas',
+      summary:
+        'Panduan kolaborasi teknis antara Divisi Acara, Korlap, Dokumentasi, Desain, Ekonomi Kreatif, Humas, Perlengkapan, dan Konsumsi dalam mengeksekusi kegiatan berstandar audit nol-selisih.',
+    },
+  ],
+  citation:
+    'Tim Litbang & Kaderisasi SIMAK. (2024). Buku Pedoman Kaderisasi KOPASUS Batch XVI: Prinsip Dasar Gerakan Moral & Etika Investigasi Mahasiswa. Jakarta: SIMAK Institut STIAMI.',
+};
+
+const FEATURED_MOD_02: PreviewModalData = {
+  docCode: 'KONST-ADART/SIMAK-XV/2024/002',
+  authorDivision: 'Badan Pengurus Harian (BPH) & Sekretaris Umum 1 & 2',
+  title:
+    'Anggaran Dasar & Anggaran Rumah Tangga (AD/ART) Hasil Mubes Terakhir & Kode Etik Perilaku Kader SIMAK',
+  badge: 'Modul 02 • Konstitusi SIMAK',
+  meta: 'PDF • 64 Hlm • 2.1 MB',
+  desc: 'Pilar konstitusi organisasi yang mengatur hak suara, struktur Dewan Kehormatan, mekanisme whistleblowing kader, serta tata tertib kedisiplinan 15 tahun kepengurusan.',
+  keyTakeaways: [
+    'Struktur baku kepemimpinan BPH: Ketua Umum, 4 Wakil Ketua Umum, Sekretaris Umum 1 & 2, dan Bendahara Umum.',
+    'Tata kelola 8 Divisi Teknis dan mekanisme koordinasi lintas bidang dalam pelaksanaan program kerja.',
+    'Kode Etik Perilaku Kader dan sanksi tegas terhadap pelanggaran integritas akademik maupun organisasi.',
+  ],
+  chapters: [
+    {
+      title: 'Anggaran Dasar (AD): Azas, Tujuan & Kedaulatan Organisasi',
+      summary:
+        'Menegaskan kedudukan SIMAK sebagai organisasi mahasiswa ekstra/intra kampus yang berfokus pada edukasi, riset, dan advokasi antikorupsi.',
+    },
+    {
+      title: 'Anggaran Rumah Tangga (ART): Struktur 4 Waka, 2 Sekretaris & 8 Divisi',
+      summary:
+        'Merinci pembagian wewenang Wakil Ketua 1 (Acara & Korlap), Wakil Ketua 2 (Dokumentasi & Desain), Wakil Ketua 3 (Ekonomi Kreatif & Humas), dan Wakil Ketua 4 (Perlengkapan & Konsumsi).',
+    },
+    {
+      title: 'Lampiran Kode Etik & Pakta Integritas Fungsionaris',
+      summary:
+        'Standar kepatuhan pelaporan kas nol-selisih serta pedoman perlindungan saksi internal organisasi.',
+    },
+  ],
+  citation:
+    'Musyawarah Besar SIMAK. (2024). Anggaran Dasar & Anggaran Rumah Tangga (AD/ART) serta Kode Etik Perilaku Kader SIMAK. Jakarta: Sekretariat Jenderal SIMAK.',
+};
+
+const FEATURED_MOD_03: PreviewModalData = {
+  docCode: 'WP-AUDIT/SIMAK-XV/2024/003',
+  authorDivision: 'Bendahara Umum & Tim Audit Internal SIMAK',
+  title:
+    'White Paper: Analisis Transparansi Anggaran Fasilitas Kampus & Penguatan Integritas Sivitas Akademika',
+  badge: 'Modul 03 • White Paper Riset',
+  meta: 'PDF • 92 Hlm • 5.6 MB',
+  desc: 'Kajian independen divisi advokasi mengenai rasio serapan dana kegiatan kemahasiswaan, keterbukaan informasi publik, dan rekomendasi reformasi birokrasi kampus.',
+  keyTakeaways: [
+    'Kerangka kerja e-Budgeting dan Buku Kas Umum (BKU) terbuka untuk organisasi kemahasiswaan.',
+    'Indeks kepuasan transparansi pengelolaan dana kegiatan mahasiswa di tingkat fakultas dan institut.',
+    'Model audit silang antara Bendahara Umum, Sekretaris Umum, dan Koordinator Divisi.',
+  ],
+  chapters: [
+    {
+      title: 'Bab I: Metodologi Pengukuran Indeks Transparansi Ormawa',
+      summary:
+        'Penjelasan variabel keterbukaan kuitansi, ketepatan waktu LPJ, dan aksesibilitas laporan kas bagi publik.',
+    },
+    {
+      title: 'Bab II: Studi Kasus Audit Nol-Selisih pada Program SIMAK',
+      summary:
+        'Bedah praktik terbaik pengelolaan dana kegiatan Seminar HARLAH, Ramadhan Integrity, dan SIMAK Goes To School.',
+    },
+    {
+      title: 'Bab III: Peta Jalan Zona Integritas Kampus 2026',
+      summary:
+        'Rekomendasi kolaborasi antara pimpinan perguruan tinggi dan lembaga kemahasiswaan dalam mencegah pungutan liar.',
+    },
+  ],
+  citation:
+    'Tim Audit & Advokasi SIMAK. (2024). White Paper: Analisis Transparansi Anggaran Fasilitas Kampus & Penguatan Integritas Sivitas Akademika. Jakarta: SIMAK Institut STIAMI.',
+};
 
 const CATALOG_DOCS: RepoDocItem[] = [
   {
@@ -332,6 +435,16 @@ export const ELibraryScreen: React.FC<ELibraryScreenProps> = ({
   const triggerToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 4000);
+  };
+
+  const handleDownloadPdf = async (data: PreviewModalData) => {
+    try {
+      triggerToast(`Menyiapkan berkas PDF: ${data.title}...`);
+      await downloadPreviewPdf(data);
+      triggerToast('Berkas PDF berhasil diunduh.');
+    } catch {
+      triggerToast('Gagal membuat berkas PDF. Silakan coba lagi.');
+    }
   };
 
   const filteredDocs = CATALOG_DOCS.filter((doc) => {
@@ -654,39 +767,7 @@ export const ELibraryScreen: React.FC<ELibraryScreenProps> = ({
                       onClick={() => {
                         setActiveChapterIdx(0);
                         setCopiedCitation(false);
-                        setPreviewModal({
-                          docCode: 'MOD-KPS/SIMAK-XVI/2024/001',
-                          authorDivision: 'Bidang I (Divisi Acara & Korlap) & Komisi Kaderisasi',
-                          title:
-                            'Buku Pedoman Kaderisasi KOPASUS Batch XVI: Prinsip Dasar Gerakan Moral & Etika Investigasi Mahasiswa',
-                          badge: 'Modul 01 • Diklat Wajib',
-                          meta: 'PDF • 148 Halaman • 8.4 MB',
-                          desc: 'Panduan fundamental penempaan integritas calon kader anti-korupsi. Memuat kerangka pemikiran hukum tindak pidana korupsi, metodologi pelaporan aduan kampus, kode etik whistleblower internal, serta strategi aksi moral mahasiswa.',
-                          keyTakeaways: [
-                            'Kurikulum wajib 9 Nilai Integritas KPK dan sejarah gerakan mahasiswa antikorupsi sejak 29 Januari 2011.',
-                            'Pemetaan tugas 4 Bidang Wakil Ketua Umum dan 8 Divisi Teknis SIMAK (Acara, Korlap, Dokumentasi, Desain, Ekraf, Humas, Perlengkapan, Konsumsi).',
-                            'Simulasi investigasi lapangan, manajemen aksi simpatik, dan perlindungan pelapor (Whistleblower).',
-                          ],
-                          chapters: [
-                            {
-                              title: 'Bab I: Sejarah Kelahiran SIMAK (29 Januari 2011) & Filosofi KOPASUS',
-                              summary:
-                                'Mengulas tonggak pendirian SIMAK di Institut STIAMI serta peran KOPASUS sebagai kawah candradimuka kader antikorupsi yang berani, jujur, dan independen.',
-                            },
-                            {
-                              title: 'Bab II: Anatomi Tindak Pidana Korupsi & Trisula Pemberantasan',
-                              summary:
-                                'Membedah 7 kelompok delik Tipikor (kerugian negara, suap, penggelapan jabatan, pemerasan, perbuatan curang, benturan kepentingan, gratifikasi) serta strategi Pendidikan, Pencegahan, dan Penindakan.',
-                            },
-                            {
-                              title: 'Bab III: Sinergi 8 Divisi Teknis dalam Program Kerja Integritas',
-                              summary:
-                                'Panduan kolaborasi teknis antara Divisi Acara, Korlap, Dokumentasi, Desain, Ekonomi Kreatif, Humas, Perlengkapan, dan Konsumsi dalam mengeksekusi kegiatan berstandar audit nol-selisih.',
-                            },
-                          ],
-                          citation:
-                            'Tim Litbang & Kaderisasi SIMAK. (2024). Buku Pedoman Kaderisasi KOPASUS Batch XVI: Prinsip Dasar Gerakan Moral & Etika Investigasi Mahasiswa. Jakarta: SIMAK Institut STIAMI.',
-                        });
+                        setPreviewModal(FEATURED_MOD_01);
                       }}
                       className="px-space-md py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md font-semibold transition-colors cursor-pointer"
                     >
@@ -694,11 +775,7 @@ export const ELibraryScreen: React.FC<ELibraryScreenProps> = ({
                     </button>
                     <button
                       type="button"
-                      onClick={() =>
-                        triggerToast(
-                          'Mengunduh Buku_Pedoman_Kaderisasi_KOPASUS_XVI.pdf (8.4 MB)...'
-                        )
-                      }
+                      onClick={() => handleDownloadPdf(FEATURED_MOD_01)}
                       className="px-space-md py-1.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-semibold transition-colors flex items-center gap-1 cursor-pointer"
                     >
                       <span className="material-symbols-outlined text-[16px]">download</span> Unduh PDF
@@ -739,39 +816,7 @@ export const ELibraryScreen: React.FC<ELibraryScreenProps> = ({
                       onClick={() => {
                         setActiveChapterIdx(0);
                         setCopiedCitation(false);
-                        setPreviewModal({
-                          docCode: 'KONST-ADART/SIMAK-XV/2024/002',
-                          authorDivision: 'Badan Pengurus Harian (BPH) & Sekretaris Umum 1 & 2',
-                          title:
-                            'Anggaran Dasar & Anggaran Rumah Tangga (AD/ART) Hasil Mubes Terakhir & Kode Etik Perilaku Kader SIMAK',
-                          badge: 'Modul 02 • Konstitusi SIMAK',
-                          meta: 'PDF • 64 Hlm • 2.1 MB',
-                          desc: 'Pilar konstitusi organisasi yang mengatur hak suara, struktur Dewan Kehormatan, mekanisme whistleblowing kader, serta tata tertib kedisiplinan 15 tahun kepengurusan.',
-                          keyTakeaways: [
-                            'Struktur baku kepemimpinan BPH: Ketua Umum, 4 Wakil Ketua Umum, Sekretaris Umum 1 & 2, dan Bendahara Umum.',
-                            'Tata kelola 8 Divisi Teknis dan mekanisme koordinasi lintas bidang dalam pelaksanaan program kerja.',
-                            'Kode Etik Perilaku Kader dan sanksi tegas terhadap pelanggaran integritas akademik maupun organisasi.',
-                          ],
-                          chapters: [
-                            {
-                              title: 'Anggaran Dasar (AD): Azas, Tujuan & Kedaulatan Organisasi',
-                              summary:
-                                'Menegaskan kedudukan SIMAK sebagai organisasi mahasiswa ekstra/intra kampus yang berfokus pada edukasi, riset, dan advokasi antikorupsi.',
-                            },
-                            {
-                              title: 'Anggaran Rumah Tangga (ART): Struktur 4 Waka, 2 Sekretaris & 8 Divisi',
-                              summary:
-                                'Merinci pembagian wewenang Wakil Ketua 1 (Acara & Korlap), Wakil Ketua 2 (Dokumentasi & Desain), Wakil Ketua 3 (Ekonomi Kreatif & Humas), dan Wakil Ketua 4 (Perlengkapan & Konsumsi).',
-                            },
-                            {
-                              title: 'Lampiran Kode Etik & Pakta Integritas Fungsionaris',
-                              summary:
-                                'Standar kepatuhan pelaporan kas nol-selisih serta pedoman perlindungan saksi internal organisasi.',
-                            },
-                          ],
-                          citation:
-                            'Musyawarah Besar SIMAK. (2024). Anggaran Dasar & Anggaran Rumah Tangga (AD/ART) serta Kode Etik Perilaku Kader SIMAK. Jakarta: Sekretariat Jenderal SIMAK.',
-                        });
+                        setPreviewModal(FEATURED_MOD_02);
                       }}
                       className="px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm font-semibold hover:bg-surface-container-high cursor-pointer"
                     >
@@ -779,9 +824,7 @@ export const ELibraryScreen: React.FC<ELibraryScreenProps> = ({
                     </button>
                     <button
                       type="button"
-                      onClick={() =>
-                        triggerToast('Mengunduh AD_ART_Kode_Etik_SIMAK.pdf (2.1 MB)...')
-                      }
+                      onClick={() => handleDownloadPdf(FEATURED_MOD_02)}
                       className="px-space-md py-1 rounded bg-primary text-on-primary font-label-sm text-label-sm font-semibold hover:bg-primary-container cursor-pointer"
                     >
                       Unduh Dokumen
@@ -819,39 +862,7 @@ export const ELibraryScreen: React.FC<ELibraryScreenProps> = ({
                       onClick={() => {
                         setActiveChapterIdx(0);
                         setCopiedCitation(false);
-                        setPreviewModal({
-                          docCode: 'WP-AUDIT/SIMAK-XV/2024/003',
-                          authorDivision: 'Bendahara Umum & Tim Audit Internal SIMAK',
-                          title:
-                            'White Paper: Analisis Transparansi Anggaran Fasilitas Kampus & Penguatan Integritas Sivitas Akademika',
-                          badge: 'Modul 03 • White Paper Riset',
-                          meta: 'PDF • 92 Hlm • 5.6 MB',
-                          desc: 'Kajian independen divisi advokasi mengenai rasio serapan dana kegiatan kemahasiswaan, keterbukaan informasi publik, dan rekomendasi reformasi birokrasi kampus.',
-                          keyTakeaways: [
-                            'Kerangka kerja e-Budgeting dan Buku Kas Umum (BKU) terbuka untuk organisasi kemahasiswaan.',
-                            'Indeks kepuasan transparansi pengelolaan dana kegiatan mahasiswa di tingkat fakultas dan institut.',
-                            'Model audit silang antara Bendahara Umum, Sekretaris Umum, dan Koordinator Divisi.',
-                          ],
-                          chapters: [
-                            {
-                              title: 'Bab I: Metodologi Pengukuran Indeks Transparansi Ormawa',
-                              summary:
-                                'Penjelasan variabel keterbukaan kuitansi, ketepatan waktu LPJ, dan aksesibilitas laporan kas bagi publik.',
-                            },
-                            {
-                              title: 'Bab II: Studi Kasus Audit Nol-Selisih pada Program SIMAK',
-                              summary:
-                                'Bedah praktik terbaik pengelolaan dana kegiatan Seminar HARLAH, Ramadhan Integrity, dan SIMAK Goes To School.',
-                            },
-                            {
-                              title: 'Bab III: Peta Jalan Zona Integritas Kampus 2026',
-                              summary:
-                                'Rekomendasi kolaborasi antara pimpinan perguruan tinggi dan lembaga kemahasiswaan dalam mencegah pungutan liar.',
-                            },
-                          ],
-                          citation:
-                            'Tim Audit & Advokasi SIMAK. (2024). White Paper: Analisis Transparansi Anggaran Fasilitas Kampus & Penguatan Integritas Sivitas Akademika. Jakarta: SIMAK Institut STIAMI.',
-                        });
+                        setPreviewModal(FEATURED_MOD_03);
                       }}
                       className="px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm font-semibold hover:bg-surface-container-high cursor-pointer"
                     >
@@ -859,11 +870,7 @@ export const ELibraryScreen: React.FC<ELibraryScreenProps> = ({
                     </button>
                     <button
                       type="button"
-                      onClick={() =>
-                        triggerToast(
-                          'Mengunduh White_Paper_Transparansi_Anggaran_SIMAK.pdf (5.6 MB)...'
-                        )
-                      }
+                      onClick={() => handleDownloadPdf(FEATURED_MOD_03)}
                       className="px-space-md py-1 rounded bg-tertiary-container text-on-tertiary font-label-sm text-label-sm font-semibold hover:opacity-90 cursor-pointer"
                     >
                       Unduh Dokumen
@@ -986,7 +993,19 @@ export const ELibraryScreen: React.FC<ELibraryScreenProps> = ({
                     </button>
                     <button
                       type="button"
-                      onClick={() => triggerToast(`Mengunduh berkas: ${doc.title}.pdf`)}
+                      onClick={() =>
+                        handleDownloadPdf({
+                          docCode: doc.docCode,
+                          authorDivision: doc.authorDivision,
+                          title: doc.title,
+                          badge: doc.badgeText,
+                          meta: `${doc.metaLeft} • ${doc.yearLabel}`,
+                          desc: doc.desc,
+                          keyTakeaways: doc.keyTakeaways,
+                          chapters: doc.chapters,
+                          citation: doc.citation,
+                        })
+                      }
                       className="w-1/2 py-1.5 rounded bg-primary text-on-primary font-label-md text-label-md font-semibold hover:bg-primary-container flex items-center justify-center gap-1 cursor-pointer"
                     >
                       <span className="material-symbols-outlined text-[16px]">file_download</span>{' '}
@@ -1329,7 +1348,7 @@ export const ELibraryScreen: React.FC<ELibraryScreenProps> = ({
                   <button
                     type="button"
                     onClick={() => {
-                      triggerToast(`Mengunduh berkas penuh: ${previewModal.title}.pdf`);
+                      handleDownloadPdf(previewModal);
                       setPreviewModal(null);
                     }}
                     className="px-4 py-2.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold hover:bg-primary-container flex items-center gap-1.5 cursor-pointer shadow-xs"

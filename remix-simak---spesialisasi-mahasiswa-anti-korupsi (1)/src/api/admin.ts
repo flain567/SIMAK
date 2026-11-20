@@ -1,12 +1,13 @@
 /**
-2:  * admin.ts — API adapter untuk Panel Admin & Satgas SIMAK
-3:  */
+ * admin.ts — API adapter untuk Panel Admin & Satgas SIMAK
+ */
 
 import { apiFetch } from './client';
 import { getStoredToken } from './auth';
-import { ParticipantRecord } from '../types';
+import { ParticipantRecord, WhistleblowerReport } from '../types';
 import { INITIAL_PARTICIPANTS } from '../data/mockData';
 import { supabaseFetchParticipants, supabaseUpdateAttendance } from './supabase';
+import { getAllReportsLocal, updateLocalWbsReport } from './wbs';
 
 // ─── LocalStorage Helpers untuk Fallback Mandiri ───────────────
 
@@ -231,6 +232,21 @@ export async function fetchAdminWbsReports(): Promise<AdminWbsReport[]> {
     });
     return res.reports;
   } catch {
+    const local = getAllReportsLocal();
+    if (local.length > 0) {
+      return local.map((r) => ({
+        id: r.id,
+        trackingCode: r.trackingCode,
+        category: r.category,
+        unitReported: r.unitReported,
+        incidentDate: r.incidentDate,
+        isAnonymous: r.isAnonymous,
+        status: r.status,
+        progressStep: r.progressStep,
+        resolutionNote: r.resolutionNote,
+        submittedAt: r.submittedAt,
+      }));
+    }
     return DEFAULT_MOCK_WBS;
   }
 }
@@ -247,6 +263,16 @@ export async function decryptAdminWbsReport(id: string): Promise<{ id: string; t
       token,
     });
   } catch {
+    const local = getAllReportsLocal().find((r) => r.id === id);
+    if (local) {
+      return {
+        id: local.id,
+        trackingCode: local.trackingCode,
+        summary: local.encryptedPayload
+          ? 'Isi laporan terenkripsi AES-256-GCM. Kronologi hanya dapat dibuka oleh pelapor melalui kode lacak; Satgas menindaklanjuti berdasarkan metadata dan bukti yang disampaikan pelapor.'
+          : local.summary || local.resolutionNote,
+      };
+    }
     const found = DEFAULT_MOCK_WBS.find((r) => r.id === id) || DEFAULT_MOCK_WBS[0];
     return {
       id: found.id,
@@ -273,6 +299,25 @@ export async function updateAdminWbsStatus(
       token,
     });
   } catch {
+    const updated = updateLocalWbsReport(id, {
+      status: payload.status as WhistleblowerReport['status'],
+      progressStep: payload.progressStep as WhistleblowerReport['progressStep'],
+      resolutionNote: payload.resolutionNote,
+    });
+    if (updated) {
+      return {
+        id: updated.id,
+        trackingCode: updated.trackingCode,
+        category: updated.category,
+        unitReported: updated.unitReported,
+        incidentDate: updated.incidentDate,
+        isAnonymous: updated.isAnonymous,
+        status: updated.status,
+        progressStep: updated.progressStep,
+        resolutionNote: updated.resolutionNote,
+        submittedAt: updated.submittedAt,
+      };
+    }
     const found = DEFAULT_MOCK_WBS.find((r) => r.id === id) || DEFAULT_MOCK_WBS[0];
     found.status = payload.status;
     if (payload.progressStep !== undefined) found.progressStep = payload.progressStep;

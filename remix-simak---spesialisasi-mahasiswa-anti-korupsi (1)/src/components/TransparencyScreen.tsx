@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ScreenId } from '../types';
 import { useGsapPageAnimations } from '../hooks/useGsapAnimations';
 import { getLedgerData } from '../api';
+import { downloadAuditPdf } from '../utils/pdfDocuments';
 
 interface TransparencyScreenProps {
   onNavigate: (screen: ScreenId) => void;
@@ -197,9 +198,14 @@ export const TransparencyScreen: React.FC<TransparencyScreenProps> = ({ onNaviga
             <div data-gsap="hero-media" className="lg:col-span-4 flex flex-col items-start lg:items-end gap-3">
               <button
                 type="button"
-                onClick={() =>
-                  triggerToast('Mengunduh Laporan_Audit_Keuangan_SIMAK_2026_Signed.pdf (4.2 MB)...')
-                }
+                onClick={async () => {
+                  try {
+                    await downloadAuditPdf(ledgerRows);
+                    triggerToast('Laporan Audit Keuangan berhasil diunduh (PDF).');
+                  } catch {
+                    triggerToast('Gagal membuat berkas PDF. Silakan coba lagi.');
+                  }
+                }}
                 className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg font-bold shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[20px]">download</span>

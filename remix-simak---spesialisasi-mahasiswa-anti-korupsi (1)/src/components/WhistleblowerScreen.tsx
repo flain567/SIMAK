@@ -1,7 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ScreenId, WhistleblowerReport } from '../types';
 import { useGsapPageAnimations } from '../hooks/useGsapAnimations';
-import { submitWbsReport, trackWbsReport } from '../api/wbs';
+import { submitWbsReport, trackWbsReport, getAllReportsLocal } from '../api/wbs';
+import { IS_BACKEND_ENABLED } from '../api/client';
+import { maskTrackingCode } from '../utils/wbsCrypto';
 
 interface WhistleblowerScreenProps {
   reports: WhistleblowerReport[];
@@ -35,9 +37,24 @@ export const WhistleblowerScreen: React.FC<WhistleblowerScreenProps> = ({
   // Tracking lookup state
   const [trackInput, setTrackInput] = useState('');
   const [trackedReport, setTrackedReport] = useState<WhistleblowerReport | null>(
-    reports[0] || null
+    reports.find((r) => !r.encryptedPayload) || null
   );
   const [trackNotFound, setTrackNotFound] = useState(false);
+  const [encryptedHint, setEncryptedHint] = useState(false);
+  const [displayReports, setDisplayReports] = useState<WhistleblowerReport[]>(reports);
+  const trackInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setDisplayReports(reports);
+  }, [reports]);
+
+  const openTrackTab = () => {
+    setActiveTab('track');
+    if (!IS_BACKEND_ENABLED) {
+      const local = getAllReportsLocal();
+      if (local.length > 0) setDisplayReports(local);
+    }
+  };
 
   const [isSubmittingWbs, setIsSubmittingWbs] = useState(false);
   const [wbsSubmitError, setWbsSubmitError] = useState('');
@@ -55,7 +72,7 @@ export const WhistleblowerScreen: React.FC<WhistleblowerScreenProps> = ({
     setWbsSubmitError('');
 
     try {
-      const { trackingCode } = await submitWbsReport({
+      const { trackingCode, report } = await submitWbsReport({
         category,
         unitReported: unitReported.trim(),
         incidentDate,
@@ -65,26 +82,26 @@ export const WhistleblowerScreen: React.FC<WhistleblowerScreenProps> = ({
         reporterIdentity: !isAnonymous ? reporterIdentity.trim() : undefined,
       });
 
-      const newReport: WhistleblowerReport = {
-        id: `wbs-${Date.now()}`,
-        trackingCode,
-        category,
-        unitReported: unitReported.trim(),
-        incidentDate,
-        summary: summary.trim(),
-        evidenceUrl: evidenceUrl.trim() || undefined,
-        isAnonymous,
-        reporterIdentity: isAnonymous ? 'Anonim Terenkripsi (AES-256-GCM)' : 'Pelapor Terverifikasi (Dirahasiakan)',
-        submittedAt: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
-        status: 'Verifikasi Bukti',
-        progressStep: 2,
+      const storedReport: WhistleblowerReport = {
+        ...report,
         resolutionNote:
           'Laporan telah masuk ke brankas terenkripsi Satgas Advokasi & Dewan Etik SIMAK. Sedang dilakukan telaah bukti awal.',
       };
 
-      onAddReport(newReport);
-      setCreatedReport(newReport);
-      setTrackedReport(newReport);
+      // Tampilan untuk pelapor sendiri: isi lengkap tetap terlihat di perangkatnya,
+      // record yang disimpan/publik hanya berisi ciphertext.
+      const visibleReport: WhistleblowerReport = {
+        ...storedReport,
+        summary: summary.trim(),
+        evidenceUrl: evidenceUrl.trim() || undefined,
+        reporterIdentity: isAnonymous
+          ? 'Anonim Terenkripsi (AES-256-GCM)'
+          : reporterIdentity.trim() || 'Pelapor Terverifikasi (Dirahasiakan)',
+      };
+
+      onAddReport(storedReport);
+      setCreatedReport(visibleReport);
+      setTrackedReport(visibleReport);
       setTrackInput(trackingCode);
       setUnitReported('');
       setSummary('');
@@ -101,8 +118,8 @@ export const WhistleblowerScreen: React.FC<WhistleblowerScreenProps> = ({
     const q = trackInput.trim().toUpperCase();
     if (!q) return;
 
-    // Validasi format: WBS-YYYY-XXXX (strict lookup, bukan fuzzy)
-    if (!/^WBS-\d{4}-[A-F0-9]{4}$/i.test(q)) {
+    // Validasi format: WBS-YYYY-XXXX (demo lama) atau WBS-YYYY-XXXXXXXXXXXX (terenkripsi)
+    if (!/^WBS-\d{4}-(?:[A-F0-9]{4}|[A-F0-9]{12})$/i.test(q)) {
       setTrackNotFound(true);
       return;
     }
@@ -113,10 +130,13 @@ export const WhistleblowerScreen: React.FC<WhistleblowerScreenProps> = ({
       if (found) {
         setTrackedReport(found);
         setTrackNotFound(false);
+        setEncryptedHint(false);
       } else {
+        setTrackedReport(null);
         setTrackNotFound(true);
       }
     } catch {
+      setTrackedReport(null);
       setTrackNotFound(true);
     } finally {
       setIsTracking(false);
@@ -162,7 +182,7 @@ export const WhistleblowerScreen: React.FC<WhistleblowerScreenProps> = ({
             <div data-gsap="hero-text" className="lg:col-span-8 space-y-3">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm uppercase tracking-wider font-bold">
                 <span className="material-symbols-outlined text-[16px]">security</span>
-                Perlindungan Saksi &amp; Pelapor Terenkripsi (SHA-256)
+                Perlindungan Saksi &amp; Pelapor Terenkripsi (AES-256-GCM)
               </div>
               <h1 className="font-headline-xl text-headline-xl-mobile sm:text-headline-xl text-on-surface font-extrabold tracking-tight">
                 Whistleblowing System (WBS) SIMAK
@@ -187,7 +207,7 @@ export const WhistleblowerScreen: React.FC<WhistleblowerScreenProps> = ({
               </button>
               <button
                 type="button"
-                onClick={() => setActiveTab('track')}
+                onClick={openTrackTab}
                 className={`px-5 py-3 rounded-xl font-label-lg text-label-lg font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
                   activeTab === 'track'
                     ? 'bg-primary-container text-on-primary shadow-md'
@@ -195,7 +215,7 @@ export const WhistleblowerScreen: React.FC<WhistleblowerScreenProps> = ({
                 }`}
               >
                 <span className="material-symbols-outlined text-[20px]">manage_search</span>
-                Lacak Kode Laporan ({reports.length})
+                Lacak Kode Laporan ({displayReports.length})
               </button>
             </div>
           </div>
@@ -221,7 +241,7 @@ export const WhistleblowerScreen: React.FC<WhistleblowerScreenProps> = ({
               </div>
               <div>
                 <div className="font-headline-sm text-headline-sm font-bold text-on-surface">
-                  SHA-256 Vault
+                  AES-256-GCM Vault
                 </div>
                 <div className="font-label-sm text-label-sm text-secondary uppercase">
                   Enkripsi Bukti Digital
@@ -292,7 +312,7 @@ export const WhistleblowerScreen: React.FC<WhistleblowerScreenProps> = ({
                   </p>
                   <button
                     type="button"
-                    onClick={() => setActiveTab('track')}
+                    onClick={openTrackTab}
                     className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold hover:bg-primary-container transition-colors cursor-pointer"
                   >
                     <span className="material-symbols-outlined text-[16px]">manage_search</span>
@@ -527,10 +547,14 @@ export const WhistleblowerScreen: React.FC<WhistleblowerScreenProps> = ({
                 </div>
                 <form onSubmit={handleTrackSearch} className="flex items-center gap-2 w-full md:w-96">
                   <input
+                    ref={trackInputRef}
                     type="text"
                     value={trackInput}
-                    onChange={(e) => setTrackInput(e.target.value)}
-                    placeholder="Masukkan Kode Lacak (Cth: WBS-2026-4410)"
+                    onChange={(e) => {
+                      setTrackInput(e.target.value);
+                      setEncryptedHint(false);
+                    }}
+                    placeholder="Kode Lacak (Cth: WBS-2026-A1B2C3D4E5F6)"
                     className="flex-1 px-4 py-2.5 rounded-xl bg-surface-container-low text-on-surface font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                   <button
@@ -544,7 +568,13 @@ export const WhistleblowerScreen: React.FC<WhistleblowerScreenProps> = ({
 
               {trackNotFound && (
                 <div className="p-4 rounded-xl bg-error-container text-on-error-container font-label-md text-label-md">
-                  Kode laporan tidak ditemukan. Silakan pilih salah satu kode laporan terdaftar di bawah ini.
+                  Kode laporan tidak ditemukan. Periksa kembali kode lacak yang Anda terima saat mengirim laporan.
+                </div>
+              )}
+
+              {encryptedHint && (
+                <div className="p-4 rounded-xl bg-primary-fixed/50 border border-primary/30 text-on-surface font-label-md text-label-md">
+                  Laporan ini terenkripsi AES-256-GCM. Masukkan kode lacak lengkap yang diterima pelapor untuk membuka status dan isi laporan.
                 </div>
               )}
 
@@ -569,6 +599,28 @@ export const WhistleblowerScreen: React.FC<WhistleblowerScreenProps> = ({
                       <div>Mode: {trackedReport.reporterIdentity}</div>
                     </div>
                   </div>
+
+                  {trackedReport.summary && trackedReport.summary !== '(enkripsi server)' && (
+                    <div className="p-4 rounded-xl bg-surface-container-lowest space-y-1">
+                      <div className="font-label-sm text-label-sm uppercase text-primary font-bold">
+                        Kronologi Laporan (Terbuka dengan Kode Lacak):
+                      </div>
+                      <p className="font-body-md text-body-md text-on-surface">
+                        {trackedReport.summary}
+                      </p>
+                      {trackedReport.evidenceUrl && (
+                        <a
+                          href={trackedReport.evidenceUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 font-label-md text-label-md text-primary font-bold hover:underline mt-1"
+                        >
+                          <span className="material-symbols-outlined text-[15px]">attach_file</span>
+                          Tautan Bukti Dokumen
+                        </a>
+                      )}
+                    </div>
+                  )}
 
                   {/* Stepper Progress */}
                   <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
@@ -615,42 +667,59 @@ export const WhistleblowerScreen: React.FC<WhistleblowerScreenProps> = ({
                 Log Penanganan Pengaduan Publik (Identitas Disensor)
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {reports.map((rep) => (
-                  <div
-                    key={rep.id}
-                    onClick={() => {
-                      setTrackedReport(rep);
-                      setTrackInput(rep.trackingCode);
-                      setTrackNotFound(false);
-                    }}
-                    className={`p-5 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all cursor-pointer flex flex-col justify-between gap-3 border ${
-                      trackedReport?.id === rep.id ? 'border-primary' : 'border-transparent'
-                    }`}
-                  >
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="font-mono font-bold text-xs text-primary">
-                          {rep.trackingCode}
-                        </span>
-                        <span className="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm">
-                          {rep.status}
+                {displayReports.map((rep) => {
+                  const isEncrypted = Boolean(rep.encryptedPayload);
+                  return (
+                    <div
+                      key={rep.id}
+                      onClick={() => {
+                        if (isEncrypted) {
+                          setTrackedReport(null);
+                          setTrackInput('');
+                          setTrackNotFound(false);
+                          setEncryptedHint(true);
+                          trackInputRef.current?.focus();
+                          return;
+                        }
+                        setTrackedReport(rep);
+                        setTrackInput(rep.trackingCode);
+                        setTrackNotFound(false);
+                        setEncryptedHint(false);
+                      }}
+                      className={`p-5 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all cursor-pointer flex flex-col justify-between gap-3 border ${
+                        trackedReport?.id === rep.id ? 'border-primary' : 'border-transparent'
+                      }`}
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="font-mono font-bold text-xs text-primary">
+                            {maskTrackingCode(rep.trackingCode)}
+                          </span>
+                          <span className="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm">
+                            {rep.status}
+                          </span>
+                        </div>
+                        <h4 className="font-headline-sm text-headline-sm font-bold text-on-surface leading-snug">
+                          {rep.category}
+                        </h4>
+                        <p className="font-body-md text-body-md text-secondary line-clamp-2">
+                          {isEncrypted
+                            ? 'Isi laporan terenkripsi AES-256-GCM. Masukkan kode lacak lengkap untuk membuka detail.'
+                            : rep.summary}
+                        </p>
+                      </div>
+                      <div className="pt-3 border-t border-surface-container flex items-center justify-between font-label-sm text-label-sm text-primary font-bold">
+                        <span>{rep.submittedAt}</span>
+                        <span className="flex items-center gap-1">
+                          {isEncrypted ? 'Buka dengan Kode' : 'Lihat Detail'}{' '}
+                          <span className="material-symbols-outlined text-[15px]">
+                            {isEncrypted ? 'lock' : 'arrow_forward'}
+                          </span>
                         </span>
                       </div>
-                      <h4 className="font-headline-sm text-headline-sm font-bold text-on-surface leading-snug">
-                        {rep.category}
-                      </h4>
-                      <p className="font-body-md text-body-md text-secondary line-clamp-2">
-                        {rep.summary}
-                      </p>
                     </div>
-                    <div className="pt-3 border-t border-surface-container flex items-center justify-between font-label-sm text-label-sm text-primary font-bold">
-                      <span>{rep.submittedAt}</span>
-                      <span className="flex items-center gap-1">
-                        Lihat Detail <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
-                      </span>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>

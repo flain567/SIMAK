@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ScreenId } from '../types';
 import { useGsapPageAnimations, animateFilterGrid } from '../hooks/useGsapAnimations';
 import { fetchGalleryItems } from '../api';
+import { downloadPressKitZip } from '../utils/pdfDocuments';
 
 interface GalleryScreenProps {
   onNavigate: (screen: ScreenId) => void;
@@ -1141,9 +1142,15 @@ export const GalleryScreen: React.FC<GalleryScreenProps> = ({ onNavigate }) => {
                 <div className="flex flex-wrap items-center gap-4 pt-4">
                   <button
                     type="button"
-                    onClick={() =>
-                      triggerToast('Mengunduh SIMAK_Media_Kit_15Tahun.zip (Ukuran: 184 MB)...')
-                    }
+                    onClick={async () => {
+                      try {
+                        triggerToast('Menyiapkan Media Kit & manifest arsip foto (ZIP)...');
+                        await downloadPressKitZip();
+                        triggerToast('SIMAK_Media_Kit_15Tahun.zip berhasil diunduh (press kit PDF + manifest 306 foto).');
+                      } catch {
+                        triggerToast('Gagal membuat berkas ZIP. Silakan coba lagi.');
+                      }
+                    }}
                     className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg transition-all shadow-md cursor-pointer"
                   >
                     <span className="material-symbols-outlined text-[20px]">download</span>
