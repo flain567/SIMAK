@@ -93,7 +93,7 @@ const PROGRAMS_CONFIG: Record<string, ProgramConfig> = {
       { phase: 'Sesi I', title: 'Tata Kelola Keuangan Nirlaba Transparan & Audit Mandiri', desc: 'Prinsip akuntansi organisasi nirlaba dan penyusunan LPJ real-time.' },
       { phase: 'Sesi II', title: 'Komunikasi Krisis, Negosiasi & Retorika Publik', desc: 'Teknik menghadapi sanggahan pers, negosiasi kemitraan, dan diplomasi kelembagaan.' },
       { phase: 'Sesi III', title: 'Penyusunan Policy Brief & Riset Kebijakan Publik', desc: 'Metodologi perumusan naskah akademik rekomendasi perbaikan tata kelola birokrasi kampus.' },
-      { phase: 'Sesi IV', title: 'Uji Kelayakan Calon Pengurus Inti (BPH)', desc: 'Penilaian kelayakan calon Ketua Umum, Sekretaris Jenderal, dan 4 Wakil Ketua Umum.' },
+      { phase: 'Sesi IV', title: 'Uji Kelayakan Calon Pengurus Inti (BPH)', desc: 'Penilaian kelayakan calon Ketua Umum, Sekretaris Jenderal, dan 3 Wakil Ketua Umum.' },
     ],
     outputAndCerts: [
       'Sertifikat Kelulusan PINSUS Tingkat Lanjut',

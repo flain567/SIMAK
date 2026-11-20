@@ -1121,8 +1121,8 @@ export const RegistrationScreen: React.FC<RegistrationScreenProps> = ({
                         <option>Divisi Desain (Waketum 2 - KOMINTEK)</option>
                         <option>Divisi Ekonomi Kreatif (Waketum 3)</option>
                         <option>Divisi Humas (Waketum 3)</option>
-                        <option>Divisi Perlengkapan (Waketum 4)</option>
-                        <option>Divisi Konsumsi (Waketum 4)</option>
+                        <option>Divisi Perlengkapan (Waketum 3)</option>
+                        <option>Divisi Konsumsi (Waketum 3)</option>
                         <option>Kesekretariatan / Kebendaharaan BPH</option>
                       </select>
                     </div>
@@ -2115,7 +2115,7 @@ export const RegistrationScreen: React.FC<RegistrationScreenProps> = ({
               {
                 id: 'reg-faq-3',
                 q: 'Kapan saya bisa memilih salah satu dari 8 Divisi SIMAK (Acara, Korlap, Dokumentasi, Desain, Ekraf, Humas, Perlengkapan, Konsumsi)?',
-                a: 'Pemilihan dan penempatan ke dalam 8 Divisi Teknis di bawah 4 Wakil Ketua Umum dilakukan khusus bagi anggota baru yang mendaftar melalui jalur KOPASUS pada periode pembukaan berikutnya.',
+                a: 'Pemilihan dan penempatan ke dalam 8 Divisi Teknis di bawah 3 Wakil Ketua Umum dilakukan khusus bagi anggota baru yang mendaftar melalui jalur KOPASUS pada periode pembukaan berikutnya.',
               },
               {
                 id: 'reg-faq-4',

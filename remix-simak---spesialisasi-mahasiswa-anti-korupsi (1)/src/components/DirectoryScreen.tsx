@@ -179,7 +179,7 @@ const CADRE_MEMBERS: CadreMember[] = [
   },
   {
     id: 'mem-2',
-    name: 'Dimas Ardiansya',
+    name: 'Fathan Hendrawan',
     nim: '2024102014',
     role: 'Wakil Ketua Umum 1',
     divisiKey: 'litbang',
@@ -189,16 +189,15 @@ const CADRE_MEMBERS: CadreMember[] = [
     statusBadge: 'Aktif',
     credentialText: 'Lulus Diklat KOPASUS Batch XV',
     cohortId: 'XV',
-    imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuA3VTTd1gnbdOfIogQcHF7yQYYup-rFs1yRW0qFV1q8SWUOkWzm2mFX11GyYg3r7pnzffu42h5jUHmTFqu4AIuFbHYk2dzB4mlwCzSJogK11UMFrqTSecTLSSO_3EAiPiO--VbvG6pJHJXGr4_k4Eh5ZQhguUoRjLZc6z8y16xxO9RcJH3flt-oMaeAsSIxpMqJQJ3lXS3tv8cTJSQ9lxtTKl7ZIpGk2IJtdJQV-89oTF1zA3aovwBnXA',
+    imageUrl: '/pengurus/waketum-1.png',
     imageAlt:
-      'Potret formal Dimas Ardiansya, pemuda berkacamata sopan dengan kemeja putih berdasi merah dan almamater hitam SIMAK',
+      'Potret formal Fathan Hendrawan, pemuda berkemeja putih berdasi merah marun dengan jas almamater hitam SIMAK',
     trackRecord:
       'Wakil Ketua Umum 1 yang membawahi Divisi Acara dan Divisi Koordinator Lapangan (Korlap). Penanggung jawab kurikulum KOPASUS/PINSUS dan SIMAK Goes To School.',
   },
   {
     id: 'mem-3',
-    name: 'Alexsa Dewi Purwati',
+    name: 'Dwi Agus Hidayat',
     nim: '2024102035',
     role: 'Wakil Ketua Umum 2',
     divisiKey: 'kominfo',
@@ -208,10 +207,9 @@ const CADRE_MEMBERS: CadreMember[] = [
     statusBadge: 'Aktif',
     credentialText: 'Lulus Diklat KOPASUS Batch XV',
     cohortId: 'XV',
-    imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuCPC3eiGRhrJIuCiytxZWKt4gIdemWxi5qmyH28OzVn4XmBD7T7WzYLStqU4z3OZOkkp76TFNSnE9BDQoI6FBpWqLz7vWCFaBqt2jroe8ek1h3pZv4I31OPWobTRRkjTVC_RBCTiOjWrBRsX91E4KcekUK84ygim8JSZjbAPvMDeQ1zF93QKZbjvpyQ7KVZ1O0hZOhT6enlrJs-qZO3PH2jB-34QIhlKrSMeFiBSUWS2idGZAPRKp2mzg',
+    imageUrl: '/pengurus/waketum-2.png',
     imageAlt:
-      'Foto potret Alexsa Dewi Purwati, mahasiswi berhijab rapi mengenakan pakaian resmi almamater SIMAK hitam dengan lanyard merah',
+      'Foto potret Dwi Agus Hidayat, mahasiswa berkemeja putih dengan lanyard merah dan jas almamater hitam SIMAK',
     trackRecord:
       'Wakil Ketua Umum 2 (KOMINTEK) yang membawahi Divisi Dokumentasi dan Divisi Desain. Memimpin digitalisasi Buku Induk Kader, arsip visual, dan media kreatif antikorupsi.',
   },
@@ -221,8 +219,8 @@ const CADRE_MEMBERS: CadreMember[] = [
     nim: '2024102049',
     role: 'Wakil Ketua Umum 3',
     divisiKey: 'usaha',
-    divisiBadge: 'Ekraf & Humas',
-    subDivisiKeys: ['ekraf', 'humas'],
+    divisiBadge: 'Ekraf, Humas & Logistik',
+    subDivisiKeys: ['ekraf', 'humas', 'perlengkapan', 'konsumsi'],
     statusKey: 'aktif',
     statusBadge: 'Aktif',
     credentialText: 'Lulus Diklat KOPASUS Batch XV',
@@ -232,26 +230,7 @@ const CADRE_MEMBERS: CadreMember[] = [
     imageAlt:
       'Foto potret mahasiswi Putri Rizki Amelia berkulit cerah berhijab hitam anggun, mengenakan seragam almamater resmi',
     trackRecord:
-      'Wakil Ketua Umum 3 yang membawahi Divisi Ekonomi Kreatif dan Divisi Humas. Mengelola kemandirian finansial organisasi serta jejaring kemitraan eksternal.',
-  },
-  {
-    id: 'mem-7',
-    name: 'Arya Pratama Putra',
-    nim: '2024102077',
-    role: 'Wakil Ketua Umum 4',
-    divisiKey: 'operasional',
-    divisiBadge: 'Logistik & Konsumsi',
-    subDivisiKeys: ['perlengkapan', 'konsumsi'],
-    statusKey: 'aktif',
-    statusBadge: 'Aktif',
-    credentialText: 'Lulus Diklat KOPASUS Batch XV',
-    cohortId: 'XV',
-    imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuBHa34d3gxhdNjnjedV2yYE68algJo5RJofAgJdnNYKJx11kC0yzF6heQaiPKsIZnyIB8SYWsc7ankYQpN0sUX75J9tfsWmafixysxDaFbPcTf2I9oqfvJL84umFo6t2yNU94L7Sp6fiiYfdRlOkuPmRTDBPtUQKDWlj5hdevzdjYoMV_TJcsdrE26ZjyeqW5ji4OpT1BVLx1iru6Ivrf12hXh010z1r07p7V8xej6dY7YtkedzG6bAww',
-    imageAlt:
-      'Potret Arya Pratama Putra, mahasiswa berkemeja hitam rapi berdasi merah marun khas aktivis hukum antikorupsi',
-    trackRecord:
-      'Wakil Ketua Umum 4 yang membawahi Divisi Perlengkapan dan Divisi Konsumsi. Memastikan kesiapan sarana-prasarana acara, inventaris sekretariat, dan logistik konsumsi.',
+      'Wakil Ketua Umum 3 yang membawahi Divisi Ekonomi Kreatif, Divisi Humas, Divisi Perlengkapan, dan Divisi Konsumsi. Mengelola kemandirian finansial organisasi, jejaring kemitraan eksternal, serta kesiapan logistik kegiatan.',
   },
   {
     id: 'mem-6',
@@ -421,7 +400,7 @@ const CADRE_MEMBERS: CadreMember[] = [
     name: 'Aldi Pratama Wijaya',
     nim: '2024102105',
     role: 'Koordinator Divisi Perlengkapan',
-    divisiKey: 'operasional',
+    divisiKey: 'usaha',
     divisiBadge: 'Divisi Perlengkapan',
     subDivisiKeys: ['perlengkapan'],
     statusKey: 'aktif',
@@ -439,7 +418,7 @@ const CADRE_MEMBERS: CadreMember[] = [
     name: 'Annisa Fitriani',
     nim: '2024102109',
     role: 'Koordinator Divisi Konsumsi',
-    divisiKey: 'operasional',
+    divisiKey: 'usaha',
     divisiBadge: 'Divisi Konsumsi',
     subDivisiKeys: ['konsumsi'],
     statusKey: 'aktif',
@@ -1072,7 +1051,7 @@ export const DirectoryScreen: React.FC<DirectoryScreenProps> = ({ onNavigate }) 
                 Direktori Kader Angkatan {currentCohort.roman} ({currentCohort.yearLabel})
               </h2>
               <p className="font-body-md text-body-md text-secondary">
-                Profil resmi BPH Inti, 4 Wakil Ketua Umum, dan Koordinator 8 Divisi Teknis SIMAK.
+                Profil resmi BPH Inti, 3 Wakil Ketua Umum, dan Koordinator 8 Divisi Teknis SIMAK.
               </p>
             </div>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-label-md text-label-md">
@@ -1118,7 +1097,7 @@ export const DirectoryScreen: React.FC<DirectoryScreenProps> = ({ onNavigate }) 
               </div>
             </div>
 
-            {/* Row 1: Filter Bidang Utama (BPH Inti + 4 Bidang Wakil Ketua) */}
+            {/* Row 1: Filter Bidang Utama (BPH Inti + 3 Bidang Wakil Ketua) */}
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between gap-2">
                 <span className="font-label-sm text-[11px] uppercase tracking-wider font-extrabold text-primary flex items-center gap-1.5">
@@ -1142,7 +1121,7 @@ export const DirectoryScreen: React.FC<DirectoryScreenProps> = ({ onNavigate }) 
                 )}
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
                 {[
                   {
                     id: 'all' as DivisiFilter,
@@ -1175,16 +1154,9 @@ export const DirectoryScreen: React.FC<DirectoryScreenProps> = ({ onNavigate }) 
                   {
                     id: 'usaha' as DivisiFilter,
                     label: 'Waketum 3',
-                    sub: 'Ekraf & Humas',
+                    sub: 'Ekraf, Humas & Logistik',
                     icon: 'storefront',
                     count: cohortMembers.filter((m) => m.divisiKey === 'usaha').length,
-                  },
-                  {
-                    id: 'operasional' as DivisiFilter,
-                    label: 'Waketum 4',
-                    sub: 'Perlengkapan & Konsumsi',
-                    icon: 'inventory_2',
-                    count: cohortMembers.filter((m) => m.divisiKey === 'operasional').length,
                   },
                 ].map((card) => {
                   const isActive = divisiFilter === card.id && subDivisiFilter === 'all';

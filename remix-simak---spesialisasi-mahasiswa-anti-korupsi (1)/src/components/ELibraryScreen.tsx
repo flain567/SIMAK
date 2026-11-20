@@ -57,7 +57,7 @@ const FEATURED_MOD_01: PreviewModalData = {
   desc: 'Panduan fundamental penempaan integritas calon kader anti-korupsi. Memuat kerangka pemikiran hukum tindak pidana korupsi, metodologi pelaporan aduan kampus, kode etik whistleblower internal, serta strategi aksi moral mahasiswa.',
   keyTakeaways: [
     'Kurikulum wajib 9 Nilai Integritas KPK dan sejarah gerakan mahasiswa antikorupsi sejak 29 Januari 2011.',
-    'Pemetaan tugas 4 Bidang Wakil Ketua Umum dan 8 Divisi Teknis SIMAK (Acara, Korlap, Dokumentasi, Desain, Ekraf, Humas, Perlengkapan, Konsumsi).',
+    'Pemetaan tugas 3 Bidang Wakil Ketua Umum dan 8 Divisi Teknis SIMAK (Acara, Korlap, Dokumentasi, Desain, Ekraf, Humas, Perlengkapan, Konsumsi).',
     'Simulasi investigasi lapangan, manajemen aksi simpatik, dan perlindungan pelapor (Whistleblower).',
   ],
   chapters: [
@@ -90,7 +90,7 @@ const FEATURED_MOD_02: PreviewModalData = {
   meta: 'PDF • 64 Hlm • 2.1 MB',
   desc: 'Pilar konstitusi organisasi yang mengatur hak suara, struktur Dewan Kehormatan, mekanisme whistleblowing kader, serta tata tertib kedisiplinan 15 tahun kepengurusan.',
   keyTakeaways: [
-    'Struktur baku kepemimpinan BPH: Ketua Umum, 4 Wakil Ketua Umum, Sekretaris Umum 1 & 2, dan Bendahara Umum.',
+    'Struktur baku kepemimpinan BPH: Ketua Umum, 3 Wakil Ketua Umum, Sekretaris Umum 1 & 2, dan Bendahara Umum.',
     'Tata kelola 8 Divisi Teknis dan mekanisme koordinasi lintas bidang dalam pelaksanaan program kerja.',
     'Kode Etik Perilaku Kader dan sanksi tegas terhadap pelanggaran integritas akademik maupun organisasi.',
   ],
@@ -252,7 +252,7 @@ const CATALOG_DOCS: RepoDocItem[] = [
     metaRight: 'Publik Terbuka',
     metaRightClass: 'text-tertiary-container font-semibold',
     keyTakeaways: [
-      'Kewajiban penandatanganan Pakta Integritas di atas materai bagi Ketua Umum, 4 Wakil Ketua Umum, Sekretaris, Bendahara, dan 8 Koordinator Divisi.',
+      'Kewajiban penandatanganan Pakta Integritas di atas materai bagi Ketua Umum, 3 Wakil Ketua Umum, Sekretaris, Bendahara, dan 8 Koordinator Divisi.',
       'Prinsip Zero-Tolerance terhadap penyalahgunaan wewenang, pungutan liar, dan manipulasi nota kegiatan.',
       'Prosedur sidang etik terbuka dan mekanisme pemberhentian antar-waktu (Recall) melalui Musyawarah Istimewa.',
     ],

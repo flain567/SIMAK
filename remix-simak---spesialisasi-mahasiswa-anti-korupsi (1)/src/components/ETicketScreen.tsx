@@ -965,7 +965,7 @@ export const ETicketScreen: React.FC<ETicketScreenProps> = ({
               },
               {
                 certNo: 'SERT/SIMAK-XV/KOPASUS/2026/014',
-                holder: 'Dimas Ardiansya',
+                holder: 'Fathan Hendrawan',
                 nim: '2024102014',
                 program: 'Diklat KOPASUS & PINSUS',
                 predicate: 'Lulus Terverifikasi BPH',

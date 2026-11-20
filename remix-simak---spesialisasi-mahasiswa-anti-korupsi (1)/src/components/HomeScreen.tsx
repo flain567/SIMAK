@@ -47,9 +47,9 @@ const BPH_LEADERS: Record<string, BphLeaderProfile> = {
       '“Integritas bukan sekadar slogan di atas kertas, melainkan keberanian menjaga kejujuran saat tidak ada satu pun mata yang mengawasi.”',
     subDivisions: [
       {
-        name: 'Koordinasi 4 Wakil Ketua Umum & 8 Divisi',
+        name: 'Koordinasi 3 Wakil Ketua Umum & 8 Divisi',
         icon: 'account_tree',
-        desc: 'Memimpin sinergi strategis antara Wakil Ketua 1–4, Kesekretariatan (Sekretaris 1 & 2), serta Kebendaharaan.',
+        desc: 'Memimpin sinergi strategis antara Wakil Ketua 1–3, Kesekretariatan (Sekretaris 1 & 2), serta Kebendaharaan.',
       },
       {
         name: 'Hubungan Kelembagaan Tinggi',
@@ -63,17 +63,16 @@ const BPH_LEADERS: Record<string, BphLeaderProfile> = {
       'Bertanggung jawab penuh atas keterbukaan informasi dan audit publik nol-selisih (Zero-Discrepancy).',
     ],
   },
-  dimas: {
-    id: 'dimas',
+  fathan: {
+    id: 'fathan',
     roleBadge: 'Wakil Ketua Umum 1',
-    fullName: 'Dimas Ardiansya',
+    fullName: 'Fathan Hendrawan',
     divisionTitle: 'Bidang Program, Kaderisasi & Operasional Lapangan',
     nia: 'NIA.SIMAK.XV.002',
     nim: '2024102014',
     cohort: 'Angkatan XV',
     prodi: 'Manajemen Kebijakan Publik — Institut STIAMI',
-    photo:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuDtp632vEfvFF9XVMKS1Ip1HiCCc17fOX6FH5Vo2ZiQ6Fe1cTIrHrJpQcCwzvC4G8I_NdmlzI08dTdd_yksms1vIRHKMKLtN-ljA6IKEIG8o5qFr89rerk2HzrMr_baEw6GoYXS45HrrXLXlypz1Rs2CECnyHkbU15gcRBBaau7P67WOAOuW5wpbp9e0HZveixH05tEE4Bi8IiFEoDKcallJnuADNfs_CUoWsivEM6p',
+    photo: '/pengurus/waketum-1.png',
     quote:
       '“Kaderisasi yang terstruktur dan disiplin lapangan yang tegas adalah kunci melahirkan pejuang antikorupsi yang tangguh.”',
     subDivisions: [
@@ -94,17 +93,16 @@ const BPH_LEADERS: Record<string, BphLeaderProfile> = {
       'Mengawal ketertiban pelaksanaan kegiatan di dalam maupun di luar kampus secara disiplin dan tepat waktu.',
     ],
   },
-  alexsa: {
-    id: 'alexsa',
+  dwi: {
+    id: 'dwi',
     roleBadge: 'Wakil Ketua Umum 2',
-    fullName: 'Alexsa Dewi Purwati',
+    fullName: 'Dwi Agus Hidayat',
     divisionTitle: 'Bidang Komunikasi, Informasi & Teknologi (KOMINTEK)',
     nia: 'NIA.SIMAK.XV.003',
     nim: '2024102028',
     cohort: 'Angkatan XV',
     prodi: 'Ilmu Komunikasi & Media Publik — Institut STIAMI',
-    photo:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuD1rFK3MNcF0Llcc9mUbEEWhLbOln5vX8NrlyFZTYQRBmBYjBsuplOZBE9rTshQH2qsMXEf9K2_gqNWSZZ2wk0WswwenP0EJFRuzhXCHoTQEH5TbbQAxF6mwD6fri9MYOq3BjyGLyf1cxP3nOLyqbxp8ghcbnxbSxMGvvCbzyj-vJdX9oT_EJ0WCgEoEFv0dFkD_TB5XSj-Lw6hkNOS5h2nf_Zi3zQKtebwQpjuIYF4',
+    photo: '/pengurus/waketum-2.png',
     quote:
       '“Visual yang kuat dan dokumentasi yang terarsip rapi adalah wajah kredibilitas gerakan antikorupsi di era digital.”',
     subDivisions: [
@@ -129,7 +127,7 @@ const BPH_LEADERS: Record<string, BphLeaderProfile> = {
     id: 'putri',
     roleBadge: 'Wakil Ketua Umum 3',
     fullName: 'Putri Rizki Amelia',
-    divisionTitle: 'Bidang Kemandirian & Hubungan Eksternal',
+    divisionTitle: 'Bidang Kemandirian, Hubungan Eksternal & Logistik',
     nia: 'NIA.SIMAK.XV.004',
     nim: '2024102039',
     cohort: 'Angkatan XV',
@@ -149,27 +147,6 @@ const BPH_LEADERS: Record<string, BphLeaderProfile> = {
         icon: 'handshake',
         desc: 'Menjalin komunikasi eksternal dan kemitraan bersama instansi penegak hukum, sekolah mitra, BEM/UKM, alumni, serta masyarakat umum.',
       },
-    ],
-    mandates: [
-      'Mengoordinasikan Divisi Ekonomi Kreatif dan Divisi Hubungan Masyarakat (Humas).',
-      'Mengembangkan usaha mandiri organisasi yang akuntabel serta bebas dari konflik kepentingan.',
-      'Memperluas jejaring kolaborasi antar-kampus, sekolah mitra SIMAK Goes To School, dan lembaga publik.',
-    ],
-  },
-  arya: {
-    id: 'arya',
-    roleBadge: 'Wakil Ketua Umum 4',
-    fullName: 'Arya Pratama Putra',
-    divisionTitle: 'Bidang Sarana Logistik & Penunjang Kegiatan',
-    nia: 'NIA.SIMAK.XV.005',
-    nim: '2024102077',
-    cohort: 'Angkatan XV',
-    prodi: 'Ilmu Administrasi Publik & Kebijakan — Institut STIAMI',
-    photo:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuBHa34d3gxhdNjnjedV2yYE68algJo5RJofAgJdnNYKJx11kC0yzF6heQaiPKsIZnyIB8SYWsc7ankYQpN0sUX75J9tfsWmafixysxDaFbPcTf2I9oqfvJL84umFo6t2yNU94L7Sp6fiiYfdRlOkuPmRTDBPtUQKDWlj5hdevzdjYoMV_TJcsdrE26ZjyeqW5ji4OpT1BVLx1iru6Ivrf12hXh010z1r07p7V8xej6dY7YtkedzG6bAww',
-    quote:
-      '“Keberhasilan sebuah agenda besar ditentukan oleh kesiapan logistik yang presisi dan pelayanan konsumsi yang tertib serta transparan.”',
-    subDivisions: [
       {
         name: 'Divisi Perlengkapan',
         icon: 'inventory_2',
@@ -182,9 +159,10 @@ const BPH_LEADERS: Record<string, BphLeaderProfile> = {
       },
     ],
     mandates: [
-      'Membawahi langsung Divisi Perlengkapan dan Divisi Konsumsi dalam mendukung seluruh operasional acara SIMAK.',
+      'Mengoordinasikan Divisi Ekonomi Kreatif, Divisi Hubungan Masyarakat (Humas), Divisi Perlengkapan, dan Divisi Konsumsi.',
+      'Mengembangkan usaha mandiri organisasi yang akuntabel serta bebas dari konflik kepentingan.',
+      'Memperluas jejaring kolaborasi antar-kampus, sekolah mitra SIMAK Goes To School, dan lembaga publik.',
       'Memastikan pengadaan barang, sewa perlengkapan, dan konsumsi kegiatan tercatat transparan sesuai standar kuitansi sah.',
-      'Bertanggung jawab atas pemeliharaan inventaris aset sekretariat SIMAK.',
     ],
   },
   elvira: {
@@ -1405,23 +1383,21 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   </div>
                 </div>
 
-                {/* Architectural Branch Connector: Tier 1 to Tier 2 (4 Wakil Ketua Umum) */}
+                {/* Architectural Branch Connector: Tier 1 to Tier 2 (3 Wakil Ketua Umum) */}
                 <div className="w-0.5 h-6 bg-primary/40"></div>
                 <div className="hidden lg:block w-3/4 h-0.5 bg-primary/30 relative">
                   <div className="absolute left-0 top-0 w-0.5 h-4 bg-primary/30"></div>
-                  <div className="absolute left-1/3 top-0 w-0.5 h-4 bg-primary/30"></div>
-                  <div className="absolute left-2/3 top-0 w-0.5 h-4 bg-primary/30"></div>
+                  <div className="absolute left-1/2 top-0 w-0.5 h-4 bg-primary/30"></div>
                   <div className="absolute right-0 top-0 w-0.5 h-4 bg-primary/30"></div>
                 </div>
                 <div className="hidden lg:block h-4"></div>
 
-                {/* Tier 2: 4 Wakil Ketua Umum + 8 Divisi di Bawahnya */}
-                <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md items-stretch">
+                {/* Tier 2: 3 Wakil Ketua Umum + 8 Divisi di Bawahnya */}
+                <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-space-md items-stretch">
                   {[
-                    BPH_LEADERS.dimas,
-                    BPH_LEADERS.alexsa,
+                    BPH_LEADERS.fathan,
+                    BPH_LEADERS.dwi,
                     BPH_LEADERS.putri,
-                    BPH_LEADERS.arya,
                   ].map((leader) => (
                     <div
                       key={leader.id}
@@ -1452,7 +1428,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                       {leader.subDivisions && leader.subDivisions.length > 0 && (
                         <div className="w-full mt-2 pt-2.5 border-t border-outline-variant/30 flex flex-col gap-1.5 text-left">
                           <span className="text-[10px] font-extrabold uppercase tracking-wider text-secondary text-center">
-                            Membawahi 2 Divisi:
+                            Membawahi {leader.subDivisions.length} Divisi:
                           </span>
                           {leader.subDivisions.map((sub, idx) => (
                             <div
@@ -1822,7 +1798,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                     question:
                       'Bagaimana cara memilih dan bergabung ke dalam 8 Divisi SIMAK (Acara, Korlap, Dokumentasi, Desain, Ekraf, Humas, Perlengkapan, Konsumsi)?',
                     answer:
-                      'Penempatan kader ke dalam 8 Divisi Teknis dilakukan pada Tahap 04 (Pengukuhan & Sumpah Kader) setelah peserta dinyatakan lulus Diklat KOPASUS. Setiap kader baru dapat memilih minat divisi di bawah 4 Wakil Ketua Umum: Waketum 1 (Divisi Acara & Divisi Korlap), Waketum 2 KOMINTEK (Divisi Dokumentasi & Divisi Desain), Waketum 3 (Divisi Ekonomi Kreatif & Divisi Humas), atau Waketum 4 (Divisi Perlengkapan & Divisi Konsumsi).',
+                      'Penempatan kader ke dalam 8 Divisi Teknis dilakukan pada Tahap 04 (Pengukuhan & Sumpah Kader) setelah peserta dinyatakan lulus Diklat KOPASUS. Setiap kader baru dapat memilih minat divisi di bawah 3 Wakil Ketua Umum: Waketum 1 (Divisi Acara & Divisi Korlap), Waketum 2 KOMINTEK (Divisi Dokumentasi & Divisi Desain), atau Waketum 3 (Divisi Ekonomi Kreatif, Divisi Humas, Divisi Perlengkapan & Divisi Konsumsi).',
                     ctaLabel: 'Lihat Kader 8 Divisi di Direktori',
                     ctaScreen: 'direktori' as ScreenId,
                   },
@@ -1832,9 +1808,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                     badge: 'Tata Kelola BPH & Sekretariat',
                     icon: 'description',
                     question:
-                      'Apa perbedaan peran Sekretaris Umum 1 & Sekretaris Umum 2 serta 4 Wakil Ketua Umum di struktur kepemimpinan SIMAK?',
+                      'Apa perbedaan peran Sekretaris Umum 1 & Sekretaris Umum 2 serta 3 Wakil Ketua Umum di struktur kepemimpinan SIMAK?',
                     answer:
-                      'Dalam struktur BPH SIMAK, Ketua Umum dibantu oleh 4 Wakil Ketua Umum yang masing-masing mengoordinasikan 2 divisi teknis (total 8 divisi). Untuk tata kelola administrasi, Sekretaris Umum 1 bertanggung jawab atas SK Kepengurusan, Buku Induk Anggota (NIA), dan dokumen konstitusi AD/ART, sedangkan Sekretaris Umum 2 menangani notulensi rapat pleno, surat-menyurat eksternal, serta presensi kepanitiaan bersama Bendahara Umum yang mengelola audit kas nol-selisih.',
+                      'Dalam struktur BPH SIMAK, Ketua Umum dibantu oleh 3 Wakil Ketua Umum: Waketum 1 dan Waketum 2 masing-masing mengoordinasikan 2 divisi teknis, sedangkan Waketum 3 mengoordinasikan 4 divisi (total 8 divisi). Untuk tata kelola administrasi, Sekretaris Umum 1 bertanggung jawab atas SK Kepengurusan, Buku Induk Anggota (NIA), dan dokumen konstitusi AD/ART, sedangkan Sekretaris Umum 2 menangani notulensi rapat pleno, surat-menyurat eksternal, serta presensi kepanitiaan bersama Bendahara Umum yang mengelola audit kas nol-selisih.',
                     ctaLabel: 'Cek Laporan Transparansi BPH',
                     ctaScreen: 'transparansi' as ScreenId,
                   },

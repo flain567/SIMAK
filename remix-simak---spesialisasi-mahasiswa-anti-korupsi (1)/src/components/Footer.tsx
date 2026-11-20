@@ -12,8 +12,8 @@ const FOOTER_DIVISIONS = [
   { label: 'Divisi Desain', waka: 'Waka 2' },
   { label: 'Divisi Ekonomi Kreatif', waka: 'Waka 3' },
   { label: 'Divisi Humas', waka: 'Waka 3' },
-  { label: 'Divisi Perlengkapan', waka: 'Waka 4' },
-  { label: 'Divisi Konsumsi', waka: 'Waka 4' },
+  { label: 'Divisi Perlengkapan', waka: 'Waka 3' },
+  { label: 'Divisi Konsumsi', waka: 'Waka 3' },
 ];
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
@@ -38,7 +38,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 Struktur Kepemimpinan BPH &amp; 8 Divisi Teknis SIMAK
               </div>
               <p className="text-xs sm:text-sm text-secondary">
-                Dikelola oleh Ketua Umum, 4 Wakil Ketua Umum, Sekretaris Umum 1 &amp; 2, Bendahara Umum, serta 8 Divisi Operasional.
+                Dikelola oleh Ketua Umum, 3 Wakil Ketua Umum, Sekretaris Umum 1 &amp; 2, Bendahara Umum, serta 8 Divisi Operasional.
               </p>
             </div>
 
