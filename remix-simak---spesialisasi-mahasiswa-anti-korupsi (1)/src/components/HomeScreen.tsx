@@ -517,17 +517,32 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                         'radial-gradient(58% 62% at 50% 60%, rgba(255, 102, 40, 0.3) 0%, rgba(219, 55, 12, 0.18) 45%, rgba(20, 3, 1, 0) 76%)',
                     }}
                   />
-                  <span
+                  <svg
                     aria-hidden="true"
                     data-gsap="parallax"
-                    className="pointer-events-none relative z-0 select-none text-center font-extrabold uppercase leading-none tracking-[-0.05em] text-[#ffe3ca]/50 text-[clamp(6rem,23vw,23rem)]"
+                    viewBox="0 0 1200 400"
+                    className="pointer-events-none relative z-0 block w-full select-none overflow-visible text-[#ffe3ca]/50"
                   >
-                    SIMAK
-                  </span>
+                    <defs>
+                      <path id="simak-hero-arc" d="M -40 338 Q 600 238 1240 338" />
+                    </defs>
+                    <text
+                      fill="currentColor"
+                      fontFamily="inherit"
+                      fontSize="336"
+                      fontWeight="800"
+                      letterSpacing="-15"
+                      textAnchor="middle"
+                    >
+                      <textPath href="#simak-hero-arc" startOffset="50%">
+                        SIMAK
+                      </textPath>
+                    </text>
+                  </svg>
                   <img
                     src="/hero/simak-group-cutout.png"
                     alt="Keluarga besar SIMAK angkatan 2025 di Jakarta"
-                    className={`relative z-10 -mt-[40%] block w-full origin-bottom brightness-[1.18] contrast-[1.05] saturate-[1.05] transition-transform duration-[9000ms] ease-linear ${
+                    className={`relative z-10 -mt-[50%] block w-full origin-bottom brightness-[1.08] contrast-[1.03] saturate-[1.04] transition-transform duration-[9000ms] ease-linear ${
                       heroPlaying ? 'scale-[1.025]' : 'scale-100'
                     }`}
                     style={{
