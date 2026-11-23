@@ -373,19 +373,19 @@ export const GalleryScreen: React.FC<GalleryScreenProps> = ({ onNavigate }) => {
           >
             <path
               d="M0 120 C 150 70, 250 180, 400 130 C 550 80, 650 190, 800 140 C 950 90, 1050 170, 1200 130"
-              stroke="#760009"
+              stroke="#8F0000"
               strokeLinecap="round"
               strokeWidth="28"
             ></path>
             <path
               d="M-100 280 C 80 220, 200 340, 380 290 C 560 240, 680 350, 860 300 C 1040 250, 1150 330, 1300 290"
-              stroke="#760009"
+              stroke="#8F0000"
               strokeLinecap="round"
               strokeWidth="24"
             ></path>
             <path
               d="M50 440 C 200 390, 320 500, 500 450 C 680 400, 790 510, 970 460 C 1120 410, 1220 490, 1370 450"
-              stroke="#760009"
+              stroke="#8F0000"
               strokeLinecap="round"
               strokeWidth="20"
             ></path>

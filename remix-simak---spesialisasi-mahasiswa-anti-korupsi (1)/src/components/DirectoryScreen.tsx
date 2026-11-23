@@ -1287,7 +1287,7 @@ export const DirectoryScreen: React.FC<DirectoryScreenProps> = ({ onNavigate }) 
                   <div
                     className={`relative w-28 h-28 rounded-full p-1 shadow-inner mb-space-sm ${
                       member.isLeader
-                        ? 'bg-gradient-to-tr from-primary to-primary-container'
+                        ? 'bg-gradient-to-tr from-primary via-primary-container to-flame'
                         : 'bg-surface-container-high'
                     }`}
                   >
@@ -1377,7 +1377,7 @@ export const DirectoryScreen: React.FC<DirectoryScreenProps> = ({ onNavigate }) 
             className="bg-surface-container-lowest rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="bg-gradient-to-r from-primary to-primary-container p-6 text-on-primary flex items-center gap-4 relative">
+            <div className="bg-gradient-to-r from-primary via-primary-container to-flame p-6 text-on-primary flex items-center gap-4 relative">
               <img
                 src={selectedMemberModal.imageUrl}
                 alt={selectedMemberModal.name}

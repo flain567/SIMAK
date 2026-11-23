@@ -436,7 +436,7 @@ export const ETicketScreen: React.FC<ETicketScreenProps> = ({
               {/* Left 8 Cols: Main Ticket Body */}
               <div className="lg:col-span-8 flex flex-col justify-between">
                 {/* Ticket Top Header Bar */}
-                <div className="bg-gradient-to-r from-[#760009] via-[#991b1b] to-[#410002] text-on-primary p-6 sm:px-8 flex flex-wrap items-center justify-between gap-4">
+                <div className="bg-gradient-to-r from-primary via-primary-container to-flame text-on-primary p-6 sm:px-8 flex flex-wrap items-center justify-between gap-4">
                   <div className="flex items-center gap-3.5">
                     <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur-xs flex items-center justify-center border border-white/25">
                       <span className="material-symbols-outlined text-[28px] text-on-tertiary-container">

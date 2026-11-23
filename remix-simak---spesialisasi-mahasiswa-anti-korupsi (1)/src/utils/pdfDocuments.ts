@@ -5,7 +5,7 @@
 
 import { KOPASUS_GENERATIONS } from '../data/programArchiveData';
 
-const PRIMARY = '#760009';
+const PRIMARY = '#8F0000';
 const PAGE_W = 210;
 const PAGE_H = 297;
 const MARGIN = 14;

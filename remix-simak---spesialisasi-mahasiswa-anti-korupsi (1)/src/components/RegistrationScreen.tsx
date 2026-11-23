@@ -776,7 +776,7 @@ export const RegistrationScreen: React.FC<RegistrationScreenProps> = ({
 
             {/* Live Countdown Widget for HARLAH SIMAK 29 Januari */}
             <div data-gsap="hero-media" className="lg:col-span-5">
-              <div className="p-5 rounded-2xl bg-gradient-to-br from-primary to-primary-container text-on-primary shadow-xl space-y-3">
+              <div className="p-5 rounded-2xl bg-gradient-to-br from-primary via-primary-container to-flame text-on-primary shadow-xl space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="inline-flex items-center gap-1.5 font-label-sm text-label-sm uppercase tracking-wider text-tertiary-fixed font-bold">
                     <span className="w-2 h-2 rounded-full bg-tertiary-fixed animate-ping"></span>

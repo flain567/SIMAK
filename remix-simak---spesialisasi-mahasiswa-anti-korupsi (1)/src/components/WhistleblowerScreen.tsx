@@ -471,7 +471,7 @@ export const WhistleblowerScreen: React.FC<WhistleblowerScreenProps> = ({
 
             {/* Right Info Column: Prosedur & Perlindungan */}
             <div className="lg:col-span-5 space-y-6">
-              <div className="bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-2xl p-6 shadow-xl space-y-4">
+              <div className="bg-gradient-to-br from-primary via-primary-container to-flame text-on-primary rounded-2xl p-6 shadow-xl space-y-4">
                 <div className="flex items-center gap-2 text-tertiary-fixed font-label-sm text-label-sm uppercase tracking-wider font-bold">
                   <span className="material-symbols-outlined text-[18px]">verified_user</span>
                   Protokol Perlindungan Pelapor

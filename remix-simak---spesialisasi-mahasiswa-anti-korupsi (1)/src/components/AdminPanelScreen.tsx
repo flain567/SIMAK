@@ -652,7 +652,7 @@ export const AdminPanelScreen: React.FC<AdminPanelScreenProps> = ({
                                   p.status === 'TERVERIFIKASI'
                                     ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
                                     : p.status === 'HADIR'
-                                    ? 'bg-blue-100 text-blue-900 border border-blue-300'
+                                    ? 'bg-peach/35 text-primary border border-tangerine/40'
                                     : 'bg-amber-100 text-amber-900 border border-amber-300'
                                 }`}
                               >
@@ -735,15 +735,15 @@ export const AdminPanelScreen: React.FC<AdminPanelScreenProps> = ({
                 <div className="text-[11px] text-emerald-700 mt-1">Sudah Check-in</div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-blue-50/70 border border-blue-200 shadow-xs">
+              <div className="p-4 rounded-2xl bg-tangerine/10 border border-tangerine/30 shadow-xs">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-blue-800 uppercase tracking-wider">Terverifikasi</span>
-                  <span className="material-symbols-outlined text-[20px] text-blue-600">verified</span>
+                  <span className="text-xs font-bold text-primary uppercase tracking-wider">Terverifikasi</span>
+                  <span className="material-symbols-outlined text-[20px] text-primary-container">verified</span>
                 </div>
-                <div className="text-2xl font-black text-blue-900 mt-2">
+                <div className="text-2xl font-black text-primary mt-2">
                   {attendanceSummary?.terverifikasi ?? 0}
                 </div>
-                <div className="text-[11px] text-blue-700 mt-1">Siap Hadir Hari-H</div>
+                <div className="text-[11px] text-primary-container mt-1">Siap Hadir Hari-H</div>
               </div>
 
               <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 shadow-xs">

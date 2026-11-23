@@ -452,18 +452,18 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         <div className="relative w-full overflow-hidden">
 
           {/* 2. HERO BANNER */}
-          <section className="relative w-full overflow-hidden bg-[#2a0401] text-white">
+          <section className="relative w-full overflow-hidden bg-primary text-white">
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-0"
               style={{
                 background:
-                  'radial-gradient(125% 92% at 50% 0%, #ffa768 0%, #ff7a2e 22%, #ff521b 42%, #f43a06 60%, #c02304 78%, #5a0a01 92%, #1a0401 100%)',
+                  'radial-gradient(85% 72% at 88% 0%, rgba(255, 180, 127, 0.48) 0%, rgba(255, 180, 127, 0) 68%), radial-gradient(125% 96% at 50% 0%, #FFB47F 0%, #FF7A00 22%, #FF5A1F 44%, #E63B0B 68%, #8F0000 100%)',
               }}
             />
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent via-[#160301]/35 to-[#0b0201]/85"
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent via-primary/20 to-primary/85"
             />
 
             <div className="relative z-10 mx-auto flex min-h-[640px] w-full max-w-7xl flex-col px-5 pb-0 pt-8 sm:px-8 lg:px-12 lg:pt-10">
@@ -472,7 +472,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   <h1 className="font-extrabold leading-[0.82] tracking-[-0.045em] text-[clamp(3.4rem,9.5vw,8.5rem)]">
                     <span className="block">Bersama</span>
                     <span className="block">Membangun</span>
-                    <span className="block text-[#ffc3a1]">Dampak</span>
+                    <span className="block text-peach">Dampak</span>
                   </h1>
                 </div>
                 <div data-gsap="hero-text" className="lg:col-span-4 lg:pt-2">
@@ -514,14 +514,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                     className="pointer-events-none absolute -inset-x-24 -top-10 bottom-0 z-0"
                     style={{
                       background:
-                        'radial-gradient(80% 95% at 50% 48%, rgba(255, 150, 76, 0.95) 0%, rgba(255, 116, 44, 0.85) 42%, rgba(244, 72, 14, 0.5) 68%, rgba(20, 3, 1, 0) 90%)',
+                        'radial-gradient(80% 95% at 50% 48%, rgba(255, 180, 127, 0.92) 0%, rgba(255, 122, 0, 0.82) 42%, rgba(255, 90, 31, 0.48) 68%, rgba(143, 0, 0, 0) 90%)',
                     }}
                   />
                   <svg
                     aria-hidden="true"
                     data-gsap="parallax"
                     viewBox="0 0 1200 400"
-                    className="pointer-events-none relative z-0 block w-full select-none overflow-visible text-[#ffcf9e]/55"
+                    className="pointer-events-none relative z-0 block w-full select-none overflow-visible text-peach/55"
                   >
                     <defs>
                       <path id="simak-hero-arc" d="M -40 338 Q 600 238 1240 338" />
@@ -559,7 +559,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                     aria-label="Putar animasi hero"
                     aria-pressed={heroPlaying}
                     className={`flex h-11 w-11 cursor-pointer items-center justify-center rounded-full backdrop-blur-md transition-colors sm:h-12 sm:w-12 ${
-                      heroPlaying ? 'bg-white text-[#1c0a05]' : 'bg-white/20 text-white hover:bg-white/30'
+                      heroPlaying ? 'bg-white text-primary' : 'bg-white/20 text-white hover:bg-white/30'
                     }`}
                   >
                     <span className="material-symbols-outlined text-[20px]">play_arrow</span>
@@ -570,7 +570,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                     aria-label="Jeda animasi hero"
                     aria-pressed={!heroPlaying}
                     className={`flex h-11 w-11 cursor-pointer items-center justify-center rounded-full backdrop-blur-md transition-colors sm:h-12 sm:w-12 ${
-                      !heroPlaying ? 'bg-white text-[#1c0a05]' : 'bg-white/20 text-white hover:bg-white/30'
+                      !heroPlaying ? 'bg-white text-primary' : 'bg-white/20 text-white hover:bg-white/30'
                     }`}
                   >
                     <span className="material-symbols-outlined text-[20px]">pause</span>
@@ -636,7 +636,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
               {/* Right Content & Vision Callout Column */}
               <div className="lg:col-span-7 flex flex-col gap-space-md">
-                <div data-gsap="section-header" className="p-space-lg rounded-xl bg-gradient-to-br from-primary to-primary-container text-on-primary shadow-xl relative overflow-hidden">
+                <div data-gsap="section-header" className="p-space-lg rounded-xl bg-gradient-to-br from-primary via-primary-container to-flame text-on-primary shadow-xl relative overflow-hidden">
                   <div className="relative z-10 flex flex-col gap-space-sm">
                     <div className="flex items-center gap-space-xs text-tertiary-fixed font-bold font-label-sm text-label-sm uppercase tracking-wider">
                       <span className="material-symbols-outlined text-[18px]">format_quote</span>
@@ -1785,7 +1785,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
           {/* 10. BANNER CALL TO ACTION (CTA) HARLAH */}
           <section className="w-full max-w-7xl mx-auto px-margin-mobile sm:px-margin py-space-xl">
-            <div data-gsap="section-header" className="relative rounded-2xl bg-gradient-to-r from-primary to-primary-container text-on-primary p-space-lg sm:p-space-xl shadow-xl overflow-hidden">
+            <div data-gsap="section-header" className="relative rounded-2xl bg-gradient-to-r from-primary via-primary-container to-flame text-on-primary p-space-lg sm:p-space-xl shadow-xl overflow-hidden">
               <svg
                 className="absolute right-0 top-0 w-80 h-80 text-white/5 pointer-events-none"
                 fill="currentColor"
@@ -1876,7 +1876,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             className="bg-surface-container-lowest rounded-2xl max-w-xl w-full shadow-2xl border border-outline-variant/40 overflow-hidden my-8"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="bg-gradient-to-r from-primary to-primary-container text-on-primary p-6 relative">
+            <div className="bg-gradient-to-r from-primary via-primary-container to-flame text-on-primary p-6 relative">
               <button
                 type="button"
                 onClick={() => setSelectedLeader(null)}
