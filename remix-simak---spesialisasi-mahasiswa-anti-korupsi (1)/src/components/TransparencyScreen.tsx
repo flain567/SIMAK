@@ -153,7 +153,7 @@ export const TransparencyScreen: React.FC<TransparencyScreenProps> = ({ onNaviga
   useGsapPageAnimations(containerRef);
 
   return (
-    <div ref={containerRef} className="flex flex-col w-full bg-surface">
+    <div ref={containerRef} className="flex flex-col w-full bg-transparent">
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 bg-inverse-surface text-inverse-on-surface px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-outline-variant/30">
           <span className="material-symbols-outlined text-tertiary-fixed-dim text-[22px]">
@@ -164,7 +164,7 @@ export const TransparencyScreen: React.FC<TransparencyScreenProps> = ({ onNaviga
       )}
 
       {/* Top Header */}
-      <section className="relative w-full bg-surface-container-lowest py-space-xl overflow-hidden border-b border-surface-container-high">
+      <section className="relative w-full bg-surface-container-lowest/80 py-space-xl overflow-hidden border-b border-surface-container-high">
         <div className="max-w-7xl mx-auto px-margin-mobile sm:px-margin relative z-10">
           <nav className="flex items-center gap-space-xs mb-space-md text-secondary font-label-md text-label-md">
             <button

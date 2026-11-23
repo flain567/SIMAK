@@ -340,7 +340,7 @@ export const GalleryScreen: React.FC<GalleryScreenProps> = ({ onNavigate }) => {
   };
 
   return (
-    <div ref={containerRef} className="flex flex-col w-full bg-surface">
+    <div ref={containerRef} className="flex flex-col w-full bg-transparent">
       {/* Toast Notification Banner */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 bg-inverse-surface text-inverse-on-surface px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-outline-variant/30">
@@ -359,7 +359,7 @@ export const GalleryScreen: React.FC<GalleryScreenProps> = ({ onNavigate }) => {
       )}
 
       {/* Hero & Heritage Header Section */}
-      <section className="relative w-full bg-surface-container-lowest overflow-hidden py-16 md:py-20">
+      <section className="relative w-full bg-surface-container-lowest/80 overflow-hidden py-16 md:py-20">
         {/* Subtle Megamendung Heritage Watermark Vector */}
         <div
           data-gsap="parallax"
@@ -557,7 +557,7 @@ export const GalleryScreen: React.FC<GalleryScreenProps> = ({ onNavigate }) => {
       </section>
 
       {/* Featured Story & Key Milestones Grid */}
-      <section className="w-full py-16 bg-surface">
+      <section className="w-full py-16 bg-transparent">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 space-y-8">
           <div data-gsap="section-header" className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
@@ -714,7 +714,7 @@ export const GalleryScreen: React.FC<GalleryScreenProps> = ({ onNavigate }) => {
       </section>
 
       {/* Filterable Interactive Documentation Catalog */}
-      <section className="w-full py-16 bg-surface-container-low" id="katalog-arsip">
+      <section className="w-full py-16 bg-surface-container-low/60" id="katalog-arsip">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 space-y-8">
           {/* Section Header */}
           <div data-gsap="section-header" className="space-y-2">
@@ -989,7 +989,7 @@ export const GalleryScreen: React.FC<GalleryScreenProps> = ({ onNavigate }) => {
       )}
 
       {/* Media Mentions & Public Recognition Section */}
-      <section className="w-full py-16 bg-surface">
+      <section className="w-full py-16 bg-transparent">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 space-y-8">
           <div data-gsap="section-header" className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>

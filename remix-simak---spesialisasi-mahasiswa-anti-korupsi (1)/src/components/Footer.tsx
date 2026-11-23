@@ -28,7 +28,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
   return (
 
-      <footer className="w-full bg-surface-container-low border-t border-surface-container-high print:hidden">
+      <footer className="w-full bg-surface-container-low/70 border-t border-surface-container-high print:hidden">
         <div className="max-w-7xl mx-auto px-margin-mobile sm:px-margin py-space-xl">
           {/* Top Quick Strip: Struktur BPH & 8 Divisi SIMAK */}
           <div className="mb-space-xl p-5 sm:p-6 rounded-2xl bg-surface-container-lowest border border-outline-variant/40 shadow-2xs flex flex-col lg:flex-row lg:items-center justify-between gap-4">

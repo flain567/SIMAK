@@ -38,9 +38,9 @@ export const ExamCardScreen: React.FC<ExamCardScreenProps> = ({
   };
 
   return (
-    <div ref={containerRef} className="flex flex-col w-full bg-surface">
+    <div ref={containerRef} className="flex flex-col w-full bg-transparent">
       {/* Institutional Heritage Header */}
-      <section className="relative w-full bg-surface-container-lowest py-space-xl overflow-hidden border-b border-surface-container-high print:hidden">
+      <section className="relative w-full bg-surface-container-lowest/80 py-space-xl overflow-hidden border-b border-surface-container-high print:hidden">
         <div
           data-gsap="parallax"
           className="absolute right-0 top-0 w-96 h-96 opacity-[0.035] pointer-events-none text-primary select-none"

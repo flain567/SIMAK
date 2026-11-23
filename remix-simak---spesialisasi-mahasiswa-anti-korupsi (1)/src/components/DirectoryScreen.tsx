@@ -671,7 +671,7 @@ export const DirectoryScreen: React.FC<DirectoryScreenProps> = ({ onNavigate }) 
   };
 
   return (
-    <div ref={containerRef} className="flex flex-col w-full bg-surface">
+    <div ref={containerRef} className="flex flex-col w-full bg-transparent">
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 bg-inverse-surface text-inverse-on-surface px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-outline-variant/30">
@@ -690,7 +690,7 @@ export const DirectoryScreen: React.FC<DirectoryScreenProps> = ({ onNavigate }) 
       )}
 
       {/* Micro Heritage Bar & Hero Header */}
-      <section className="relative w-full bg-surface-container-lowest py-space-xl overflow-hidden">
+      <section className="relative w-full bg-surface-container-lowest/80 py-space-xl overflow-hidden">
         {/* Subtle Megamendung/Parang Heritage Vector Watermark in Corner */}
         <div
           data-gsap="parallax"
@@ -1042,7 +1042,7 @@ export const DirectoryScreen: React.FC<DirectoryScreenProps> = ({ onNavigate }) 
       </section>
 
       {/* Member Directory Photo Cards Grid */}
-      <section className="w-full py-space-xl bg-surface">
+      <section className="w-full py-space-xl bg-transparent">
         <div className="max-w-[1280px] mx-auto px-margin-mobile sm:px-margin">
           {/* Section Title & Counter Display */}
           <div data-gsap="section-header" className="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm mb-space-md">
@@ -1466,7 +1466,7 @@ export const DirectoryScreen: React.FC<DirectoryScreenProps> = ({ onNavigate }) 
       )}
 
       {/* Showcase Fitur Arsip Angkatan Abadi (Perpetual Cohort Archiving System) */}
-      <section className="w-full py-space-xl bg-surface-container-low relative overflow-hidden">
+      <section className="w-full py-space-xl bg-surface-container-low/60 relative overflow-hidden">
         {/* Subtle Watermark Shield in Background */}
         <div className="absolute -left-12 -bottom-12 w-64 h-64 text-surface-container-high opacity-40 pointer-events-none">
           <span className="material-symbols-outlined text-[240px]">history_toggle_off</span>

@@ -220,7 +220,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-surface text-on-surface">
+    <div className="min-h-screen flex flex-col bg-transparent text-on-surface">
       <div className="print:hidden">
         <Navbar
           activeScreen={activeScreen}

@@ -298,7 +298,7 @@ export const ProgramCanvasScreen: React.FC<ProgramCanvasScreenProps> = ({
   }
 
   return (
-    <div className="min-h-screen bg-surface text-on-surface pb-24">
+    <div className="min-h-screen bg-transparent text-on-surface pb-24">
       {/* ─── STICKY PROGRAM BAR SWITCHER ─── */}
       <div className="sticky top-16 z-30 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 py-3 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">

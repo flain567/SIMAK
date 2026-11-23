@@ -145,6 +145,13 @@
   }
   body {
     overscroll-behavior: none;
+    background-color: #fffaf6;
+    background-image:
+      radial-gradient(65% 48% at 0% 0%, rgba(255, 180, 127, 0.48) 0%, rgba(255, 180, 127, 0) 100%),
+      radial-gradient(55% 42% at 100% 28%, rgba(255, 90, 31, 0.13) 0%, rgba(255, 90, 31, 0) 100%),
+      radial-gradient(48% 36% at 100% 100%, rgba(143, 0, 0, 0.07) 0%, rgba(143, 0, 0, 0) 100%),
+      linear-gradient(135deg, #fffaf6 0%, #ffebdf 24%, #ffb47f 68%, #ff7a00 145%);
+    background-attachment: fixed;
   }
 }
 

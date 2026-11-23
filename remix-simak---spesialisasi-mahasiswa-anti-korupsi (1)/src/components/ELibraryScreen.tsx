@@ -517,7 +517,7 @@ export const ELibraryScreen: React.FC<ELibraryScreenProps> = ({
   }, [activeCategory, topicFilter, yearFilter]);
 
   return (
-    <div ref={containerRef} className="flex flex-col w-full bg-surface">
+    <div ref={containerRef} className="flex flex-col w-full bg-transparent">
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 bg-inverse-surface text-inverse-on-surface px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-outline-variant/30 max-w-md">
@@ -536,7 +536,7 @@ export const ELibraryScreen: React.FC<ELibraryScreenProps> = ({
       )}
 
       {/* Top Academic Scrim / Institutional Context Header */}
-      <div className="relative w-full bg-surface-container-lowest overflow-hidden">
+      <div className="relative w-full bg-surface-container-lowest/80 overflow-hidden">
         <div className="absolute -right-20 -top-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute left-1/4 -bottom-16 w-80 h-80 bg-tertiary-fixed/30 rounded-full blur-2xl pointer-events-none"></div>
 
@@ -692,7 +692,7 @@ export const ELibraryScreen: React.FC<ELibraryScreenProps> = ({
       </div>
 
       {/* Featured Documents (Sorotan Dokumen Utama) */}
-      <section className="w-full bg-surface py-space-xl">
+      <section className="w-full bg-transparent py-space-xl">
         <div className="max-w-[1280px] mx-auto px-margin-mobile sm:px-margin">
           <div data-gsap="section-header" className="flex items-center justify-between mb-space-lg">
             <div>
@@ -884,7 +884,7 @@ export const ELibraryScreen: React.FC<ELibraryScreenProps> = ({
       </section>
 
       {/* Complete Catalog Repository with Filter Tabs */}
-      <section className="w-full bg-surface-container-low py-space-xl" id="katalog-modul">
+      <section className="w-full bg-surface-container-low/60 py-space-xl" id="katalog-modul">
         <div className="max-w-[1280px] mx-auto px-margin-mobile sm:px-margin">
           {/* Section Title & Meta */}
           <div data-gsap="section-header" className="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-lg">
@@ -1020,7 +1020,7 @@ export const ELibraryScreen: React.FC<ELibraryScreenProps> = ({
       </section>
 
       {/* Section Kontribusi & Pengajuan Riset Mahasiswa */}
-      <section className="w-full bg-surface-container-lowest py-space-xl relative overflow-hidden">
+      <section className="w-full bg-surface-container-lowest/80 py-space-xl relative overflow-hidden">
         <div className="max-w-[1280px] mx-auto px-margin-mobile sm:px-margin">
           <div className="bg-gradient-to-r from-surface-container to-surface-container-high rounded-xl p-space-lg sm:p-space-xl relative overflow-hidden">
             {/* Subtle Vector Batik Motif Watermark */}

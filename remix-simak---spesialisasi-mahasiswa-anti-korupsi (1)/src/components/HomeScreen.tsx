@@ -447,7 +447,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   };
 
   return (
-    <div ref={containerRef} id="top" className="w-full bg-surface min-h-[calc(100vh-80px)]">
+    <div ref={containerRef} id="top" className="w-full bg-transparent min-h-[calc(100vh-80px)]">
       <div className="flex flex-col w-full">
         <div className="relative w-full overflow-hidden">
 
@@ -726,7 +726,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </section>
 
           {/* 4. VISI DAN MISI SIMAK */}
-          <section className="w-full bg-surface-container-low py-space-xl" id="visi-dan-misi">
+          <section className="w-full bg-surface-container-low/60 py-space-xl" id="visi-dan-misi">
             <div className="max-w-7xl mx-auto px-margin-mobile sm:px-margin flex flex-col gap-space-lg">
               <div data-gsap="section-header" className="flex flex-col items-center text-center max-w-3xl mx-auto gap-space-xs">
                 <span className="px-space-sm py-1 rounded-full bg-surface-container-highest text-primary font-label-sm text-label-sm uppercase font-bold tracking-wider">
@@ -1215,7 +1215,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </section>
 
           {/* 6. STRUKTUR KEPEMIMPINAN SIMAK */}
-          <section className="w-full bg-surface-container-low py-space-xl" id="struktur-pengurus">
+          <section className="w-full bg-surface-container-low/60 py-space-xl" id="struktur-pengurus">
             <div className="max-w-7xl mx-auto px-margin-mobile sm:px-margin flex flex-col gap-space-lg">
               <div data-gsap="section-header" className="flex flex-col items-center text-center max-w-2xl mx-auto gap-space-xs">
                 <span className="px-space-sm py-1 rounded-full bg-surface-container-highest text-primary font-label-sm text-label-sm uppercase font-bold tracking-wider">
@@ -1591,7 +1591,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </section>
 
           {/* 9. SEKSI TANYA JAWAB (FAQ) INTERAKTIF SEPUTAR SIMAK, HARLAH, KOPASUS & 8 DIVISI */}
-          <section className="w-full bg-surface-container-low py-space-xl" id="faq-rekrutmen">
+          <section className="w-full bg-surface-container-low/60 py-space-xl" id="faq-rekrutmen">
             <div className="max-w-5xl mx-auto px-margin-mobile sm:px-margin flex flex-col gap-space-lg">
               <div data-gsap="section-header" className="flex flex-col items-center text-center max-w-2xl mx-auto gap-space-xs">
                 <span className="px-space-sm py-1 rounded-full bg-surface-container-highest text-primary font-label-sm text-label-sm uppercase font-bold tracking-wider">

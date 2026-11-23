@@ -506,7 +506,7 @@ export const RegistrationScreen: React.FC<RegistrationScreenProps> = ({
   };
 
   return (
-    <div ref={containerRef} className="flex flex-col w-full bg-surface">
+    <div ref={containerRef} className="flex flex-col w-full bg-transparent">
       {/* POP-UP MODAL BUKTI PENDAFTARAN TAMU HARLAH BERHASIL */}
       {showSuccessModal && createdRecord && (
         <div
@@ -704,7 +704,7 @@ export const RegistrationScreen: React.FC<RegistrationScreenProps> = ({
         </div>
       )}
       {/* Institutional Heritage Hero Header */}
-      <section className="relative w-full bg-surface-container-lowest py-space-xl overflow-hidden border-b border-surface-container-high">
+      <section className="relative w-full bg-surface-container-lowest/80 py-space-xl overflow-hidden border-b border-surface-container-high">
         <div
           data-gsap="parallax"
           className="absolute right-0 top-0 w-96 h-96 opacity-[0.035] pointer-events-none text-primary select-none"

@@ -357,7 +357,7 @@ export const AdminPanelScreen: React.FC<AdminPanelScreenProps> = ({
   // ─── Tampilan Form Login Jika Belum Login ───
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-surface-container-low py-12 px-4 sm:px-6 flex items-center justify-center">
+      <div className="min-h-screen bg-transparent py-12 px-4 sm:px-6 flex items-center justify-center">
         <div className="w-full max-w-md bg-surface-container-lowest rounded-3xl p-8 shadow-xl border border-outline-variant/40">
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/10 text-primary mb-4">
@@ -441,7 +441,7 @@ export const AdminPanelScreen: React.FC<AdminPanelScreenProps> = ({
 
   // ─── Tampilan Dashboard Admin ───
   return (
-    <div className="min-h-screen bg-surface-container-low pb-20">
+    <div className="min-h-screen bg-transparent pb-20">
       {/* Top Banner Header */}
       <div className="bg-surface-container-lowest border-b border-outline-variant/40 sticky top-16 z-30 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">

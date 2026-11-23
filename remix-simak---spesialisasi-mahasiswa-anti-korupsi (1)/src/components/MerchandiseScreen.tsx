@@ -171,7 +171,7 @@ Mohon konfirmasi ketersediaan dan panduan pembayaran. Terima kasih telah menduku
     });
 
   return (
-    <div ref={containerRef} className="flex flex-col w-full bg-surface">
+    <div ref={containerRef} className="flex flex-col w-full bg-transparent">
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed top-20 right-4 sm:right-8 z-50 p-4 rounded-2xl bg-emerald-900 text-white shadow-xl border border-emerald-400 flex items-center gap-2.5 animate-bounce">
@@ -181,7 +181,7 @@ Mohon konfirmasi ketersediaan dan panduan pembayaran. Terima kasih telah menduku
       )}
 
       {/* Hero Header */}
-      <section className="relative w-full bg-surface-container-lowest py-space-xl overflow-hidden border-b border-surface-container-high">
+      <section className="relative w-full bg-surface-container-lowest/80 py-space-xl overflow-hidden border-b border-surface-container-high">
         <div className="max-w-7xl mx-auto px-margin-mobile sm:px-margin relative z-10">
           <nav className="flex items-center gap-space-xs mb-space-md text-secondary font-label-md text-label-md">
             <button
