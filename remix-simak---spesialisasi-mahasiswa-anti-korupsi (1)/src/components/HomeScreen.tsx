@@ -437,6 +437,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   const [prokerFilter, setProkerFilter] = useState<'all' | 'upcoming' | 'completed'>('all');
   const [faqCategory, setFaqCategory] = useState<'all' | 'harlah' | 'kopasus' | 'divisi'>('all');
   const [openFaqId, setOpenFaqId] = useState<string | null>('faq-1');
+  const [heroPlaying, setHeroPlaying] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   useGsapPageAnimations(containerRef);
 
@@ -448,261 +449,135 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   return (
     <div ref={containerRef} id="top" className="w-full bg-surface min-h-[calc(100vh-80px)]">
       <div className="flex flex-col w-full">
-        {/* Ambient Heritage Accents */}
         <div className="relative w-full overflow-hidden">
-          <div className="absolute top-0 right-0 -mr-48 -mt-48 w-96 h-96 rounded-full bg-primary-fixed-dim/30 blur-3xl pointer-events-none"></div>
-          <div className="absolute top-96 left-0 -ml-40 w-80 h-80 rounded-full bg-tertiary-fixed/30 blur-3xl pointer-events-none"></div>
 
           {/* 2. HERO BANNER */}
-          <section className="relative w-full max-w-7xl mx-auto px-margin-mobile sm:px-margin pt-space-xl pb-space-xl">
-            <svg
-              data-gsap="parallax"
-              className="absolute right-0 top-12 w-96 h-96 text-primary/5 pointer-events-none select-none"
-              fill="currentColor"
-              viewBox="0 0 200 200"
-            >
-              <path d="M45,20 C60,5 90,5 105,25 C120,45 150,45 165,25 C180,5 200,20 190,45 C180,70 195,95 180,120 C165,145 135,145 120,165 C105,185 75,185 60,165 C45,145 15,145 5,120 C-5,95 10,70 5,45 C0,20 30,5 45,20 Z"></path>
-            </svg>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
-              {/* Text Column */}
-              <div data-gsap="hero-text" className="lg:col-span-7 flex flex-col gap-space-md">
-                <div className="flex flex-wrap items-center gap-space-xs">
-                  <span className="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm uppercase tracking-wider font-bold shadow-sm">
-                    <span className="material-symbols-outlined text-[16px]">military_tech</span>
-                    15 Tahun Memperjuangkan Integritas (2011–2026)
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold">
-                    <span className="material-symbols-outlined text-[15px] text-primary">school</span>
-                    Didirikan di Institut STIAMI Jakarta
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-label-lg text-label-lg uppercase tracking-widest text-primary font-bold">
-                    Lembaga Gerakan Mahasiswa Independen
-                  </span>
-                  <h1 className="font-display-lg text-display-lg-mobile sm:text-display-lg font-extrabold tracking-tight text-on-surface mt-1">
-                    SPESIALISASI <span className="text-primary-container">MAHASISWA</span> ANTI KORUPSI
+          <section className="relative w-full overflow-hidden bg-[#2a0401] text-white">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  'radial-gradient(120% 85% at 50% -8%, #ff9a5c 0%, #ff521b 24%, #e42f06 44%, #a81504 66%, #4c0801 85%, #140301 100%)',
+              }}
+            />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-b from-transparent via-[#160301]/60 to-[#0b0201]"
+            />
+
+            <div className="relative z-10 mx-auto flex min-h-[640px] w-full max-w-7xl flex-col px-5 pb-0 pt-8 sm:px-8 lg:px-12 lg:pt-10">
+              <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12 lg:gap-10">
+                <div data-gsap="hero-text" className="lg:col-span-8">
+                  <h1 className="font-extrabold leading-[0.82] tracking-[-0.045em] text-[clamp(3.4rem,9.5vw,8.5rem)]">
+                    <span className="block">Bersama</span>
+                    <span className="block">Membangun</span>
+                    <span className="block text-[#ffc3a1]">Dampak</span>
                   </h1>
                 </div>
-                <p className="font-body-xl text-body-xl text-on-surface-variant max-w-2xl font-normal">
-                  Laboratorium kepemimpinan pemuda berintegritas, berkarakter moral kokoh, berwawasan kebangsaan, dan pelopor garda depan gerakan antikorupsi di Indonesia sejak 29 Januari 2011.
-                </p>
-
-                {/* Adaptive CTA Area: Shows Personal Registered Badge if already registered for HARLAH */}
-                {myHarlahRegistration ? (
-                  <div className="p-4 rounded-2xl bg-emerald-950/95 text-white border-2 border-emerald-500/60 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 max-w-2xl">
-                    <div className="space-y-1">
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-extrabold uppercase tracking-wider">
-                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                        Status Web: Anda Sudah Terdaftar di HARLAH (29 Jan)
-                      </div>
-                      <div className="text-sm sm:text-base font-extrabold">
-                        {myHarlahRegistration.fullName}{' '}
-                        <span className="font-mono text-xs text-emerald-300">
-                          ({myHarlahRegistration.ticketCode} • {myHarlahRegistration.seatNumber})
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex flex-wrap items-center gap-2 shrink-0">
-                      <button
-                        type="button"
-                        onClick={() => onSelectParticipantForTicket(myHarlahRegistration)}
-                        className="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-extrabold text-xs flex items-center gap-1.5 shadow-sm transition-colors cursor-pointer"
-                      >
-                        <span className="material-symbols-outlined text-[17px]">qr_code_2</span>
-                        <span>Buka E-Tiket Saya</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => go('pendaftaran')}
-                        className="px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs flex items-center gap-1 transition-colors cursor-pointer"
-                      >
-                        <span>Buku Tamu</span>
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="flex flex-wrap items-center gap-space-sm pt-space-xs">
-                    <a
-                      href="#program-kerja"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        go('pendaftaran');
-                      }}
-                      className="inline-flex items-center justify-center gap-space-xs px-space-lg py-3 rounded-lg bg-primary-container text-on-primary font-label-lg text-label-lg font-bold shadow-md hover:bg-primary transition-all cursor-pointer"
-                    >
-                      <span className="material-symbols-outlined text-[20px]">confirmation_number</span>
-                      Daftar Tamu HARLAH (29 Jan)
-                    </a>
-                    <a
-                      href="#program-kerja"
-                      className="inline-flex items-center justify-center gap-space-xs px-space-lg py-3 rounded-lg bg-surface-container-lowest text-on-surface font-label-lg text-label-lg font-bold shadow-sm hover:bg-surface-container transition-all"
-                    >
-                      <span className="material-symbols-outlined text-[20px]">event_note</span>
-                      Lihat Status 6 Proker
-                    </a>
-                    <button
-                      type="button"
-                      onClick={() => go('merchandise')}
-                      className="inline-flex items-center justify-center gap-space-xs px-space-md py-3 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-lg text-label-lg font-bold border border-outline-variant/60 shadow-xs transition-all cursor-pointer"
-                    >
-                      <span className="material-symbols-outlined text-[20px] text-primary">storefront</span>
-                      Danus &amp; Merchandise
-                    </button>
-                  </div>
-                )}
-                {/* Quick Metrics */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-space-sm pt-space-md">
-                  <div className="p-3.5 rounded-xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex flex-col justify-between gap-1">
-                    <div className="flex items-baseline gap-1.5">
-                      <span
-                        data-gsap-counter="15"
-                        className="text-2xl sm:text-[26px] leading-none font-extrabold text-primary tabular-nums tracking-tight"
-                      >
-                        15
-                      </span>
-                      <span className="text-[11px] font-extrabold uppercase tracking-wider text-primary/80">
-                        Tahun
-                      </span>
-                    </div>
-                    <span className="font-label-sm text-label-sm text-on-surface-variant font-medium">
-                      Dedikasi Sejak 2011
-                    </span>
-                  </div>
-                  <div className="p-3.5 rounded-xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex flex-col justify-between gap-1">
-                    <div className="flex items-baseline gap-1.5">
-                      <span
-                        data-gsap-counter="1000"
-                        data-separator="dot"
-                        data-suffix="+"
-                        className="text-2xl sm:text-[26px] leading-none font-extrabold text-primary tabular-nums tracking-tight"
-                      >
-                        1.000+
-                      </span>
-                      <span className="text-[11px] font-extrabold uppercase tracking-wider text-primary/80">
-                        Kader
-                      </span>
-                    </div>
-                    <span className="font-label-sm text-label-sm text-on-surface-variant font-medium">
-                      Lintas 15 Angkatan
-                    </span>
-                  </div>
-                  <div className="p-3.5 rounded-xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex flex-col justify-between gap-1">
-                    <div className="flex items-baseline gap-1.5">
-                      <span
-                        data-gsap-counter="3"
-                        className="text-2xl sm:text-[26px] leading-none font-extrabold text-primary tabular-nums tracking-tight"
-                      >
-                        3
-                      </span>
-                      <span className="text-[11px] font-extrabold uppercase tracking-wider text-primary/80">
-                        Pilar
-                      </span>
-                    </div>
-                    <span className="font-label-sm text-label-sm text-on-surface-variant font-medium">
-                      Integritas &amp; Pengabdian
-                    </span>
-                  </div>
-                  <div className="p-3.5 rounded-xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex flex-col justify-between gap-1">
-                    <div className="flex items-baseline gap-1.5">
-                      <span className="text-2xl sm:text-[26px] leading-none font-extrabold text-primary tracking-tight">
-                        KPK RI
-                      </span>
-                    </div>
-                    <span className="font-label-sm text-label-sm text-on-surface-variant font-medium">
-                      Mitra Edukasi Strategis
-                    </span>
-                  </div>
+                <div data-gsap="hero-text" className="lg:col-span-4 lg:pt-2">
+                  <p className="max-w-xs font-body-lg text-body-lg leading-relaxed text-white/85">
+                    SIMAK hadir sebagai wadah untuk belajar, berkolaborasi, dan berkarya demi masa depan yang lebih baik.
+                  </p>
+                  <span aria-hidden="true" className="mt-6 block h-px w-10 bg-white/45" />
                 </div>
               </div>
 
-              {/* Visual Hero Media Card Column */}
-              <div data-gsap="hero-media" className="lg:col-span-5 relative">
-                <div className="relative bg-surface-container-lowest p-space-sm rounded-xl shadow-xl">
-                  <div className="flex items-center justify-between px-space-sm py-2 mb-space-sm rounded-lg bg-surface-container-low">
-                    <div className="flex items-center gap-space-xs">
-                      <span className="material-symbols-outlined text-primary text-[20px]">verified_user</span>
-                      <span className="font-label-md text-label-md font-bold text-on-surface tracking-wide uppercase">
-                        Dokumentasi Pengabdian Nasional
-                      </span>
-                    </div>
-                    <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm font-bold">
-                      2011–2026
-                    </span>
-                  </div>
-                  <div className="relative overflow-hidden rounded-lg aspect-[4/3] bg-surface-container">
-                    <img
-                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                      alt="Delegasi mahasiswa antikorupsi SIMAK di depan gedung KPK RI"
-                      referrerPolicy="no-referrer"
-                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm0_uh89b_5-6EAjHn7peIr-x7L9HqAhVQDE7AC0K5DAUfKoHVyqtQN6TAqEqtMgcc6GapOrpW0mNTEhPjY7jf7CnO66q49QK9w-4vshMybsxaAXX8EDOEivABsgqOrvGN2qxdMiB6JTcZQaOL638X6ZdYyUZim0a0AFHTPvsIinlvNs9pByAdThEruOglXIu4ZEDSfdqU0e6yJcVKV60RguDr44_QW8M6ez_m8zq2"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-space-md text-white">
-                      <span className="font-label-sm text-label-sm uppercase tracking-wider text-tertiary-fixed font-bold">
-                        Konsistensi Gerakan Moral
-                      </span>
-                      <h2 className="font-headline-sm text-headline-sm font-bold text-white leading-tight">
-                        Training of Trainer &amp; Pengawalan Integritas Generasi Muda
-                      </h2>
-                    </div>
-                  </div>
-                  <a
-                    href="#tentang-kami"
-                    className="mt-space-sm p-space-sm rounded-lg bg-surface-container-high/60 flex items-center justify-between hover:bg-surface-container-high transition-colors"
-                  >
-                    <div className="flex items-center gap-space-xs">
-                      <div className="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold">
-                        <span className="material-symbols-outlined text-[18px]">balance</span>
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="font-label-md text-label-md font-bold text-on-surface">
-                          Didirikan Oleh Ariawan dkk.
-                        </span>
-                        <span className="font-label-sm text-label-sm text-on-surface-variant">
-                          29 Januari 2011 • Kampus Institut STIAMI
-                        </span>
-                      </div>
-                    </div>
-                    <span className="material-symbols-outlined text-primary">arrow_forward</span>
-                  </a>
+              <div data-gsap="hero-text" className="mt-2 grid grid-cols-3 items-start gap-4 sm:mt-3">
+                <div>
+                  <span className="block text-[10px] font-semibold uppercase tracking-[0.22em] text-white/55">
+                    Organisasi
+                  </span>
+                  <span className="mt-1 block text-sm font-semibold sm:text-base">SIMAK</span>
+                </div>
+                <div className="justify-self-center sm:justify-self-start sm:pl-[18%] lg:pl-[22%]">
+                  <span className="block text-[10px] font-semibold uppercase tracking-[0.22em] text-white/55">
+                    Tahun
+                  </span>
+                  <span className="mt-1 block text-sm font-semibold sm:text-base">2025</span>
+                </div>
+                <div className="justify-self-end text-right">
+                  <span className="block text-[10px] font-semibold uppercase tracking-[0.22em] text-white/55">
+                    Lokasi
+                  </span>
+                  <span className="mt-1 block text-sm font-semibold sm:text-base">Jakarta</span>
+                </div>
+              </div>
 
-                  {/* Compact Agenda HARLAH & Status KOPASUS Strip to balance Hero Columns */}
-                  <div className="mt-2 pt-2 border-t border-outline-variant/30 grid grid-cols-2 gap-2">
-                    <button
-                      type="button"
-                      onClick={() => go('pendaftaran')}
-                      className="p-2.5 rounded-lg bg-tertiary-fixed/40 hover:bg-tertiary-fixed/70 border border-tertiary/20 flex items-center gap-2 text-left transition-colors cursor-pointer"
-                    >
-                      <span className="material-symbols-outlined text-tertiary text-[18px] shrink-0">
-                        celebration
-                      </span>
-                      <div className="min-w-0">
-                        <span className="block text-[10px] font-extrabold uppercase tracking-wider text-tertiary">
-                          Agenda 29 Januari
-                        </span>
-                        <span className="block text-xs font-bold text-on-surface truncate">
-                          Tamu HARLAH Ke-15
-                        </span>
-                      </div>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => go('direktori')}
-                      className="p-2.5 rounded-lg bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 flex items-center gap-2 text-left transition-colors cursor-pointer"
-                    >
-                      <span className="material-symbols-outlined text-primary text-[18px] shrink-0">
-                        account_tree
-                      </span>
-                      <div className="min-w-0">
-                        <span className="block text-[10px] font-extrabold uppercase tracking-wider text-primary">
-                          Struktur Resmi
-                        </span>
-                        <span className="block text-xs font-bold text-on-surface truncate">
-                          BPH &amp; 8 Divisi SIMAK
-                        </span>
-                      </div>
-                    </button>
+              <div className="relative mt-4 flex flex-1 flex-col items-center justify-end">
+                <div
+                  data-gsap="hero-media"
+                  className="relative flex w-full flex-col items-center justify-end"
+                >
+                  <span
+                    aria-hidden="true"
+                    data-gsap="parallax"
+                    className="pointer-events-none relative z-0 select-none text-center font-extrabold uppercase leading-none tracking-[-0.05em] text-[#ffe3ca]/45 text-[clamp(6rem,23vw,23rem)]"
+                  >
+                    SIMAK
+                  </span>
+                  <div
+                    className="relative z-10 -mt-2 w-full max-w-[1100px] overflow-hidden sm:-mt-14 lg:-mt-20"
+                    style={{
+                      maskImage:
+                        'linear-gradient(to bottom, transparent 0%, #000 14%, #000 82%, transparent 100%), linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%)',
+                      WebkitMaskImage:
+                        'linear-gradient(to bottom, transparent 0%, #000 14%, #000 82%, transparent 100%), linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%)',
+                      maskComposite: 'intersect',
+                      WebkitMaskComposite: 'source-in',
+                    }}
+                  >
+                    <img
+                      src="/hero/simak-group.jpg"
+                      alt="Keluarga besar SIMAK angkatan 2025 di Jakarta"
+                      className={`relative z-10 block w-full -mt-[31%] origin-bottom brightness-[1.06] contrast-[1.04] saturate-[1.06] transition-transform duration-[9000ms] ease-linear ${
+                        heroPlaying ? 'scale-[1.025]' : 'scale-100'
+                      }`}
+                    />
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 z-20"
+                      style={{
+                        background:
+                          'linear-gradient(to bottom, rgba(48, 5, 1, 0.96) 0%, rgba(74, 8, 1, 0.82) 9%, rgba(92, 12, 2, 0.5) 17%, rgba(60, 8, 1, 0.2) 27%, rgba(20, 3, 1, 0) 40%, rgba(20, 3, 1, 0) 70%, rgba(16, 3, 1, 0.45) 90%, rgba(12, 2, 1, 0.8) 100%), radial-gradient(115% 95% at 50% 62%, transparent 55%, rgba(20, 3, 1, 0.55) 100%)',
+                      }}
+                    />
                   </div>
+                </div>
+
+                <div className="absolute bottom-5 right-0 z-20 flex flex-col gap-2 sm:bottom-7">
+                  <button
+                    type="button"
+                    onClick={() => setHeroPlaying(true)}
+                    aria-label="Putar animasi hero"
+                    aria-pressed={heroPlaying}
+                    className={`flex h-11 w-11 cursor-pointer items-center justify-center rounded-full backdrop-blur-md transition-colors sm:h-12 sm:w-12 ${
+                      heroPlaying ? 'bg-white text-[#1c0a05]' : 'bg-white/20 text-white hover:bg-white/30'
+                    }`}
+                  >
+                    <span className="material-symbols-outlined text-[20px]">play_arrow</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setHeroPlaying(false)}
+                    aria-label="Jeda animasi hero"
+                    aria-pressed={!heroPlaying}
+                    className={`flex h-11 w-11 cursor-pointer items-center justify-center rounded-full backdrop-blur-md transition-colors sm:h-12 sm:w-12 ${
+                      !heroPlaying ? 'bg-white text-[#1c0a05]' : 'bg-white/20 text-white hover:bg-white/30'
+                    }`}
+                  >
+                    <span className="material-symbols-outlined text-[20px]">pause</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      document.getElementById('tentang-kami')?.scrollIntoView({ behavior: 'smooth' })
+                    }
+                    aria-label="Gulir ke bagian Tentang SIMAK"
+                    className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-md transition-colors hover:bg-white/25 sm:h-12 sm:w-12"
+                  >
+                    <span className="material-symbols-outlined text-[20px]">keyboard_arrow_down</span>
+                  </button>
                 </div>
               </div>
             </div>
