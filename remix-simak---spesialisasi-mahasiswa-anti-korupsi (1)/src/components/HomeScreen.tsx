@@ -458,12 +458,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               className="pointer-events-none absolute inset-0"
               style={{
                 background:
-                  'radial-gradient(120% 85% at 50% -8%, #ff9a5c 0%, #ff521b 24%, #e42f06 44%, #a81504 66%, #4c0801 85%, #140301 100%)',
+                  'radial-gradient(125% 92% at 50% 0%, #ffa768 0%, #ff7a2e 22%, #ff521b 42%, #f43a06 60%, #c02304 78%, #5a0a01 92%, #1a0401 100%)',
               }}
             />
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-b from-transparent via-[#160301]/60 to-[#0b0201]"
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent via-[#160301]/35 to-[#0b0201]/85"
             />
 
             <div className="relative z-10 mx-auto flex min-h-[640px] w-full max-w-7xl flex-col px-5 pb-0 pt-8 sm:px-8 lg:px-12 lg:pt-10">
@@ -511,17 +511,17 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 >
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none absolute -inset-x-16 bottom-0 top-0 z-0"
+                    className="pointer-events-none absolute -inset-x-24 -top-10 bottom-0 z-0"
                     style={{
                       background:
-                        'radial-gradient(58% 62% at 50% 60%, rgba(255, 102, 40, 0.3) 0%, rgba(219, 55, 12, 0.18) 45%, rgba(20, 3, 1, 0) 76%)',
+                        'radial-gradient(80% 95% at 50% 48%, rgba(255, 150, 76, 0.95) 0%, rgba(255, 116, 44, 0.85) 42%, rgba(244, 72, 14, 0.5) 68%, rgba(20, 3, 1, 0) 90%)',
                     }}
                   />
                   <svg
                     aria-hidden="true"
                     data-gsap="parallax"
                     viewBox="0 0 1200 400"
-                    className="pointer-events-none relative z-0 block w-full select-none overflow-visible text-[#ffe3ca]/50"
+                    className="pointer-events-none relative z-0 block w-full select-none overflow-visible text-[#ffcf9e]/55"
                   >
                     <defs>
                       <path id="simak-hero-arc" d="M -40 338 Q 600 238 1240 338" />
@@ -529,9 +529,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                     <text
                       fill="currentColor"
                       fontFamily="inherit"
-                      fontSize="336"
+                      fontSize="400"
                       fontWeight="800"
-                      letterSpacing="-15"
+                      letterSpacing="-18"
                       textAnchor="middle"
                     >
                       <textPath href="#simak-hero-arc" startOffset="50%">
@@ -542,7 +542,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   <img
                     src="/hero/simak-group-cutout.png"
                     alt="Keluarga besar SIMAK angkatan 2025 di Jakarta"
-                    className={`relative z-10 -mt-[50%] block w-full origin-bottom brightness-[1.08] contrast-[1.03] saturate-[1.04] transition-transform duration-[9000ms] ease-linear ${
+                    className={`relative z-10 -mt-[55%] block w-full origin-bottom brightness-[1.12] contrast-[1.03] saturate-[1.04] transition-transform duration-[9000ms] ease-linear ${
                       heroPlaying ? 'scale-[1.025]' : 'scale-100'
                     }`}
                     style={{
