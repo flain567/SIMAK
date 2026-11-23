@@ -504,45 +504,37 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 </div>
               </div>
 
-              <div className="relative mt-4 flex flex-1 flex-col items-center justify-end">
+              <div className="relative mt-0 flex flex-1 flex-col items-center justify-end">
                 <div
                   data-gsap="hero-media"
-                  className="relative flex w-full flex-col items-center justify-end"
+                  className="relative flex w-full max-w-[1200px] flex-col items-center justify-end"
                 >
                   <span
                     aria-hidden="true"
+                    className="pointer-events-none absolute -inset-x-16 bottom-0 top-0 z-0"
+                    style={{
+                      background:
+                        'radial-gradient(58% 62% at 50% 60%, rgba(255, 102, 40, 0.3) 0%, rgba(219, 55, 12, 0.18) 45%, rgba(20, 3, 1, 0) 76%)',
+                    }}
+                  />
+                  <span
+                    aria-hidden="true"
                     data-gsap="parallax"
-                    className="pointer-events-none relative z-0 select-none text-center font-extrabold uppercase leading-none tracking-[-0.05em] text-[#ffe3ca]/45 text-[clamp(6rem,23vw,23rem)]"
+                    className="pointer-events-none relative z-0 select-none text-center font-extrabold uppercase leading-none tracking-[-0.05em] text-[#ffe3ca]/50 text-[clamp(6rem,23vw,23rem)]"
                   >
                     SIMAK
                   </span>
-                  <div
-                    className="relative z-10 -mt-2 w-full max-w-[1100px] overflow-hidden sm:-mt-14 lg:-mt-20"
+                  <img
+                    src="/hero/simak-group-cutout.png"
+                    alt="Keluarga besar SIMAK angkatan 2025 di Jakarta"
+                    className={`relative z-10 -mt-[40%] block w-full origin-bottom brightness-[1.18] contrast-[1.05] saturate-[1.05] transition-transform duration-[9000ms] ease-linear ${
+                      heroPlaying ? 'scale-[1.025]' : 'scale-100'
+                    }`}
                     style={{
-                      maskImage:
-                        'linear-gradient(to bottom, transparent 0%, #000 14%, #000 82%, transparent 100%), linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%)',
-                      WebkitMaskImage:
-                        'linear-gradient(to bottom, transparent 0%, #000 14%, #000 82%, transparent 100%), linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%)',
-                      maskComposite: 'intersect',
-                      WebkitMaskComposite: 'source-in',
+                      maskImage: 'linear-gradient(to bottom, #000 94%, transparent 100%)',
+                      WebkitMaskImage: 'linear-gradient(to bottom, #000 94%, transparent 100%)',
                     }}
-                  >
-                    <img
-                      src="/hero/simak-group.jpg"
-                      alt="Keluarga besar SIMAK angkatan 2025 di Jakarta"
-                      className={`relative z-10 block w-full -mt-[31%] origin-bottom brightness-[1.06] contrast-[1.04] saturate-[1.06] transition-transform duration-[9000ms] ease-linear ${
-                        heroPlaying ? 'scale-[1.025]' : 'scale-100'
-                      }`}
-                    />
-                    <span
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-0 z-20"
-                      style={{
-                        background:
-                          'linear-gradient(to bottom, rgba(48, 5, 1, 0.96) 0%, rgba(74, 8, 1, 0.82) 9%, rgba(92, 12, 2, 0.5) 17%, rgba(60, 8, 1, 0.2) 27%, rgba(20, 3, 1, 0) 40%, rgba(20, 3, 1, 0) 70%, rgba(16, 3, 1, 0.45) 90%, rgba(12, 2, 1, 0.8) 100%), radial-gradient(115% 95% at 50% 62%, transparent 55%, rgba(20, 3, 1, 0.55) 100%)',
-                      }}
-                    />
-                  </div>
+                  />
                 </div>
 
                 <div className="absolute bottom-5 right-0 z-20 flex flex-col gap-2 sm:bottom-7">
